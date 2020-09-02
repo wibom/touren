@@ -1,0 +1,107 @@
+---  
+draft: false  
+image: /img/tour27/scaled/009.JPG  
+showonlyimage: false  
+title: foton från tour 27  
+weight: 27  
+---
+
+Den här sidan visar foton från tour 27.
+
+<div class="col-md-8"> <div class="row">  
+<a href="/img/tour27/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/001.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/002.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/002.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/003.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/003.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/004.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/004.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/005.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/005.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/006.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/006.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/007.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/007.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/008.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/008.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/009.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/009.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/010.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/010.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/011.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/011.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/012.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/012.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/013.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/013.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/014.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/014.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/015.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/015.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/016.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/016.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/017.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/017.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/018.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/018.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/019.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/019.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/020.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/020.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/021.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/021.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/022.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/022.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/023.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/023.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/024.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/024.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/025.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/025.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/026.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/026.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/027.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/027.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/028.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/028.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/029.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/029.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/030.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/030.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/031.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/031.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/032.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/032.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/033.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/033.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/034.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/034.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/035.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/035.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/036.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/036.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/037.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/037.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/038.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/038.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/039.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/039.JPG" class="img-fluid"> </a> </div>
+<div class="row">  
+<a href="/img/tour27/scaled/040.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/040.JPG" class="img-fluid"> </a>  
+<a href="/img/tour27/scaled/041.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">
+<img src="/img/tour27/thumbs/041.JPG" class="img-fluid"> </a> </div>
+</div>

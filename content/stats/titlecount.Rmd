@@ -1,0 +1,199 @@
+---
+output: html_document
+title: Antal titlar
+image: /img/misc/trophies.jpg  
+showonlyimage: false  
+summary: Antal titlar varje spelare samlat på sig...
+---
+```{r setup, include=FALSE}
+library(formattable)
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+```
+
+
+```{r title-count-net, echo=FALSE, results='asis'}
+overview <- get_overview_tab(d, results_type = "results_net")
+counts_champ <-
+  overview %>%
+  count(last_name = champ) %>%
+  rename(n_champ = n)
+counts_longdrive <-
+  overview %>%
+  count(last_name = longdrive_champ) %>%
+  rename(n_longdrive = n)
+counts_close <-
+  overview %>%
+  count(last_name = close_champ) %>%
+  rename(n_close = n)
+counts_loser <-
+  overview %>%
+  count(last_name = loser) %>%
+  rename(n_loser = n)
+  
+d_counts <-
+  # Lägg ihop data
+  read_players_list() %>%
+  left_join(counts_champ, by = "last_name") %>%
+  left_join(counts_longdrive, by = "last_name") %>%
+  left_join(counts_close, by = "last_name") %>%
+  left_join(counts_loser, by = "last_name") %>%
+  select(id, starts_with("n_")) %>%
+  # ersätt NA med noll
+  mutate_if(is.integer, ~if_else(is.na(.), 0L, .)) %>%
+  # summera antal titlar (exkl "loser")
+  mutate(n_tot = rowSums(select(., n_champ:n_close)) %>% as.integer()) %>%
+  select(id:n_close, n_tot, n_loser) %>%
+  arrange(desc(n_champ), desc(n_tot))
+names(d_counts) <- str_remove(names(d_counts), "^n_")
+
+
+# html tab
+d_counts %>%
+  rename(player = id) %>%   
+  mutate(
+    champ     = formattable::color_bar("#b8d8a7")(champ),
+    longdrive = formattable::color_bar("#e5afd4")(longdrive),
+    close     = formattable::color_bar("#82d8d8")(close),
+    tot       = formattable::color_bar("#e5bb99")(tot),
+    loser     = formattable::color_bar("#9cc0ec")(loser)
+  ) %>%
+  kable(
+    format = "html",
+    align = "l",
+    escape = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "bordered", "hover", "condensed", "responsive"
+    ),
+    full_width = TRUE
+  ) %>%
+  column_spec(
+    column = 1,
+    border_right = TRUE,
+    bold = TRUE,
+    color = "white",
+    background = "#990000"
+  ) %>%
+  column_spec(
+    column = 2:6,
+    width = "3cm",
+    color = "black"
+  ) %>% 
+  column_spec(
+    column = 5, 
+    border_left = TRUE, 
+    border_right = TRUE
+  ) %>% 
+  footnote(
+    symbol = "tot = totalt antal titlar (exklusive loser)",
+    footnote_as_chunk = TRUE
+  )
+```
+
+--------------------------------------------------------------------------------
+
+<details>
+<summary>Nyfiken hur det sett ut ifall Touren spelats brutto?</summary>
+<p>
+
+```{r title-count-gross, echo=FALSE, results='asis'}
+overview <- 
+  get_overview_tab(d, results_type = "results_gross") %>% 
+  # Inga scorekort från Tour 1-4; kan inte veta vem som vann.
+  slice(-c(1:4))
+counts_champ <-
+  overview %>%
+  count(last_name = champ) %>%
+  rename(n_champ = n)
+counts_longdrive <-
+  overview %>%
+  count(last_name = longdrive_champ) %>%
+  rename(n_longdrive = n)
+counts_close <-
+  overview %>%
+  count(last_name = close_champ) %>%
+  rename(n_close = n)
+counts_loser <-
+  overview %>%
+  count(last_name = loser) %>%
+  rename(n_loser = n)
+  
+d_counts <-
+  # Lägg ihop data
+  read_players_list() %>%
+  left_join(counts_champ, by = "last_name") %>%
+  left_join(counts_longdrive, by = "last_name") %>%
+  left_join(counts_close, by = "last_name") %>%
+  left_join(counts_loser, by = "last_name") %>%
+  select(id, starts_with("n_")) %>%
+  # ersätt NA med noll
+  mutate_if(is.integer, ~if_else(is.na(.), 0L, .)) %>%
+  # summera antal titlar (exkl "loser")
+  mutate(n_tot = rowSums(select(., n_champ:n_close)) %>% as.integer()) %>%
+  select(id:n_close, n_tot, n_loser) %>%
+  arrange(desc(n_champ), desc(n_tot))
+names(d_counts) <- str_remove(names(d_counts), "^n_")
+
+
+# html tab
+d_counts %>%
+  rename(player = id) %>%   
+  mutate(
+    champ     = formattable::color_bar("#b8d8a7")(champ),
+    longdrive = formattable::color_bar("#e5afd4")(longdrive),
+    close     = formattable::color_bar("#82d8d8")(close),
+    tot       = formattable::color_bar("#e5bb99")(tot),
+    loser     = formattable::color_bar("#9cc0ec")(loser)
+  ) %>%
+  kable(
+    format = "html",
+    align = "l",
+    escape = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "bordered", "hover", "condensed", "responsive"
+    ),
+    full_width = TRUE
+  ) %>%
+  column_spec(
+    column = 1,
+    border_right = TRUE,
+    bold = TRUE,
+    color = "white",
+    background = "#990000"
+  ) %>%
+  column_spec(
+    column = 2:6,
+    width = "3cm",
+    color = "black"
+  ) %>% 
+  column_spec(
+    column = 5, 
+    border_left = TRUE, 
+    border_right = TRUE
+  ) %>% 
+  footnote(
+    symbol = c(
+      "tot = totalt antal titlar (exklusive loser)",
+      "Tour 1-4 är exkluderade, pga inga scorekort finns bevarade"
+    ),
+    footnote_as_chunk = FALSE
+  )
+```
+</p>
+</details>

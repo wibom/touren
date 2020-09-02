@@ -1,0 +1,726 @@
+---
+output: html_document
+title: ''
+---
+
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p><img src="/img/logo/logo200.gif" /></p>
+<hr />
+<div id="översikt" class="section level2">
+<h2>Översikt</h2>
+<table class="table table-striped table-bordered table-hover table-condensed table-responsive" style="font-size: 9px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+no
+</th>
+<th style="text-align:center;">
+city
+</th>
+<th style="text-align:center;">
+date
+</th>
+<th style="text-align:center;">
+champ
+</th>
+<th style="text-align:center;">
+longdrive_champ
+</th>
+<th style="text-align:center;">
+close_champ
+</th>
+<th style="text-align:center;">
+loser
+</th>
+<th style="text-align:center;">
+deltagare
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+1
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Gävle
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-05
+</td>
+<td style="text-align:center;">
+Strömdahl
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Nyberg
+</td>
+<td style="text-align:center;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+2
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Göteborg
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-06
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Forsgren
+</td>
+<td style="text-align:center;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+3
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Sundsvall
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-06
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Nyberg
+</td>
+<td style="text-align:center;">
+Lundström
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+4
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Norrköping
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-07
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Scherlund
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Forsgren
+</td>
+<td style="text-align:center;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+5
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Gävle
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-07
+</td>
+<td style="text-align:center;">
+Östh
+</td>
+<td style="text-align:center;">
+Östh
+</td>
+<td style="text-align:center;">
+Lundström
+</td>
+<td style="text-align:center;">
+Forsgren
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+6
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Västerås
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-08
+</td>
+<td style="text-align:center;">
+Wibom
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Lundholm
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+7
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Sundsvall
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-08
+</td>
+<td style="text-align:center;">
+Forsell
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Nyberg
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+8
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Uppsala
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-09
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+9
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Gävle
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-09
+</td>
+<td style="text-align:center;">
+Lundström
+</td>
+<td style="text-align:center;">
+Nyberg
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Östh
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+10
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Prag
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-10
+</td>
+<td style="text-align:center;">
+Scherlund
+</td>
+<td style="text-align:center;">
+Wänman
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Forsgren
+</td>
+<td style="text-align:center;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+11
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Västerås
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-10
+</td>
+<td style="text-align:center;">
+Wibom
+</td>
+<td style="text-align:center;">
+Lundström
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Östh
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+12
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Ö-vik
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-11
+</td>
+<td style="text-align:center;">
+Strömdahl
+</td>
+<td style="text-align:center;">
+Wänman
+</td>
+<td style="text-align:center;">
+Nyberg
+</td>
+<td style="text-align:center;">
+Forsell
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+13
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Skellefteå
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-11
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+Forsgren
+</td>
+<td style="text-align:center;">
+Forsgren
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+14
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Göteborg
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-12
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+Strömdahl
+</td>
+<td style="text-align:center;">
+Scherlund
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+15
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Sundsvall
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-12
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+Strömdahl
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+Lundström
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+16
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Uppsala
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-13
+</td>
+<td style="text-align:center;">
+Forsell
+</td>
+<td style="text-align:center;">
+Lundström
+</td>
+<td style="text-align:center;">
+Wibom
+</td>
+<td style="text-align:center;">
+Scherlund
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+17
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Gävle
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-13
+</td>
+<td style="text-align:center;">
+Wänman
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Strömdahl
+</td>
+<td style="text-align:center;">
+Strömdahl
+</td>
+<td style="text-align:center;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+18
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Sundsvall
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-14
+</td>
+<td style="text-align:center;">
+Lundström
+</td>
+<td style="text-align:center;">
+Lundström
+</td>
+<td style="text-align:center;">
+Strömdahl
+</td>
+<td style="text-align:center;">
+Wibom
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+19
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Umeå
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-14
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Nyberg
+</td>
+<td style="text-align:center;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+21
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Uppsala
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-16
+</td>
+<td style="text-align:center;">
+Wibom
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Wibom
+</td>
+<td style="text-align:center;">
+Scherlund
+</td>
+<td style="text-align:center;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+22
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Umeå
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-16
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+23
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Umeå
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-17
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Wibom
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+24
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Sundsvall
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-18
+</td>
+<td style="text-align:center;">
+Forsell
+</td>
+<td style="text-align:center;">
+Wibom
+</td>
+<td style="text-align:center;">
+Strömdahl
+</td>
+<td style="text-align:center;">
+Nyberg
+</td>
+<td style="text-align:center;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+25
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Umeå
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-18
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Wiklund
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+26
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Lindö
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+VT-19
+</td>
+<td style="text-align:center;">
+Scherlund
+</td>
+<td style="text-align:center;">
+Nyberg
+</td>
+<td style="text-align:center;">
+Nyberg
+</td>
+<td style="text-align:center;">
+Lundström
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+27
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;">
+Umeå
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;border-right:1px solid;">
+HT-19
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+Karlsson
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Strömdahl
+</td>
+<td style="text-align:center;">
+6
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="historian" class="section level2">
+<h2>Historian</h2>
+<p>Det hela hade sin början någon gång under hösten 2004. Karlsson, Wänman och Wibom bestämde sig för att avgöra vem som var mest värd en flaska whisky. Det bestämdes att slaggolf (netto), över 72 hål, var den mest rättvisa metoden att fastställa detta. Drabbningen gick av stapeln sent på hösten i närheten av Sandviken och det visade sig, efter 2 dagars intensivt golfande, att Erik stod som odiskutabel slutsegrare. Då ryktet om denna miniatyrtävling spridit sig, och året var 2005, var intresset stort från flera håll att få prova sin egen styrka gentemot kamraternas under liknande former. Fler deltagare kräver också större organisation, något organisatören och filantropen Ulf Forsgren genast satte tänderna i. Då många av de nytillkomna deltagarna visade sig vara något ömhudade gjordes genast justeringen att skära ner från 72 till 54 hål, vilket i dag är det antal som gäller i officiella sammanhang.</p>
+<p>Vid det här laget hade tävlingen inte heller något officiellt namn. Detta tillkom först inför 2006-års höstupplaga, då den första pokalen införskaffades av den då regerande mästaren; Karlsson. Han lät gravera in titeln ”Umeå Open” på bucklan, och därmed hade tävlingen fått sitt namn. Måhända kan det ses som något missvisande på en tävling till vilken bara inbjudna spelare är välkomna, men det har en trevlig klang.</p>
+</div>

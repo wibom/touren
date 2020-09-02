@@ -1,0 +1,218 @@
+---
+output: html_document  
+title: Margins   
+image: /img/misc/margin.jpg  
+showonlyimage: false  
+summary: Marginaler för Champ och Loser
+---
+```{r setup, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+library(ggiraph)
+library(patchwork)
+```
+
+```{r function, include=FALSE}
+plot_margin <- function(ds, score_type = "rel_net", champ_loser = "champ") {
+  # 2020-03-02
+  # Baserat på `champ_loser` tänker jag att man ska kunna välja ifall 
+  # plotten ska vara för champ-marginal eller loser-marginal.
+  # Detta är inte implementerat.
+  
+  
+  # format data ----
+  ds <- ds %>% filter(!map_lgl(abs_gross, is.null))
+  tour_results <- 
+    ds %>% 
+    select(tour_id, meta) %>% 
+    unnest(meta) %>% 
+    mutate(
+      lb = tour_id %>% map(~get_leaderboard(d, score_type, .x)),
+      champ =
+        lb %>%
+        map_chr(function(x) {x %>% slice(1) %>% pull(player)}),
+      champ_runnerup =
+        map_chr(lb, function(x) {x %>% slice(2) %>% pull(player)}),
+      loser =
+        map_chr(lb, function(x) {x %>% slice(nrow(x)) %>% pull(player)}),
+      loser_runnerup =
+        map_chr(lb, function(x) {x %>% slice(nrow(x)-1) %>% pull(player)}),
+      margin_win =
+        map_int(lb, function(x) {x %>% slice(1:2) %>% pull(tot) %>% diff()}),
+      margin_lose =
+        map_int(
+          lb, 
+          function(x) {
+            x %>% slice((nrow(x)-1):nrow(x)) %>% pull(tot) %>% diff()
+          }
+        ),
+      n_players = map_int(lb, nrow), 
+      date = date %>% factor(., levels = .)
+    )
+  
+  d_plot <- tour_results %>% mutate(tour_id = as_factor(tour_id))
+  # meta ----
+  p_meta <- 
+    d_plot %>% 
+    select(tour_id, roman_numeral, city, date) %>% 
+    mutate(roman_numeral = str_c("Tour ", roman_numeral)) %>% 
+    pivot_longer(
+      cols = -tour_id, names_to = "meta_var", values_to = "value"
+    ) %>% 
+    ggplot(aes(y = tour_id, x = meta_var, label = value)) + 
+    scale_x_discrete(expand = c(0, 0)) +
+    geom_text(hjust = "inward", size = 10 / .pt) +
+    theme(
+      axis.text.x = element_blank(),
+      plot.margin = margin(0, 0, 0, 0, "cm"),
+      axis.text.y = element_blank(),
+      panel.grid.major = element_blank()
+    )
+  # champ/loser ----
+  name1var <- if_else(champ_loser == "champ", "champ", "loser")
+  p_player1 <- 
+    ggplot(
+      d_plot, 
+      aes(
+        x = if_else(champ_loser == "champ", "Champ", "Loser"), 
+        y = tour_id, 
+        label = !!rlang::sym(name1var)
+      )
+    ) + 
+    scale_x_discrete(position = "top", expand = c(0, 0.05)) +
+    geom_label(
+      aes(fill = !!rlang::sym(name1var)), 
+      label.size = NA, 
+      alpha = .3, 
+      hjust = 1
+    ) +
+    scale_fill_manual(
+      values = get_player_colour(), 
+      name = NULL
+    ) +      
+    coord_cartesian(xlim = c(0, 1)) +
+    theme(
+      axis.text.x.top = element_text(face = "bold", hjust = 1), 
+      axis.text.y = element_blank(),
+      panel.grid.major = element_blank(), 
+      plot.margin = margin(0, 0, 0, 0, "cm"), 
+      legend.position = "none"
+    ) 
+  # runnerup ----
+  name2var <- if_else(champ_loser == "champ", "champ_runnerup", "loser_runnerup")
+  p_runnerup <- 
+    ggplot(
+      d_plot, 
+      aes(
+        x = if_else(champ_loser == "champ", "Runnerup", "Näst-Loser"), 
+        y = tour_id, 
+        label = !!rlang::sym(name2var)
+      )
+    ) + 
+    scale_x_discrete(position = "top", expand = c(0, 0.05)) +
+    geom_label(
+      aes(fill = !!rlang::sym(name2var)), 
+      label.size = NA, 
+      alpha = .3, 
+      hjust = 0
+    ) +
+    scale_fill_manual(
+      values = get_player_colour(), 
+      name = NULL
+    ) +
+    coord_cartesian(xlim = c(1, 1.5)) +
+    theme(
+      axis.text.x.top = element_text(face = "bold", hjust = 0), 
+      axis.text.y = element_blank(),
+      panel.grid.major = element_blank(), 
+      plot.margin = margin(0, 0, 0, 0, "cm"), 
+      legend.position = "none"
+    )  
+  # margin ----
+  margvar <- if_else(champ_loser == "champ", "margin_win", "margin_lose")
+  p_winmarg <- 
+    ggplot(
+      d_plot, 
+      aes(
+        x = !!rlang::sym(margvar), 
+        y = tour_id, 
+        colour = !!rlang::sym(name1var)
+      )
+    ) + 
+    geom_segment(aes(xend = 0, yend = tour_id), size = 1.2) + 
+    scale_x_continuous(expand = c(0, 1)) +
+    geom_point_interactive(
+      aes(
+        tooltip = !!rlang::sym(margvar),
+        data_id = !!rlang::sym(name1var)
+      ), 
+      size = 3
+    ) + 
+    scale_colour_manual(
+      values = get_player_colour(), 
+      name = NULL
+    ) +   
+    theme(
+      axis.text.y = element_blank(), 
+      legend.position = "none", 
+      plot.margin = margin(0, 0, 0, 0, "cm")
+    ) 
+  
+  # join ----
+  score_type_txt <- case_when(
+    score_type == "rel_net" ~ "netto-score",
+    score_type == "rel_gross" ~ "brutto-score"
+  )
+  title_txt <- case_when(
+    champ_loser == "champ" ~ "Marginal mellan Champ och Runnerup",
+    champ_loser == "loser" ~ "Marginal mellan Loser och Näst-loser"
+  )
+  girafe(
+    code = print(
+      p_meta + p_player1 + p_winmarg + p_runnerup + 
+      plot_layout(nrow = 1, widths = c(3, 1, 2, 1)) + 
+      plot_annotation(
+        title = title_txt, 
+        subtitle = glue::glue("Baserat på {score_type_txt}"), 
+      )
+    ), 
+    height_svg = 8
+  )
+}
+```
+
+```{r plot-champ-net, echo=FALSE, fig.height=8, out.width="100%"}
+plot_margin(ds = d, score_type = "rel_net", champ_loser = "champ")
+```
+<br>
+```{r plot-loser-net, echo=FALSE, fig.height=8, out.width="100%"}
+plot_margin(ds = d, score_type = "rel_net", champ_loser = "loser")
+```
+
+<br><br>
+<details>
+<summary>Nyfiken hur det sett ut ifall Touren spelats brutto?</summary>
+<p>
+```{r plot-champ-gross, echo=FALSE, fig.height=8, out.width="100%"}
+plot_margin(ds = d, score_type = "rel_gross", champ_loser = "champ")
+```
+
+<br>
+```{r plot-loser-gross, echo=FALSE, fig.height=8, out.width="100%"}
+plot_margin(ds = d, score_type = "rel_gross", champ_loser = "loser")
+```
+
+</p>
+</details>

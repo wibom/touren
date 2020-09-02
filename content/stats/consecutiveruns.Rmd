@@ -1,0 +1,204 @@
+---
+output: html_document  
+title: Oavbrutna sviter under en runda   
+image: /img/misc/consecutive.jpg  
+showonlyimage: false  
+summary: Är det någon som slagt två birdies i rad? Eller fyra fepplar i rad?
+---
+```{r setup, include=FALSE}
+library(kableExtra)
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+```
+
+En oavbruten svit räknas inom en och samma runda.
+
+>Kanske är det ändå roligate att tillåta en svit spänna över flera rundor vid 
+>samma Tour...?
+
+
+```{r function, include=FALSE}
+get_consecutive_runs <- function(scores, score_cls) {
+  # scores: scores från en runda
+  get_runs <- function(x, score_cls) {
+    # run length
+    myrle <- rle(x)
+    
+    cut_expression <- case_when(
+      score_cls == "birdie"   ~ "x <= -1",
+      score_cls == "par"      ~ "x <= 0",
+      score_cls == "bogey"    ~ "x <= 1",
+      score_cls == "d-bogey"  ~ "x <= 2",
+      score_cls == "t-bogey"  ~ "x >= 3",
+      score_cls == "q-bogey"  ~ "x >= 4",
+      score_cls == "feppel"   ~ "x >= 5"    
+    )
+    scores_in_cls <- eval(parse(text = cut_expression))
+    myrle <- rle(scores_in_cls)
+    
+    # Lista samtliga runs
+    consecutive_score_class <- tibble(
+      hole_start = integer(),
+      hole_end = integer(), 
+      run_length = integer()
+    )
+    
+    # för varje "run", registrera: start, stop och längd
+    for (i in which(myrle$values)) {
+      myrun <- list()
+      myrun$hole_start <- if_else(i == 1, 1, sum(myrle$lengths[1:(i - 1)]) + 1)
+      myrun$hole_end   <- as.integer(-1 + myrun$hole_start + myrle$lengths[i])
+      myrun$run_length <- myrle$lengths[i]
+      consecutive_score_class <- bind_rows(consecutive_score_class, myrun)
+    }
+    return(consecutive_score_class)
+  }
+  
+  # lista och sortera längsta "runs" av specifik score-klass
+  scores %>% 
+    select(-hole_id) %>% 
+    summarise_all(~list(get_runs(., score_cls))) %>% 
+    pivot_longer(
+      cols = everything(), 
+      names_to = "player", 
+      values_to = "runs"
+    ) %>% 
+    unnest(runs) %>% 
+    arrange(desc(run_length))
+}
+make_htmltab <- function(consecutive_runs, cls_var) {
+  # kod till kableExtra för att skriva ut tabell
+  cons_tab <- 
+    consecutive_runs %>% 
+    select(tour_id, round_id, !!rlang::sym(cls_var)) %>% 
+    unnest(!!rlang::sym(cls_var)) %>% 
+    arrange(desc(run_length)) %>% 
+    filter(run_length > 1) %>% 
+    mutate(rank = rank(-run_length, ties.method = "min")) %>% 
+    filter(rank <= 10)  
+  
+  if (nrow(cons_tab) == 0) {return (cat("none"))}
+  
+  
+  # Gruppera raderna i tabellen baserat på `run_length`
+  # kableExtra::pack_rows() cmd
+  pack_rows_cmd <- character(0)
+  for (run_length in unique(cons_tab$run_length)) {
+    pack_rows_cmd <- c(
+      pack_rows_cmd, 
+      glue::glue(
+        'pack_rows(
+          group_label = "{run_length} raka", 
+          start_row = {which(cons_tab$run_length == run_length)[1]}, 
+          end_row = {rev(which(cons_tab$run_length == run_length))[1]}, 
+          label_row_css = "background-color: #666; color: #fff;"
+        )'
+      )
+    )
+  }
+  tour_meta <- read_tours_list()
+  d_tab <- 
+    left_join(cons_tab, tour_meta, by = "tour_id") %>% 
+    select(
+      Tour = roman_numeral, 
+      Ort = city, 
+      Datum = date, 
+      Runda = round_id, 
+      Start = hole_start,
+      Stopp = hole_end, 
+      Spelare = player, 
+      Svit = run_length, 
+      Ranking = rank
+    )
+  
+  tab_cmd <- glue::glue('
+    kable(d_tab) %>% 
+    kable_styling() %>% 
+    {pack_rows_cmd %>% str_c(collapse = " %>% ")}
+    '
+  )
+  eval(parse(text = tab_cmd))
+}
+```
+
+```{r get-data, include=FALSE}
+consecutive_runs <- 
+  d %>% 
+  filter(!map_lgl(rel_gross, is.null)) %>% 
+  select(tour_id, rel_gross) %>% 
+  unnest(rel_gross) %>% 
+  mutate(
+    round_id = rep_along(hole_id, rep(c("r1", "r2", "r3"), each = 18))
+  ) %>% 
+  group_by(tour_id, round_id) %>% 
+  nest(r_score = -c(tour_id, round_id)) %>% 
+  #nest(.key = "r_score") %>% 
+  mutate(
+    cons_birdie = map(r_score, get_consecutive_runs, score_cls = "birdie"),
+    cons_par    = map(r_score, get_consecutive_runs, score_cls = "par"), 
+    cons_bogey  = map(r_score, get_consecutive_runs, score_cls = "bogey"), 
+    cons_dbogey = map(r_score, get_consecutive_runs, score_cls = "d-bogey"), 
+    cons_tbogey = map(r_score, get_consecutive_runs, score_cls = "t-bogey"), 
+    cons_qbogey = map(r_score, get_consecutive_runs, score_cls = "q-bogey"),
+    cons_feppel = map(r_score, get_consecutive_runs, score_cls = "feppel")
+  ) %>% 
+  ungroup()
+```
+
+## Birdies
+Längsta oavbrutna svit birdies (eller bättre):
+```{r tab-consecutive-birdies, echo=FALSE, results='asis'}
+make_htmltab(consecutive_runs, "cons_birdie")
+```
+
+## Par
+Längsta oavbrutna svit par (eller bättre):
+```{r tab-consecutive-par, echo=FALSE, results='asis'}
+make_htmltab(consecutive_runs, "cons_par")
+```
+
+## bogey
+Längsta oavbrutna svit bogey (eller bättre):
+```{r tab-consecutive-bogey, echo=FALSE, results='asis'}
+make_htmltab(consecutive_runs, "cons_bogey") 
+```
+
+## d-bogey
+Längsta oavbrutna svit dubbelbogey eller bättre:
+```{r tab-consecutive-d-bogey, echo=FALSE, results='asis'}
+make_htmltab(consecutive_runs, "cons_dbogey") 
+```
+
+## t-bogey
+Längsta oavbrutna svit trippelbogey eller sämre:
+```{r tab-consecutive-t-bogey, echo=FALSE, results='asis'}
+make_htmltab(consecutive_runs, "cons_tbogey") 
+```
+
+## q-bogey
+Längsta oavbrutna svit kvadruppelbogey eller sämre:
+```{r tab-consecutive-q-bogey, echo=FALSE, results='asis'}
+make_htmltab(consecutive_runs, "cons_qbogey") 
+```
+
+## fepple
+Längsta oavbrutna svit feppel:
+```{r tab-consecutive-epplef, echo=FALSE, results='asis'}
+make_htmltab(consecutive_runs, "cons_feppel") 
+```
+
+
+> Det är möjligt att göra samma sak baserat på poäng (dvs `rel_net`... visst?!)!
+

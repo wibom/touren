@@ -1,0 +1,94 @@
+---
+output: 
+  md_document:
+    pandoc_args: [
+      "--from", "markdown-markdown_in_html_blocks+raw_html",
+    ]
+---
+```{r, include=FALSE}
+photodir <- file.path(here::here(), 'static/img', tour, 'scaled')
+photos <- list.files(
+  photodir, 
+  full.names = FALSE, 
+  pattern = "(\\.jpg|\\.png|\\.gif)", 
+  ignore.case = TRUE
+)
+tour_txt <- str_replace(tour, "(\\d+)$", " \\1")
+cover_photo <- sample(photos, 1)
+tour_numeric <- str_extract(tour, "\\d+$") %>% as.numeric()
+```
+```{r, echo=FALSE, results='asis', comment=FALSE}
+# https://stackoverflow.com/a/49411052/7439717
+glue::glue(
+'\\-\\-\\-  
+draft: false  
+image: /img/{tour}/scaled/{cover_photo}  
+showonlyimage: false  
+title: foton från {tour_txt}  
+weight: {tour_numeric}  
+\\-\\-\\-  
+'
+)
+```
+
+
+Den här sidan visar foton från `r tour_txt`.
+
+```{r results='asis', echo=FALSE, comment=FALSE}
+# https://ashleydw.github.io/lightbox/#image-gallery
+# https://stackoverflow.com/questions/39220389/embed-indented-html-in-markdown-with-pandoc
+
+# img html
+img_html <- glue::glue('
+  
+        <a href="/img/{tour}/scaled/{photos}" data-toggle="lightbox" \\
+        data-gallery="example-gallery" class="col-sm-4">
+            <img src="/img/{tour}/thumbs/{photos}" class="img-fluid">
+        </a>\n'
+)
+
+# 3 photos per row
+photos_per_row <- 3
+tab_html <- glue::glue(
+  '<div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="row">
+  '
+)
+for (i in 1:length(photos)) {
+  
+  #tab_html <- c(tab_html, glue::glue('{img_html[i]}'))
+  tab_html <- str_c(tab_html, img_html[i], collapse = "\n")
+  
+  if (i %% photos_per_row == 0 & i != length(photos)) {
+    # start next row
+    tab_html <- str_c(
+      tab_html, 
+      glue::glue( 
+        '\n
+            </div>
+            <div class="row">
+        '  
+      ), 
+      collapse = "\n"
+    )
+  }
+  if (i == length(photos)) {
+    # end table
+    tab_html <- str_c(
+      tab_html, 
+      glue::glue(
+        '\n
+            </div>
+          </div>
+        </div>
+        '
+      ), 
+      collapse = "\n"
+    )
+  }  
+}
+
+
+glue::glue(tab_html)
+```

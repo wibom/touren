@@ -1,0 +1,58 @@
+---
+output: html_document
+title: ''
+---
+```{r source-data, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+```
+
+![](/img/logo/logo200.gif)
+
+--------------------------------------------------------------------------------
+
+## Översikt
+```{r, echo=FALSE}
+overview <- get_overview_tab(d, results_type = "results_net")
+
+overview %>%
+  kable(
+    format = "html",
+    align = "c"
+  ) %>%
+  kable_styling(
+    bootstrap_options = c(
+      "striped", "bordered", "hover", "condensed", "responsive"
+    ),
+    full_width = TRUE,
+    position = "center",
+    font_size = 9
+  ) %>%
+  column_spec(
+    column = c(1:3),
+    bold = TRUE,
+    color = "white",
+    background = "#990000"
+  ) %>%
+  column_spec(
+    column = 3,
+    border_right = TRUE
+  )
+```
+
+
+## Historian
+Det hela hade sin början någon gång under hösten 2004. Karlsson, Wänman och Wibom bestämde sig för att avgöra vem som var mest värd en flaska whisky. Det bestämdes att slaggolf (netto), över 72 hål, var den mest rättvisa metoden att fastställa detta. Drabbningen gick av stapeln sent på hösten i närheten av Sandviken och det visade sig, efter 2 dagars intensivt golfande, att Erik stod som odiskutabel slutsegrare. Då ryktet om denna miniatyrtävling spridit sig, och året var 2005, var intresset stort från flera håll att få prova sin egen styrka gentemot kamraternas under liknande former. Fler deltagare kräver också större organisation, något organisatören och filantropen Ulf Forsgren genast satte tänderna i. Då många av de nytillkomna deltagarna visade sig vara något ömhudade gjordes genast justeringen att skära ner från 72 till 54 hål, vilket i dag är det antal som gäller i officiella sammanhang.
+
+Vid det här laget hade tävlingen inte heller något officiellt namn. Detta tillkom först inför 2006-års höstupplaga, då den första pokalen införskaffades av den då regerande mästaren; Karlsson. Han lät gravera in titeln ”Umeå Open” på bucklan, och därmed hade tävlingen fått sitt namn. Måhända kan det ses som något missvisande på en tävling till vilken bara inbjudna spelare är välkomna, men det har en trevlig klang.

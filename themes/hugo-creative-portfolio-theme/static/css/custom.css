@@ -1,0 +1,21 @@
+/* your styles go here */
+
+.icon {
+  /* kontrollera storlek på ikonerna i plotly modebar */
+  width: 20px;
+  height: 20px;
+}
+
+
+h2 {
+  margin-top: 96px;
+}
+h3 {
+  margin-top: 48px;
+}
+h4 {
+  margin-top: 48px;
+}
+h5 {
+  margin-top: 48px;
+}

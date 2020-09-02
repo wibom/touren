@@ -1,0 +1,963 @@
+---
+always_allow_html: true
+output:
+  md_document:
+    pandoc_args: [
+      "--from", "markdown-markdown_in_html_blocks+raw_html",
+    ]
+---
+```{r setup, include=FALSE}
+library(patchwork)
+theme_set(get_my_ggtheme())
+```
+```{r cw-comment, include=FALSE}
+# Denna sida genereras med anrop från rmarkdown::render (i scriptet
+# `02_render_multi.R`), med specificerade värden för `output_file` och
+# `output_dir`.
+#
+# Figurer som "chunk-output" klarar inte av att hantera relative paths på ett 
+# vettigt sätt: 
+# https://github.com/rstudio/rmarkdown/issues/587#issuecomment-168437646
+#
+# Min workaround blir att spara output-figurer till lämpligt ställe i mappen 
+# `/static` samt skriva ut sökvägen. På så vis kan Hugo rendera sidan korrekt.
+```
+```{r functions, include=FALSE}
+htmltab_leaderboard <- function (lb) {
+  lb %>%
+    kable(
+      format = "html",
+      align = "c"
+    ) %>%
+    kable_styling(
+      bootstrap_options =
+        c("striped", "bordered", "hover", "condensed", "responsive"),
+      full_width = TRUE,
+      font_size = 12,
+      position = "left"
+    ) %>%
+    column_spec(
+      1,
+      bold = TRUE,
+      border_right = TRUE,
+      background = "gray50"
+    ) %>%
+    column_spec(
+      2,
+      italic = TRUE
+    ) %>%
+    column_spec(
+      ncol(lb) - 1,
+      bold = TRUE,
+      color = "white",
+      background = "#990000"
+    ) %>%
+    column_spec(
+      ncol(lb),
+      bold = TRUE,
+      color = "white",
+      background = "#990000"
+    ) %>%
+    row_spec(
+      0,
+      bold = TRUE,
+      color = "white",
+      background = "gray"
+    )
+}
+plot_scores_lineplot <- function(ds, my_score_type, my_tour_id, my_round_id) {
+  # my_score_type: { "abs_gross", "abs_net", "rel_gross", "rel_net" }
+  # my_round_id: { "round_1", "round_2", "round_3", "all" }
+
+  # Returnera NULL ifall det inte finns det registrerade scorer?
+  reg_scores <-
+    ds %>%
+    filter(tour_id == my_tour_id) %>%
+    pull(my_score_type) %>%
+    .[[1]]
+  if (is.null(reg_scores)) {
+    return(NULL)
+  }
+
+  # select data
+  start_stop <- case_when(
+    my_round_id == "round_1" ~ c(start = 1,  stop = 18),
+    my_round_id == "round_2" ~ c(start = 19, stop = 36),
+    my_round_id == "round_3" ~ c(start = 37, stop = 54),
+    my_round_id == "all"     ~ c(start = 1,  stop = 54)
+  )
+  holes_sel <- str_c("hole_", start_stop[1]:start_stop[2])
+
+  d_sel <-
+    ds %>%
+    filter(tour_id == my_tour_id) %>%
+    select(tour_id, !!rlang::sym(my_score_type)) %>%
+    unnest(!!rlang::sym(my_score_type)) %>%
+    filter(hole_id %in% holes_sel)
+
+  # Formatera och bräkna cumsum
+  players <- read_players_list()
+  player_ids <- names(d_sel)[names(d_sel) %in% players$id]
+  d_cumsum <- d_sel %>% mutate_at(.vars = vars(all_of(player_ids)), cumsum) 
+  d_plot <-
+    d_cumsum %>%
+    mutate(
+      hole_nr =
+        hole_id %>%
+        str_extract("(?<=hole_)\\d+") %>%
+        factor(., levels = unique(.))
+    ) %>%
+    pivot_longer(
+      cols = -c(tour_id, hole_id, hole_nr),
+      names_to = "player",
+      values_to = "score"
+    ) %>%
+    mutate(
+      player = factor(player, levels = player_ids)
+    )
+
+  # Plotta
+  my_score_type_txt <- case_when(
+    my_score_type == "rel_net"   ~ "Netto (relativt banans par)",
+    my_score_type == "rel_gross" ~ "Brutto (relativt banans par)",
+    my_score_type == "abs_net"   ~ "Netto",
+    my_score_type == "abs_gross" ~ "Brutto"
+  )
+  my_round_id_txt <- case_when(
+    my_round_id == "round_1" ~ "Runda 1",
+    my_round_id == "round_2" ~ "Runda 2",
+    my_round_id == "round_3" ~ "Runda 3",
+    my_round_id == "all"     ~ "Runda 1 - 3",
+  )
+  p <-
+    ggplot(
+      d_plot,
+      aes(x = hole_nr, y = score, group = player, colour = player)
+    ) +
+    scale_x_discrete(
+      breaks = if_else(
+        as.numeric(unique(d_plot$hole_nr)) %% 2 == 0,
+        as.character(unique(d_plot$hole_nr)),
+        ""
+        )
+    ) +
+    scale_y_continuous(
+      breaks = seq(-20, 150, 10),
+      minor_breaks = seq(-20, 150, 2)
+    ) +
+    scale_colour_manual(
+      values = get_player_colour(),
+      name = NULL
+    ) +    
+    #ggsci::scale_color_jco() +
+    geom_hline(
+      aes(yintercept = 0)
+    ) +
+    #geom_line() +
+    ggbump::geom_bump() +
+    geom_point(
+      alpha = .5
+    ) +
+    labs(
+      title = glue::glue("Tour {meta$roman_numeral} ({meta$date}), {meta$city}"), 
+      subtitle = glue::glue("Score: {my_score_type_txt}\n{my_round_id_txt}"), 
+      x = NULL,
+      y = NULL
+    ) +
+    #theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 90, size = rel(.8), vjust = .5),
+      panel.grid.major.y = element_line(size = 1, colour = "gray80"),
+      panel.grid.minor.y = element_line(size = .5, colour = "gray80"),
+      legend.position = "bottom"
+    )
+
+  if (my_round_id == "all") {
+    # Annotera plotten
+    # Lägg till annoteringslager under själva graferna 
+    # (https://stackoverflow.com/a/20250185/7439717)
+    p$layers <- c(
+      annotate(
+        "rect", 
+        xmin = 18.5, xmax = 36.5, ymin = -Inf, ymax = Inf, alpha = .1
+      ),
+      annotate(
+        "label", 
+        x = c(9, 27, 45), 
+        y = Inf, 
+        vjust = 1.3,
+        label = c("Runda 1", "Runda 2", "Runda 3"), 
+        alpha = .4
+      ), 
+      p$layers
+    )
+  }
+
+  return (p)
+}
+get_scorecard <- function (ds, my_score_type, my_tour_id, my_round_id) {
+  # my_score_type: { "abs_gross", "abs_net", "rel_gross", "rel_net" }
+  # my_round_id: { "round_1", "round_2", "round_3", "all" }
+
+  # Returnera NULL ifall det inte finns det registrerade scorer?
+  reg_scores <-
+    ds %>%
+    filter(tour_id == my_tour_id) %>%
+    pull(my_score_type) %>%
+    .[[1]]
+  if (is.null(reg_scores)) {
+    return(NULL)
+  }
+
+  # select data
+  start_stop <- case_when(
+    my_round_id == "round_1" ~ c(start = 1,  stop = 18),
+    my_round_id == "round_2" ~ c(start = 19, stop = 36),
+    my_round_id == "round_3" ~ c(start = 37, stop = 54),
+    my_round_id == "all"     ~ c(start = 1,  stop = 54)
+  )
+  holes_sel <- str_c("hole_", start_stop[1]:start_stop[2])
+
+  d_sel <-
+    ds %>%
+    filter(tour_id == my_tour_id) %>%
+    select(!! rlang::sym(my_score_type)) %>%
+    unnest(!! rlang::sym(my_score_type)) %>%
+    filter(hole_id %in% holes_sel)
+
+  # delsummor
+  sum_score <- function (d_sel, sel_part) {
+    # select data
+    start_stop <- case_when(
+      sel_part == "out"    ~ c(start = 1,  stop = 9),
+      sel_part == "in"     ~ c(start = 10, stop = 18),
+      sel_part == "tot"    ~ c(start = 1,  stop = 18)
+    )
+    holes_sel <- str_c("hole_", start_stop[1]:start_stop[2])
+
+    d_sel %>%
+      slice(start_stop[1]:start_stop[2]) %>%
+      summarise_if(is.numeric, sum) %>%
+      add_column(hole_id = sel_part, .before = 1)
+  }
+  if (my_round_id != "all") {
+    d_sum_out <- sum_score(d_sel, sel_part = "out")
+    d_sum_in  <- sum_score(d_sel, sel_part = "in")
+    d_sum_tot <- sum_score(d_sel, sel_part = "tot")
+    d_sel <- bind_rows(
+      d_sel,
+      d_sum_out,
+      d_sum_in,
+      d_sum_tot
+    )
+  } else {
+    d_sum_tot <-
+      d_sel %>%
+      summarise_if(is.numeric, sum) %>%
+      add_column(hole_id = "tot", .before = 1)
+    d_sel <- bind_rows(
+      d_sel,
+      d_sum_tot
+    )
+  }
+
+  # Formatera till wide-format
+  d_sel_wide <-
+    d_sel %>%
+    mutate(hole_id = hole_id %>% factor(., levels = .)) %>%
+    pivot_longer(cols = -hole_id, names_to = "id", values_to = "score") %>%
+    pivot_wider(names_from = hole_id, values_from = score)
+
+
+  # bana (wide format)
+  course_sel <-
+    ds %>%
+    filter(tour_id == my_tour_id) %>%
+    select(courses) %>%
+    unnest(courses) %>%
+    select(hole_id, par, hcp) %>% 
+    filter(hole_id %in% holes_sel) %>%
+    mutate(hole_id = hole_id %>% factor(., levels = .)) %>%
+    pivot_longer(cols = -hole_id, names_to = "id", values_to = "value") %>%
+    pivot_wider(names_from = hole_id, values_from = value)
+
+  # Lägg ihop till score card
+  course_sel <- course_sel %>% mutate_at(vars(starts_with("hole_")), as.integer)
+  score_card <- bind_rows(course_sel, d_sel_wide)
+}
+htmltab_scorecard <- function(sc, ds, gross_or_net,  my_tour_id, my_round_id) {
+  # Klassificera varje score {"<= birdie", "par", "boogie", ">boogie", "max"}
+  # gross_or_net <- "net"
+  # my_tour_id <- "touren_24"
+  # my_round_id <- "round_1"
+
+  # ref-data
+  start_stop <- case_when(
+    my_round_id == "round_1" ~ c(start = 1,  stop = 18),
+    my_round_id == "round_2" ~ c(start = 19, stop = 36),
+    my_round_id == "round_3" ~ c(start = 37, stop = 54),
+    my_round_id == "all"     ~ c(start = 1,  stop = 54)
+  )
+  holes_sel <- str_c("hole_", start_stop[1]:start_stop[2])
+
+  # Klassificera varje score {"<= birdie", "par", "boogie", ">boogie", "max"}
+  ref_type <- if_else(gross_or_net == "net", "rel_net", "rel_gross")
+  d_cls <-
+    ds %>%
+    filter(tour_id == my_tour_id) %>%
+    select(!! rlang::sym(ref_type)) %>%
+    unnest(!! rlang::sym(ref_type)) %>%
+    filter(hole_id %in% holes_sel) %>%
+    mutate_if(
+      is.numeric,
+      .funs = ~ case_when(
+          . <= -1 ~ "<=birdie",
+          . == 0  ~ "par",
+          . == 1  ~ "boogie",
+          . >= 5  ~ "max",
+          . >= 2   ~ ">= double-boogie"
+      )
+    ) %>%
+    # wide format
+    mutate(hole_id = hole_id %>% factor(., levels = .)) %>%
+    pivot_longer(
+      cols = -hole_id,
+      names_to = "player",
+      values_to = "score_cls"
+    ) %>%
+    pivot_wider(
+      names_from = hole_id,
+      values_from = score_cls
+    )
+
+  # sc html-tab
+  sc_html <-
+    sc %>%
+    mutate_all(as.character)
+  for (row_i in 1:nrow(sc)) {
+    for (col_i in 2:ncol(sc)) {
+
+      my_row <- sc_html$id[row_i]
+      my_col <- colnames(sc_html)[col_i]
+      score_cls <- ifelse(
+        my_row %in% d_cls$player & my_col %in% colnames(d_cls),
+        (filter(d_cls, player == my_row) %>% pull(my_col)),
+        "not_score"
+      )
+
+      # formatera score-rad från en spelare
+      sc_html[row_i, col_i] <- case_when(
+        # format för raderna "hcp" och "par"
+        sc_html$id[row_i] %in% c("hcp", "par") &
+          names(sc_html)[col_i] %in% c("out", "in", "tot") ~
+          cell_spec(
+            sc_html[row_i, col_i],
+            format = "html",
+            color = "pink"
+            #background = "white"
+          ),
+
+        sc_html$id[row_i] %in% c("hcp", "par") ~
+          cell_spec(
+            sc_html[row_i, col_i],
+            format = "html",
+            color = "white",
+            #background = "black"
+          ),
+
+        # format för score
+        score_cls == "<=birdie" ~
+          cell_spec(
+            sc_html[row_i, col_i],
+            format = "html",
+            color = "black",
+            background = "#94d1b3"
+          ),
+        score_cls == "par" ~
+          cell_spec(
+            sc_html[row_i, col_i],
+            format = "html",
+            color = "black",
+            background = "#9caee2"
+          ),
+        score_cls == "boogie" ~
+          cell_spec(
+            sc_html[row_i, col_i],
+            format = "html",
+            color = "black",
+            background = "#bfbfbf"
+          ),
+        score_cls == "max" ~
+          cell_spec(
+            sc_html[row_i, col_i],
+            format = "html",
+            color = "black",
+            background = "#cc6666"
+          ),
+        score_cls == ">= double-boogie" ~
+          cell_spec(
+            sc_html[row_i, col_i],
+            format = "html",
+            color = "black",
+            background = "#999999"
+          ),
+        score_cls == "not_score" ~
+          cell_spec(
+            sc_html[row_i, col_i],
+            format = "html",
+            bold = TRUE,
+            color = "black",
+            background = "white"
+          )
+      )
+    }
+  }
+
+  names(sc_html) <- names(sc_html) %>% str_remove("hole_")
+  sc_html %>%
+    mutate_all(~str_replace(., "NA", "")) %>%
+    kable(
+      format = "html",
+      align = "c",
+      escape = FALSE
+    ) %>%
+    kable_styling(
+      bootstrap_options = c(
+        "striped", "bordered", "hover", "condensed", "responsive"
+        ),
+      font_size = 12,
+      full_width = TRUE,
+      position = "center"
+    ) %>%
+    row_spec(
+      0:2,
+      background = "orange"
+    ) %>%
+    column_spec(
+      1,
+      bold = TRUE,
+      border_right = TRUE
+    ) %>%
+    column_spec(
+      2,
+      italic = TRUE
+    )
+
+}
+htmltab_scorecard_plot <- function(sc, ds, gross_or_net,  my_tour_id, my_round_id) {
+  # Klassificera varje score {"<= birdie", "par", "boogie", ">boogie", "max"}
+  # gross_or_net <- "net"
+  # my_tour_id <- "tour08"
+  # my_round_id <- "round_1"
+  
+  # ref-data
+  start_stop <- case_when(
+    my_round_id == "round_1" ~ c(start = 1,  stop = 18),
+    my_round_id == "round_2" ~ c(start = 19, stop = 36),
+    my_round_id == "round_3" ~ c(start = 37, stop = 54),
+    my_round_id == "all"     ~ c(start = 1,  stop = 54)
+  )
+  holes_sel <- str_c("hole_", start_stop[1]:start_stop[2])
+
+  # Klassificera varje score {"<= birdie", "par", "boogie", ">boogie", "max"}
+  ref_type <- if_else(gross_or_net == "net", "rel_net", "rel_gross")
+  d_cls <-
+    ds %>%
+    filter(tour_id == my_tour_id) %>%
+    select(!! rlang::sym(ref_type)) %>%
+    unnest(!! rlang::sym(ref_type)) %>%
+    filter(hole_id %in% holes_sel) %>%
+    mutate_if(
+      is.numeric,
+      .funs = ~ case_when(
+          . <= -1 ~ "<=birdie",
+          . == 0  ~ "par",
+          . == 1  ~ "boogie",
+          . >= 5  ~ "max",
+          . >= 2  ~ ">= double-boogie"
+      )
+    ) %>%
+    pivot_longer(
+      cols = -hole_id,
+      names_to = "player",
+      values_to = "score_cls"
+    )
+  
+  d_plot <- 
+    sc %>% 
+    pivot_longer(cols = -id, names_to = "hole_id", values_to = "score") %>% 
+    pivot_wider(id_cols = hole_id, names_from = id, values_from = score) %>% 
+    pivot_longer(cols = -c(hole_id, par, hcp), names_to = "player", values_to = "score") %>% 
+    left_join(d_cls, by = c("hole_id", "player")) %>% 
+    mutate(
+      hole_id = str_remove(hole_id, "hole_") %>% as_factor(.),
+      score_cls = 
+        factor(
+          score_cls, 
+          levels = c(
+            "<=birdie",
+            "par",
+            "boogie",
+            "max",
+            ">= double-boogie"
+          )
+        ) %>% 
+        fct_explicit_na(), 
+      player = factor(
+        player, 
+        levels = 
+          sc %>% 
+          select(id, tot) %>% 
+          filter(!is.na(tot)) %>% 
+          arrange(desc(tot)) %>% 
+          pull(id)
+      )
+    )
+  
+  x_breaks <- levels(d_plot$hole_id)
+  if (my_round_id == "all") {
+    x_breaks <- x_breaks[seq(1, length(x_breaks), by = 2)]
+  }
+  scores <- 
+    ggplot(d_plot, aes(x = hole_id, y = player, label = score, fill = score_cls)) + 
+    geom_tile(colour = "black", alpha = .7) +
+    geom_text(size = if_else(my_round_id == "all", 2, 4)) +
+    scale_x_discrete(breaks = x_breaks) +
+    scale_y_discrete(expand = expand_scale(mult = 0, add = 0)) +
+    scale_fill_manual(
+      breaks = c(
+        "<=birdie",
+        "par",
+        "boogie",
+        ">= double-boogie",
+        "max"
+      ),
+      values = c(
+        "<=birdie"         = "green2",
+        "par"              = "forestgreen",
+        "boogie"           = "gray70", 
+        ">= double-boogie" = "indianred2",
+        "max"              = "red3",
+        "(Missing)"        = "gray40"
+      ), 
+    ) +
+    theme(
+      panel.grid = element_blank(),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(), 
+      plot.margin = margin(0, 0, 0, 0, "cm"), 
+      axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1, size = 7), 
+      legend.title = element_blank()
+    )
+  
+  d_plot_course <- 
+    d_plot %>% 
+    select(hole_id, par, hcp) %>% 
+    distinct(hole_id, .keep_all = TRUE) %>% 
+    pivot_longer(cols = -hole_id, names_to = "info", values_to = "value") %>% 
+    mutate(
+      round = case_when(
+        hole_id %in% c("tot", "in", "out") ~ NA_character_,
+        as.numeric(hole_id) <= 18 ~ "r1",
+        as.numeric(hole_id) <= 36 ~ "r2",
+        as.numeric(hole_id) <= 54 ~ "r3",
+      )
+    )
+  course <- 
+    ggplot(d_plot_course, aes(x = hole_id, y = info, label = value)) + 
+    geom_tile(aes(fill = round), colour = "black") +
+    scale_fill_grey(start = .4, end = .6, na.value = "gray40") + 
+    geom_text(size = if_else(my_round_id == "all", 2, 4), na.rm = TRUE) + 
+    scale_y_discrete(expand = expand_scale(mult = 0, add = 0)) +
+    theme(
+      panel.grid = element_blank(),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      plot.margin = margin(0, 0, 0, 0, "cm"), 
+      legend.position = "none"
+      #plot.background = element_rect(fill = "green")
+    )
+  
+  # Lägg ihop till en gemensam plott
+  gross_or_net_txt <- case_when(
+    gross_or_net == "gross" ~ "Brutto",
+    gross_or_net == "net"   ~ "Nettos",
+  )
+  my_round_id_txt <- case_when(
+    my_round_id == "round_1" ~ "Runda 1",
+    my_round_id == "round_2" ~ "Runda 2",
+    my_round_id == "round_3" ~ "Runda 3",
+    my_round_id == "all"     ~ "Runda 1 - 3",
+  )  
+  p <- 
+    course / scores + 
+    plot_layout(heights = c(2, nrow(sc))) +
+    plot_annotation(
+      title = glue::glue("Tour {meta$roman_numeral} ({meta$date}), {meta$city}"), 
+      subtitle = glue::glue("Scorecard ({gross_or_net_txt})\n{my_round_id_txt}")
+    )
+  
+  return(p)
+}
+
+```
+```{r settings, include=FALSE}
+tour_d <- d %>% filter(tour_id == tour)
+meta <- tour_d %>% select(meta) %>% unnest(meta)
+tour_header <- glue::glue("Touren {meta$roman_numeral}")
+fig_width <- width <- unit(9, "in")
+fig_height <- unit(6, "in")
+fig_dpi <- 300
+my_score_type <- case_when(
+  results_var == "results_gross" & abs_or_rel == "abs" ~ "abs_gross", 
+  results_var == "results_net"   & abs_or_rel == "abs" ~ "abs_net", 
+  results_var == "results_gross" & abs_or_rel == "rel" ~ "rel_gross", 
+  results_var == "results_net"   & abs_or_rel == "rel" ~ "rel_net"
+)
+```
+```{r hugo-front-matter-yaml, echo=FALSE, results='asis', comment=FALSE}
+glue::glue(
+'\\-\\-\\-  
+draft: false  
+image: /img/champs/thumbs/{tour}.jpg    
+showonlyimage: false  
+title: {tour_header}  
+weight: {weight}  
+\\-\\-\\-'
+)
+```
+
+Touren `r meta$roman_numeral` spelades i `r meta$city` (`r meta$date`)
+
+<!--more-->
+
+## Titlar
+
+* champ = `r tour_d[[results_var]][[1]] %>% pull(champ)`  
+* longdrive = `r meta$longdrive_champ`  
+* närmast-pinnen = `r meta$close_champ`  
+
+
+## Leader board
+```{r leader-board, echo=FALSE, results='asis', comment=FALSE}
+lb <-  tour_d[[results_var]][[1]]$lb[[1]]
+lb_html <- htmltab_leaderboard(lb)
+cat(lb_html)
+```
+
+--------------------------------------------------------------------------------
+
+## Score - totalt
+```{r lineplot-all, echo=FALSE, results='asis', comment=FALSE}
+p <- plot_scores_lineplot(
+  d,
+  my_score_type = my_score_type,
+  my_tour_id = tour,
+  my_round_id = "all"
+)
+if (!is.null(p)) {
+  # placera filen under `./static/results/`
+  abspath <- file.path(
+    here::here(), "static/results", tour, 
+    glue::glue('{str_remove(my_score_type, "_")}.lineplot.all.png')
+  )
+  if (!dir.exists(dirname(abspath))) {
+    dir.create(dirname(abspath), recursive = TRUE)
+  }
+  ggsave(
+    filename = abspath,
+    plot = p,
+    width = fig_width,
+    height = fig_height,
+    dpi = fig_dpi
+  )
+  relpath <- str_remove(abspath, "^.+(?=/results)")
+  glue::glue('<img src="{relpath}" alt="score - total">')
+} else {
+  cat("inga data")
+}
+```
+<br><br>
+```{r scorecard-all, echo=FALSE, results='asis', comment=FALSE}
+# Använd "abs_gross" för att plotta scorecard, istället för `my_score_type`.
+sc <- get_scorecard(
+  d,
+  my_score_type = "abs_gross", #my_score_type,
+  my_tour_id = tour,
+  my_round_id = "all"
+)
+if (!is.null(sc)) {
+  # `htmltab_scorecard` returnerar en tabell, men blir inte så snyggt... 
+  # htmltab_scorecard(
+  #   sc,
+  #   ds = d,
+  #   gross_or_net = str_remove(results_var, "^.+_"), # results_var {"results_gross", "results_net"}
+  #   my_tour_id = tour,
+  #   my_round_id = "all"
+  # )
+  
+  # Färga score-kort m.a.p. brutto-score, dvs `gross_or_net = "gross"`, 
+  # istället för `gross_or_net = str_remove(results_var, "^.+_")`
+  p <- htmltab_scorecard_plot(
+    sc,
+    ds = d,
+    gross_or_net = "gross", # används för att färga score-kort. str_remove(results_var, "^.+_"), 
+    my_tour_id = tour,
+    my_round_id = "all"  
+  )
+  # placera filen under `./static/results/`
+  abspath <- file.path(
+    here::here(), "static/results", tour, 
+    glue::glue('absgross.scorecard.all.png')
+  )
+  if (!dir.exists(dirname(abspath))) {
+    dir.create(dirname(abspath), recursive = TRUE)
+  }
+  ggsave(
+    filename = abspath,
+    plot = p,
+    width = fig_width,
+    height = fig_height,
+    dpi = fig_dpi
+  )
+  relpath <- str_remove(abspath, "^.+(?=/results)")
+  glue::glue('<img src="{relpath}" alt="scorecard - total">')  
+}
+```
+
+
+--------------------------------------------------------------------------------
+
+## Round 1
+```{r lineplot-r1, echo=FALSE, results='asis', comment=FALSE}
+p <- plot_scores_lineplot(
+  d,
+  my_score_type = my_score_type,
+  my_tour_id = tour,
+  my_round_id = "round_1"
+)
+if (!is.null(p)) {
+  # placera filen under `./static/results/`
+  abspath <- file.path(
+    here::here(), "static/results", tour, 
+    glue::glue('{str_remove(my_score_type, "_")}.lineplot.r1.png')
+  )
+  if (!dir.exists(dirname(abspath))) {
+    dir.create(dirname(abspath), recursive = TRUE)
+  }
+  ggsave(
+    filename = abspath,
+    width = fig_width,
+    height = fig_height,
+    dpi = fig_dpi
+  )
+  relpath <- str_remove(abspath, "^.+(?=/results)")
+  glue::glue('<img src="{relpath}" alt="score - r1">')
+} else {
+  cat("inga data")
+}
+```
+<br><br>
+```{r scorecard-r1, echo=FALSE, results='asis', comment=FALSE}
+# Använd "abs_gross" för att plotta scorecard, istället för `my_score_type`.
+sc <- get_scorecard(
+  d,
+  my_score_type = "abs_gross", #my_score_type,
+  my_tour_id = tour,
+  my_round_id = "round_1"
+)
+if (!is.null(sc)) {
+  # htmltab_scorecard(
+  #   sc,
+  #   ds = d,
+  #   gross_or_net = str_remove(results_var, "^.+_"), # results_var {"results_gross", "results_net"}
+  #   my_tour_id = tour,
+  #   my_round_id = "round_1"
+  # )
+  
+  # Färga score-kort m.a.p. brutto-score, dvs `gross_or_net = "gross"`, 
+  # istället för `gross_or_net = str_remove(results_var, "^.+_")`
+  p <- htmltab_scorecard_plot(
+    sc,
+    ds = d,
+    gross_or_net = "gross", # används för att färga score-kort. str_remove(results_var, "^.+_"), 
+    my_tour_id = tour,
+    my_round_id = "round_1"  
+  )
+  # placera filen under `./static/results/`
+  abspath <- file.path(
+    here::here(), "static/results", tour, 
+    glue::glue('absgross.scorecard.r1.png')
+  )
+  if (!dir.exists(dirname(abspath))) {
+    dir.create(dirname(abspath), recursive = TRUE)
+  }
+  ggsave(
+    filename = abspath,
+    plot = p,
+    width = fig_width,
+    height = fig_height,
+    dpi = fig_dpi
+  )
+  relpath <- str_remove(abspath, "^.+(?=/results)")
+  glue::glue('<img src="{relpath}" alt="scorecard - r1">')   
+}
+```
+
+
+--------------------------------------------------------------------------------
+
+## Round 2
+```{r lineplot-r2, echo=FALSE, results='asis', comment=FALSE}
+p <- plot_scores_lineplot(
+  d,
+  my_score_type = my_score_type,
+  my_tour_id = tour,
+  my_round_id = "round_2"
+)
+if (!is.null(p)) {
+  # placera filen under `./static/results/`
+  abspath <- file.path(
+    here::here(), "static/results", tour, 
+    glue::glue('{str_remove(my_score_type, "_")}.lineplot.r2.png')
+  )
+  if (!dir.exists(dirname(abspath))) {
+    dir.create(dirname(abspath), recursive = TRUE)
+  }
+  ggsave(
+    filename = abspath,
+    width = fig_width,
+    height = fig_height,
+    dpi = fig_dpi
+  )
+  relpath <- str_remove(abspath, "^.+(?=/results)")
+  glue::glue('<img src="{relpath}" alt="score - r2">')
+} else {
+  cat("inga data")
+}
+```
+<br><br>
+```{r scorecard-r2, echo=FALSE, results='asis', comment=FALSE}
+# Använd "abs_gross" för att plotta scorecard, istället för `my_score_type`.
+sc <- get_scorecard(
+  d,
+  my_score_type = "abs_gross", #my_score_type,
+  my_tour_id = tour,
+  my_round_id = "round_2"
+)
+if (!is.null(sc)) {
+  # htmltab_scorecard(
+  #   sc,
+  #   ds = d,
+  #   gross_or_net = str_remove(results_var, "^.+_"), # results_var {"results_gross", "results_net"}
+  #   my_tour_id = tour,
+  #   my_round_id = "round_2"
+  # )
+  
+  p <- htmltab_scorecard_plot(
+    sc,
+    ds = d,
+    gross_or_net = "gross", # används för att färga score-kort. str_remove(results_var, "^.+_"), 
+    my_tour_id = tour,
+    my_round_id = "round_2"  
+  )
+  # placera filen under `./static/results/`
+  abspath <- file.path(
+    here::here(), "static/results", tour, 
+    glue::glue('absgross.scorecard.r2.png')
+  )
+  if (!dir.exists(dirname(abspath))) {
+    dir.create(dirname(abspath), recursive = TRUE)
+  }
+  ggsave(
+    filename = abspath,
+    plot = p,
+    width = fig_width,
+    height = fig_height,
+    dpi = fig_dpi
+  )
+  relpath <- str_remove(abspath, "^.+(?=/results)")
+  glue::glue('<img src="{relpath}" alt="scorecard - r2">')     
+}
+```
+
+
+--------------------------------------------------------------------------------
+
+## Round 3
+```{r lineplot-r3, echo=FALSE, results='asis', comment=FALSE}
+p <- plot_scores_lineplot(
+  d,
+  my_score_type = my_score_type,
+  my_tour_id = tour,
+  my_round_id = "round_3"
+)
+if (!is.null(p)) {
+  # placera filen under `./static/results/`
+  abspath <- file.path(
+    here::here(), "static/results", tour, 
+    glue::glue('{str_remove(my_score_type, "_")}.lineplot.r3.png')
+  )
+  if (!dir.exists(dirname(abspath))) {
+    dir.create(dirname(abspath), recursive = TRUE)
+  }
+  ggsave(
+    filename = abspath,
+    width = fig_width,
+    height = fig_height,
+    dpi = fig_dpi
+  )
+  relpath <- str_remove(abspath, "^.+(?=/results)")
+  glue::glue('<img src="{relpath}" alt="score - r3">')
+} else {
+  cat("inga data")
+}
+```
+<br><br>
+```{r scorecard-r3, echo=FALSE, results='asis', comment=FALSE}
+# Använd "abs_gross" för att plotta scorecard, istället för `my_score_type`.
+sc <- get_scorecard(
+  d,
+  my_score_type = "abs_gross", #my_score_type,
+  my_tour_id = tour,
+  my_round_id = "round_3"
+)
+if (!is.null(sc)) {
+  # htmltab_scorecard(
+  #   sc,
+  #   ds = d,
+  #   gross_or_net = str_remove(results_var, "^.+_"), # results_var {"results_gross", "results_net"}
+  #   my_tour_id = tour,
+  #   my_round_id = "round_3"
+  # )
+  
+  p <- htmltab_scorecard_plot(
+    sc,
+    ds = d,
+    gross_or_net = "gross", # används för att färga score-kort. str_remove(results_var, "^.+_"), 
+    my_tour_id = tour,
+    my_round_id = "round_3"  
+  )
+  # placera filen under `./static/results/`
+  abspath <- file.path(
+    here::here(), "static/results", tour, 
+    glue::glue('absgross.scorecard.r3.png')
+  )
+  if (!dir.exists(dirname(abspath))) {
+    dir.create(dirname(abspath), recursive = TRUE)
+  }
+  ggsave(
+    filename = abspath,
+    plot = p,
+    width = fig_width,
+    height = fig_height,
+    dpi = fig_dpi
+  )
+  relpath <- str_remove(abspath, "^.+(?=/results)")
+  glue::glue('<img src="{relpath}" alt="scorecard - r3">')     
+}
+```
+
+

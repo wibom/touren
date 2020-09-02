@@ -1,0 +1,92 @@
+---
+output: html_document  
+title: Slopen  
+image: /img/misc/slope.jpg  
+showonlyimage: false  
+summary: antal slag på slopen
+---
+```{r setup, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+```
+
+
+Sekretariatet har inte arkiverat varje spelares HCP genom åren. Däremot har 
+antal givna slag på Slopen sparats, vilket reflekterar HCP.
+
+
+```{r, echo=FALSE, fig.height=8, out.width="100%", warning=FALSE}
+
+# antal givna slag (på slopen) i genomsnitt per runda
+d_plot <- 
+  setNames(d$shots_given, unnest(d, meta) %>% pull(date)) %>% 
+  imap_dfr(
+    ~ if(is.null(.)) {
+      NULL
+    } else {
+      summarise_if(., is.integer, ~ sum(.)/(length(.)/18))
+    },
+    .id = "tour_id"
+  ) %>% 
+  pivot_longer(
+    cols = -tour_id, 
+    names_to = "player", 
+    values_to = "avg_shots_given"
+  ) %>% 
+  mutate(tour_id = as_factor(tour_id))
+
+p <- 
+  ggplot(d_plot, aes(x = tour_id, y = avg_shots_given, colour = player)) +
+  scale_y_continuous(breaks = seq(12, 36, 2)) +
+  geom_point(
+    na.rm = TRUE
+  ) +
+  geom_line(
+    aes(group = player),
+    na.rm = TRUE
+  ) + 
+  scale_colour_manual(
+    values = get_player_colour(), 
+    name = NULL
+  ) +
+  labs(
+    title = "Givna slag",
+    subtitle = "Antal givna slag i genomsnitt per runda"
+  ) +
+  #theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = .5, size = rel(.8)), 
+    axis.title.x = element_blank(), 
+    axis.title.y = element_blank(), 
+    legend.position = "bottom"
+  )
+
+plotly::ggplotly(p, tooltip = c("x", "y", "colour")) %>% 
+plotly::config(
+  displayModeBar = TRUE, 
+  displaylogo = FALSE, 
+  # modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "lasso2d")
+  modeBarButtons = list(list("resetViews"), list("zoom2d"))
+) %>% 
+plotly::layout(
+  # https://plot.ly/r/reference/#Layout_and_layout_style_objects
+  modebar = list(
+    orientation = "h"
+    #bgcolor = "orange"
+  )
+)  
+
+```
+

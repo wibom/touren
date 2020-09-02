@@ -1,0 +1,220 @@
+---
+output: html_document
+title: Tourscores
+image: /img/misc/tourscores.jpg  
+showonlyimage: false  
+summary: Översikt av vinnar- och loser-scorer genom histien
+---
+```{r setup, include=FALSE}
+library(patchwork)
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme() + theme(axis.title = element_text())) 
+```
+```{r functions, include=FALSE}
+plot_tour_scores <- function(ds, score_type = "rel_net") {
+  
+  ds <- ds %>% filter(!map_lgl(abs_gross, is.null))
+  
+  tour_results <- 
+    ds %>% 
+    select(tour_id, meta) %>% 
+    unnest(meta) %>% 
+    mutate(
+      lb = tour_id %>% map(~get_leaderboard (d, score_type, .x)),
+      champ = map_chr(lb, function(x) {x %>% slice(1) %>% pull(player)}),
+      loser = map_chr(lb, function(x) {x %>% slice(nrow(x)) %>% pull(player)}),
+      n_players = map_int(lb, nrow)
+    ) 
+    
+  tour_stats <- 
+    tour_results %>% 
+    unnest(lb) %>% 
+    group_by(tour_id) %>% 
+    summarise(
+      win  = min(tot),
+      avg  = median(tot), 
+      lose = max(tot)
+    )
+  
+  d_plot <- 
+    tour_results %>% 
+    select(-lb) %>% 
+    mutate(
+      date = date %>% factor(., levels = .)
+    ) %>% 
+    left_join(
+      tour_stats,
+      by = "tour_id"
+    ) %>% 
+    pivot_longer(cols = win:lose, names_to = "stat", values_to = "score")
+  
+  # Total-score för övriga spelare (ej champ/loser)
+  d_plot_midplayers <- 
+    ds %>% 
+    select(tour_id, meta) %>% 
+    unnest(meta) %>% 
+    mutate(
+      date = date %>% factor(., levels = .),
+      lb = tour_id %>% map(~get_leaderboard (d, score_type, .x)), 
+      totscores_middleplayers = map(
+        lb, 
+        function(x) {x %>% slice(2:(nrow(x)-1)) %>% select(tot)}
+      ),
+      stat = "foo"
+    ) %>% 
+    select(tour_id, date, totscores_middleplayers, stat) %>% 
+    unnest(totscores_middleplayers) %>% 
+    rename(score = tot)
+  
+  
+  p_colours <- get_player_colour()
+  scores <- 
+    ggplot(d_plot, aes(x = date, y = score, group = stat)) + 
+    geom_hline(
+      yintercept = 0, 
+      color = "gray50",
+      size = 1.5
+    ) +
+    geom_line(
+      aes(linetype = stat)
+    ) + 
+    geom_point(
+      data = d_plot %>% filter(stat == "win"),
+      size = 4,
+      aes(color = champ)
+    ) + 
+    geom_point(
+      data = d_plot %>% filter(stat == "lose"),
+      size = 4,
+      aes(color = loser)
+    ) + 
+    geom_point(
+      data = d_plot_midplayers,
+      size = 1,
+      shape = 1,
+      colour = "gray60"
+    ) +    
+    scale_color_manual(
+      values = p_colours, 
+      drop = FALSE
+    ) +
+    # scale_size_continuous(
+    #   range = c(3, 8)
+    # ) +
+    scale_linetype_discrete(
+      breaks = c("win", "avg", "lose"),
+      labels = c("champ", "median", "loser")
+    ) + 
+    guides(
+      colour = guide_legend(
+        title = NULL, 
+        nrow = 2, 
+        override.aes = list(size = 5), 
+        order = 1
+      ), 
+      size = guide_legend(
+        title = "antal deltagare:", 
+        title.position = "top", 
+        title.theme = element_text(angle = 0, face = "italic"),          
+        nrow = 1, 
+        title.hjust = .5, 
+        label.position = "bottom", 
+        label.hjust = .5, 
+        order = 2
+      ), 
+      linetype = guide_legend(
+        title = NULL, 
+        label.position = "bottom", 
+        label.hjust = .5, 
+        order = 3
+      )
+    ) +
+    #theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 90, vjust = .5),
+      axis.title.x = element_blank(),
+      legend.position = "bottom", 
+      legend.box = "vertical", 
+      legend.spacing = unit(.1, "cm")
+    )
+  
+  d_plot_2 <- d_plot %>% distinct(tour_id, date, n_players)
+  n_players <- 
+    ggplot(d_plot_2, aes(x = date, y = n_players)) + 
+    scale_y_continuous(
+      #limits = c(0, NA), 
+      breaks = 1:20, 
+      expand = expand_scale(mult = c(0, .1))
+    ) +
+    geom_segment(
+      aes(x = date, xend = date, y = 0, yend = n_players),
+      colour = "gray50"
+    ) +
+    geom_point(
+      size = 3, 
+      color = "gray20"
+    ) + 
+    coord_cartesian(
+      ylim = c(
+        min(d_plot_2$n_players) - 1, 
+        max(d_plot_2$n_players) + 1
+      )
+    ) + 
+    labs(
+      x = NULL,
+      y = "antal deltagare"
+    ) +    
+    #theme_minimal() + 
+    theme(
+      # panel.grid.major.y = element_blank(),
+      # panel.grid.minor.y = element_blank(), 
+      axis.text.x = element_blank(),
+      axis.text.y = element_text(size = rel(.7)), 
+      axis.title.y = element_text(size = rel(.7))
+    )  
+  
+  # Lägg ihop plottar med patchwork
+  my_subtitle <- case_when(
+    score_type == "rel_net"   ~ "score: netto  (relativt banans par)",
+    score_type == "rel_gross" ~ "score: brutto (relativt banans par)",
+    score_type == "abs_net"   ~ "score: netto",
+    score_type == "abs_gross" ~ "score: brutto"
+  )  
+  patches <- n_players / scores + plot_layout(heights = c(1, 4))
+  patches + plot_annotation(
+      title = "Resultat genom åren",
+      subtitle = my_subtitle    
+  )
+}
+```
+
+
+```{r, echo=FALSE, message=FALSE, warnings=FALSE, fig.height=8}
+plot_tour_scores(d, score_type = "rel_net")
+```
+
+
+<details>
+<summary>Nyfiken hur det sett ut ifall Touren spelats brutto?</summary>
+<p>
+
+Scorer ifall Touren spelats brutto:
+```{r, echo=FALSE, message=FALSE, warnings=FALSE, fig.height=8}
+plot_tour_scores(d, score_type = "rel_gross")
+```
+
+_Finns inga scorekort från Tour 1-4_
+</p>
+</details>

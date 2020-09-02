@@ -1,0 +1,102 @@
+---
+output: html_document  
+title: Shottypes  
+image: /img/misc/shottypes.jpg    
+showonlyimage: false  
+summary: Någon som gör fler par nu än förr i tiden?
+---
+```{r setup, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+```
+
+
+Hur har andelen av de olika slagtyperna förändrats över tid?
+
+
+```{r, echo=FALSE, fig.height=8, out.width="100%"}
+ds <- d %>% select(tour_id, shot_types)
+my_sum <- function(one_tour) {
+  if (is.null(one_tour)) { return(NULL) }
+  count_prc <- function(x) {
+    (table(x) / length(x)) %>%
+      as_tibble() %>%
+      pivot_wider(names_from = x, values_from = n) %>% 
+      list()
+      #spread(x, n) %>%
+      #select(levels(x))      
+  }
+  one_tour %>%
+    summarise_at(
+      .vars = vars(-hole_id),
+      .funs = ~count_prc(.)
+     # .funs = funs(shots_prc = list(count_prc(.))) # funs() soft depreceated 
+    )
+}
+
+# beräkna andel per slag-typ
+d_sum <-
+  ds %>%
+  mutate(
+    shots_prc = map(shot_types, my_sum)
+  )
+
+# formatera data
+d_sum_formated <-
+  d_sum %>%
+  filter(!map_lgl(shots_prc, is.null)) %>%
+  select(-shot_types) %>%
+  deframe() %>%
+  bind_rows(.id = "tour_id") %>%
+  gather(key = "player", value = "stats", -tour_id)
+
+# formatera ytterligare
+d_plot <-
+  d_sum_formated %>%
+  mutate(tour_id = as_factor(tour_id)) %>%
+  filter(!map_lgl(stats, is.null)) %>%
+  unnest(stats) %>%
+  gather(key = "shot_type", value = "shot_prc", -c(tour_id, player)) %>%
+  mutate(shot_type = as_factor(shot_type))
+
+# plotta
+my_pal <-
+  ggsci::pal_locuszoom()(3) %>%
+  rev() %>%
+  colorRampPalette()
+my_cols <-
+  my_pal(n = nlevels(d_plot$shot_type)) %>%
+  #scales::muted(l = 30, c = 500) %>%
+  setNames(levels(d_plot$shot_type))
+xlabs <- levels(d_plot$tour_id)
+xlabs[seq(2, length(xlabs), by = 2)] <- ""
+ggplot(d_plot, aes(x = tour_id, y = shot_prc, fill = fct_rev(shot_type))) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_discrete(breaks = xlabs) + 
+  geom_col(width = 1) +
+  scale_fill_manual(values = my_cols) +
+  #theme_bw() +
+  labs(fill = "shot type") +
+  theme(
+    axis.text.y = element_text(size = rel(.8)),
+    axis.text.x = element_text(angle = 90, vjust = .5, size = rel(.6)),
+    axis.title.x = element_blank(),
+    panel.grid.major.x = element_blank(), 
+    legend.title = element_blank(), 
+    strip.text = element_text(face = "bold", hjust = 0)
+  ) +
+  facet_wrap(~player)
+
+```

@@ -1,0 +1,15 @@
+id	first_name	nick	last_name	initials	r_color	status
+Karlsson	Erik	Ekke	Karlsson	EK	chocolate4	aktiv
+Lundström	Johan	Rock and Roll	Lundström	JL	black	aktiv
+Forsgren	Ulf	Uffe	Forsgren	UF	pink	pensionerad
+Wänman	André		Wänman	AW	aquamarine3	aktiv
+Nyberg	Björn	Butta	Nyberg	BN	azure4	aktiv
+Wibom	Carl	Calle	Wibom	CW	darkgreen	aktiv
+Scherlund	Richard		Scherlund	RS	darkorchid4	aktiv
+Strömdahl	Jonas	Julla	Strömdahl	JS	darkgoldenrod1	aktiv
+Östh	Johan	Snickarn	Östh	JÖ	darkolivegreen	aktiv
+Wiklund	Johan		Wiklund	JW	darkred	aktiv
+Forsell	Mattias	Forre	Forsell	MF	cyan3	aktiv
+Lundholm	Per	Pelle	Lundholm	PL	burlywood4	avvaktande
+Jonsson	Niklas	Bebben	Jonsson	NJ	blue	aktiv
+Ingen	NA	NA	NA	NA	grey	aktiv

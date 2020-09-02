@@ -1,0 +1,245 @@
+---
+output: html_document
+title: Head2head
+image: /img/misc/head2head.jpg    
+showonlyimage: false  
+summary: Innbördes möten mellan samtliga spelare, genom historien...
+---
+```{r setup, warnings=FALSE, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+```
+```{r functions, warnings=FALSE, include=FALSE}
+get_head2head <- function(player1, player2, d, score_type = "results_net", ...) {
+  get_win_lose_draw <- function(scores, p1, p2, round_id) {
+    # Avgör ifall player1 har vunnit eller förlorat
+    p1_score = filter(scores, player == p1)[[round_id]] 
+    p2_score = filter(scores, player == p2)[[round_id]] 
+    case_when(
+      p1_score < p2_score  ~ "win",
+      p1_score == p2_score ~ "draw",
+      p1_score > p2_score  ~ "lose"
+    )
+  }
+  results_all <- 
+    d %>% 
+    unnest(!!rlang::sym(score_type)) %>% 
+    select(tour_id, lb) %>% 
+    unnest(lb)
+  
+  # Tourer där player1 och player2 mötts
+  head2head_tours <- 
+    results_all %>% 
+    nest(
+      data = c(player, erh.slag, `Runda 1`, `Runda 2`, `Runda 3`, tot, pos)
+    ) %>% 
+    mutate(
+      idx = map_lgl(data, ~ (player1 %in% .$player) & (player2 %in% .$player))
+    ) %>% 
+    filter(idx) %>% 
+    pull(tour_id)
+  
+  results_all %>% 
+    filter(tour_id %in% head2head_tours) %>% 
+    filter(player %in% c(player1, player2)) %>% 
+    nest(
+      lb = c(player, erh.slag, `Runda 1`, `Runda 2`, `Runda 3`, tot, pos)
+    ) %>% 
+    mutate(
+      r1 = map_chr(lb, get_win_lose_draw, player1, player2, "Runda 1"),
+      r2 = map_chr(lb, get_win_lose_draw, player1, player2, "Runda 2"),
+      r3 = map_chr(lb, get_win_lose_draw, player1, player2, "Runda 3")
+    )
+}
+plot_head2head <- function(d, score_type = "results_net") {
+  players <- read_players_list() %>% filter(id != "Ingen") %>% pull(id)
+  
+  # Fixa heade2head-data
+  d_h2h <- 
+    tibble(
+      player1 = players,
+      player2 = players
+    ) %>% 
+    expand(player1, player2) %>%
+    filter(player1 != player2) %>% 
+    #filter(player1 == "Karlsson") %>% 
+    mutate(stats = pmap(., get_head2head, d, score_type))
+  
+  # Formatera
+  d_h2h_formated <- 
+    d_h2h %>% 
+    unnest(stats) %>% 
+    # Släpper rådata 
+    select(-lb) %>% 
+    pivot_longer(cols = c(r1, r2, r3), names_to = "round_id", values_to = "winlose") %>% 
+    arrange(player1, player2, tour_id, round_id)
+  
+  # Summera antal head2head vinster/förluster
+  d_plot <- 
+    d_h2h_formated %>% 
+    group_by(player1, player2) %>% 
+    summarise(
+      n_win = sum(winlose == "win", na.rm = TRUE), 
+      n_draw = sum(winlose == "draw", na.rm = TRUE), 
+      n_lose = sum(winlose == "lose", na.rm = TRUE)
+    ) %>% 
+    mutate(
+      h2h = n_win - n_lose,
+      n_tot = n_win + n_draw + n_lose
+    )
+  
+  
+  p <- 
+    ggplot(d_plot, aes(y = player2)) + 
+    geom_vline(xintercept = 0) +
+    # wins
+    geom_segment(
+      aes(x = 0, y = player2, xend = n_win, yend = player2),
+      colour = "gray50", 
+      linetype = "dotted", 
+      alpha = .3
+    ) +  
+    geom_point(
+      aes(x = n_win), 
+      color = "gray50",
+      alpha = .3
+    ) + 
+    # losses
+    geom_segment(
+      aes(x = 0, y = player2, xend = -n_lose, yend = player2),
+      colour = "gray50", 
+      linetype = "dotted", 
+      alpha = .3
+    ) +    
+    geom_point(
+      aes(x = -n_lose), 
+      color = "gray50", 
+      alpha = .3
+    ) +   
+    # h2h
+    geom_segment(
+      aes(x = 0, y = player2, xend = h2h, yend = player2, colour = player2),
+      show.legend = FALSE
+      #colour = "black"
+    ) +
+    geom_point(
+      aes(x = h2h, colour = player2)
+      #size = rel(2.5)
+    ) + 
+    scale_colour_manual(
+      values = get_player_colour(), 
+      name = NULL
+    ) +  
+    facet_wrap(vars(player1), scales = "free_x") + 
+    #theme_bw() + 
+    theme(
+      #legend.position = "bottom",
+      panel.spacing = unit(2, "lines"), 
+      axis.text.x = element_text(size = rel(.6))
+    ) +
+    labs(
+      x = NULL, y = NULL,
+      title = glue::glue(
+        'Inbördes möten \\
+        {if_else(str_detect(score_type, "net"), "(netto)", "(brutto)")}'
+      ), 
+      subtitle = glue::glue(
+        'Innbördes möten räknas per runda, då två spelare deltagit vid samma 
+        Tour och således spelat samma bana på samma dag'
+      )
+    )
+    # ggrepel::geom_text_repel(
+    #   aes(label = n_tot),
+    #   direction = "x",
+    #   size = rel(1.5)
+    # )
+  return (p)
+
+}
+```
+
+Innbördes möten räknas per runda, då två spelare deltagit vid samma Tour och 
+således sepelat samma bana på samma dag.
+
+Grå punkter representerar totala antalet vinster (positiva värden; `n_win`) och 
+förluster (negativa värden; `n_lose`). Färgade punkter representerar skillnaden, 
+dvs "plus/minus" i innbördesmöten (`h2h`).
+
+```{r head2head-net, echo=FALSE, fig.height=10, out.width = "100%", warning=FALSE}
+# https://plotly-r.com/control-modebar.html
+#   https://github.com/plotly/plotly.js/blob/master/src/components/modebar/buttons.js
+
+p <- plot_head2head(d, score_type = "results_net")
+plotly::ggplotly(
+  p, 
+  tooltip = c("x")
+  # width = 400, 
+  # hight = 2400
+) %>%
+plotly::config(
+  displayModeBar = TRUE, 
+  displaylogo = FALSE, 
+  # modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "lasso2d")
+  modeBarButtons = list(list("resetViews"), list("zoom2d"))
+) %>% 
+plotly::layout(
+  # https://plot.ly/r/reference/#Layout_and_layout_style_objects
+  modebar = list(
+    orientation = "h"
+    #bgcolor = "orange"
+  )
+) #%>% 
+# https://stackoverflow.com/a/59253529/7439717
+# htmlwidgets::onRender('function(el, x) {
+#                          $("[data-title=\'MasterCard\'] svg path").css("fill", "#7ac143");
+#                          $("[data-title=\'MasterCard\'] svg").css("width","2em");
+#                         }')  
+```
+
+<br><br><br>
+--------------------------------------------------------------------------------
+
+Scorer ifall Touren spelats brutto:
+```{r head2head-gross, echo=FALSE, fig.height=10, out.width = "100%", warning=FALSE}
+# https://plotly-r.com/control-modebar.html
+#   https://github.com/plotly/plotly.js/blob/master/src/components/modebar/buttons.js
+
+p <- plot_head2head(d, score_type = "results_gross")
+plotly::ggplotly(
+  p, 
+  tooltip = c("x")
+  # width = 400, 
+  # hight = 2400
+) %>%
+plotly::config(
+  displayModeBar = TRUE, 
+  displaylogo = FALSE, 
+  # modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "lasso2d")
+  modeBarButtons = list(list("resetViews"), list("zoom2d"))
+) %>% 
+plotly::layout(
+  # https://plot.ly/r/reference/#Layout_and_layout_style_objects
+  modebar = list(
+    orientation = "h"
+    #bgcolor = "orange"
+  )
+) #%>% 
+# https://stackoverflow.com/a/59253529/7439717
+# htmlwidgets::onRender('function(el, x) {
+#                          $("[data-title=\'MasterCard\'] svg path").css("fill", "#7ac143");
+#                          $("[data-title=\'MasterCard\'] svg").css("width","2em");
+#                         }')  
+```
+

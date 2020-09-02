@@ -1,0 +1,531 @@
+---
+output: html_document
+title: Topscores
+image: /img/misc/topscores.jpg  
+showonlyimage: false  
+summary: Bästa och sämtsta scorerna i tourens histora
+---
+```{r setup, include=FALSE}
+library(patchwork)
+knitr::opts_chunk$set(
+  fig.height = 8
+)
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+library(ggiraph)
+theme_set(get_my_ggtheme())
+```
+```{r functions, include=FALSE}
+get_rank <- function(rank_var, d, round_or_tour = "round") {
+  # Summera score för varje spelare (per runda, eller per tour)
+  # och ranka total-score
+
+  rank_var <- rlang::sym(rank_var)
+
+  if (round_or_tour == "round") {
+    # summera varje runda
+    r_sums <-
+      d %>%
+      filter(!map_lgl(!!rlang::sym(rank_var), is.null)) %>%
+      select(tour_id, !!rlang::sym(rank_var)) %>%
+      unnest(!!rlang::sym(rank_var)) %>%
+      mutate(
+        round_id = rep_along(hole_id, rep(c("r1", "r2", "r3"), each = 18))
+      ) %>%
+      group_by(tour_id, round_id) %>%
+      summarise_at(.vars = vars(-ends_with("id")), .funs = sum) %>%
+      ungroup()
+
+    # ranka
+    r_rank <-
+      r_sums %>%
+      pivot_longer(
+        cols = -c(tour_id, round_id),
+        names_to = "player",
+        values_to = "score"
+      ) %>%
+      mutate(ranked = rank(score, ties.method = "min")) %>%
+      filter(!is.na(score)) %>%
+      arrange(ranked)
+
+    return (r_rank)
+
+  } else if (round_or_tour == "tour") {
+    # summera varje tour
+    t_sums <-
+      d %>%
+      filter(!map_lgl(!!rlang::sym(rank_var), is.null)) %>%
+      select(tour_id, !!rlang::sym(rank_var)) %>%
+      unnest(!!rlang::sym(rank_var)) %>%
+      group_by(tour_id) %>%
+      summarise_at(.vars = vars(-ends_with("id")), .funs = sum) %>%
+      ungroup()
+
+    # ranka
+    t_rank <-
+      t_sums %>%
+      pivot_longer(
+        cols = -tour_id,
+        names_to = "player",
+        values_to = "score"
+      ) %>%
+      mutate(ranked = rank(score, ties.method = "min")) %>%
+      filter(!is.na(score)) %>%
+      arrange(ranked)
+
+    return(t_rank)
+  }
+
+}
+top_x_tab <- function(top_x, main, my_note) {
+  top_x <- top_x %>% select(-score_type)
+  player_cidx <- which(names(top_x) == "player")
+
+  top_x %>%
+    kable(
+      format = "html",
+      align = "l",
+      escape = TRUE,
+      caption = main
+    ) %>%
+    kable_styling(
+      bootstrap_options =
+        c("striped", "bordered", "hover", "condensed", "responsive"),
+      full_width = TRUE,
+      font_size = 10
+    ) %>%
+    column_spec(
+      column = player_cidx,
+      bold = TRUE,
+      background = "gray10"
+    ) %>%
+    footnote(
+      general = my_note,
+      footnote_as_chunk = FALSE
+    )
+
+}
+top_x_plot <- function(top_x, main, my_note) {
+  d_plot <-
+    top_x %>%
+    mutate(idx = row_number())
+
+  my_xmax <- max(c(0, d_plot$score), na.rm = TRUE) * 1.1
+  my_xmin <- min(c(0, d_plot$score), na.rm = TRUE) * 1.05
+  p_lollipop <-
+    ggplot(d_plot, aes(x = score, y = idx, colour = player)) +
+    scale_y_continuous(trans = "reverse") +
+    scale_x_continuous(limits = c(my_xmin, my_xmax), expand = c(0, 0)) +
+    geom_vline(xintercept = 0) +
+    geom_segment(
+      aes(x = 0, y = idx, xend = score, yend = idx),
+      size = 1.2, 
+      show.legend = FALSE
+    ) +    
+    # geom_point(
+    #   aes(colour = player),
+    #   size = 2
+    # ) +
+    geom_point_interactive(
+      aes(
+        tooltip = score,
+        data_id = enc2utf8(player)        # https://stackoverflow.com/a/56900588
+      ), 
+      size = 3
+    ) +     
+    scale_colour_manual(
+      values = get_player_colour(),
+      name = NULL
+    ) +
+    #theme_bw() +
+    theme(
+      legend.position = "bottom",
+      axis.text.y = element_blank(),
+      axis.title.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      plot.margin = unit(c(.1, .1, .1, 0), "cm")
+    )
+
+  p_meta <-
+    d_plot %>%
+    select(-c(score_type, ranked, score)) %>%
+    pivot_longer(cols = -idx, names_to = "info_str", values_to = "value") %>%
+    mutate(info_str = as_factor(info_str)) %>%
+    #gather(key = "info_str", value = "value", -idx, factor_key = TRUE) %>%
+    ggplot(aes(x = info_str, y = idx, label = value)) +
+    scale_y_continuous(trans = "reverse") +
+    geom_text(
+      # aes(family = "Leelawadee UI Semilight"),
+      size = rel(3),
+      hjust = 1,
+      vjust = 0.5
+    ) +
+    #theme_void() +
+    scale_x_discrete(expand = c(0.1, 0.1), position = "top") +
+    theme(
+      axis.text.x = element_text(hjust = 1, face = "bold"),
+      #plot.margin = unit(c(.1, 0, .1, 1), "cm"), 
+      panel.grid.major = element_blank(), 
+      axis.text.y = element_blank()
+    )
+  
+  # Lägg ihop mha 'patchwork' och ggiraph::girafe
+  pg <- girafe(
+    code = print(
+      p_meta + p_lollipop + 
+      plot_annotation(
+        title = main,
+        subtitle = my_note
+        #caption = 'Disclaimer: None of these plots are insightful'
+      ) + 
+      plot_layout(guides = "collect")
+    ), 
+    height_svg = 8
+  )  
+  
+  
+  # Gamla versionen av hopplagda plottar... krångligt, och delar av den
+  # sammanlagda plotten följer inte det gemensamma temat. 
+  # 
+  # title_grob <- grid::textGrob(
+  #   str_c(main, my_note, sep = "\n"),
+  #   x = .01,
+  #   y = 1,
+  #   hjust = 0,
+  #   vjust = 1,
+  #   gp = gpar(cex = .8, fontface = "bold")
+  # )
+  # 
+  # # lägg ihop med gemensam legend
+  # tmp <-
+  #   p_lollipop %>%
+  #   ggplot_build() %>%
+  #   ggplot_gtable()
+  # idx <- which(sapply(tmp$grobs, function (x) x$name) == "guide-box")
+  # legend = tmp$grobs[[idx]]
+  # 
+  # egg::ggarrange(
+  #   p_meta,
+  #   p_lollipop + theme(legend.position = "none"),
+  #   nrow = 1,
+  #   ncol = 2,
+  #   widths = c(.6, .4),
+  #   top = title_grob,
+  #   bottom = legend,
+  #   padding = unit(0, "line"),
+  #   draw = TRUE
+  # )
+}
+get_top_x <- function(rank_ds, top_n, my_score_type, top_or_bot, main = NULL,
+                      my_note = NULL, output = "tab") {
+
+  tour_info <-
+    read_tours_list() %>%
+    select(tour_id, Tour_Nr = roman_numeral, city, date)
+
+  if (top_or_bot == "top") {
+    # Bästa score
+    top_x <-
+      rank_ds %>%
+      filter(score_type == my_score_type) %>%
+      unnest(ranked_score) %>%
+      filter(ranked <= top_n) %>%
+      right_join(tour_info, ., by = "tour_id") %>%
+      select(-tour_id, score_type)
+  } else if (top_or_bot == "bot") {
+    top_x <-
+      rank_ds %>%
+      filter(score_type == my_score_type) %>%
+      unnest(ranked_score) %>%
+      filter(ranked >= (nrow(.) - top_n)) %>%
+      arrange(desc(ranked)) %>%
+      right_join(tour_info, ., by = "tour_id") %>%
+      select(-tour_id, score_type)
+  }
+
+  # Formatera för html
+  if (output == "tab") {
+    top_x <- top_x_tab(top_x, main, my_note)
+  } else if (output == "plot") {
+    top_x <- top_x_plot(top_x, main, my_note)
+  }
+}
+```
+```{r get-ranked-scores, include=FALSE}
+ranked_scores_round <-
+  tibble(score_type = c("abs_gross", "abs_net", "rel_gross", "rel_net")) %>%
+  mutate(ranked_score = map(score_type, get_rank, d, round_or_tour = "round"))
+ranked_scores_tour <-
+  tibble(score_type = c("abs_gross", "abs_net", "rel_gross", "rel_net")) %>%
+  mutate(ranked_score = map(score_type, get_rank, d, round_or_tour = "tour"))
+```
+
+
+## Bästa
+#### Bästa runda - netto
+```{r best-round-net, echo=FALSE}
+# Bästa runda-score (netto)
+best_r_rel_net <- get_top_x(
+  rank_ds = ranked_scores_round,
+  top_n = 20,
+  my_score_type = "rel_net",
+  top_or_bot = "top",
+  main = "Bästa runda; netto",
+  my_note = "relativt banans par",
+  output = "plot" # plot / tab
+)
+best_r_rel_net
+```
+<details><summary>Klicka för detaljerad tabell</summary>
+<p>
+```{r best-round-net-tab, echo=FALSE, results='asis'}
+best_r_rel_net_tab <- get_top_x(
+  rank_ds = ranked_scores_round,
+  top_n = 10,
+  my_score_type = "rel_net",
+  top_or_bot = "top",
+  main = "Bästa runda; netto",
+  my_note = "relativt banans par",
+  output = "tab" # plot / tab
+)
+cat(best_r_rel_net_tab)
+```
+</p>
+</details>
+
+
+
+#### Bästa runda - brutto
+```{r best-round-gross, echo=FALSE}
+# Bästa runda-score (netto)
+best_r_rel_gross <- get_top_x(
+  rank_ds = ranked_scores_round,
+  top_n = 20,
+  my_score_type = "rel_gross",
+  top_or_bot = "top",
+  main = "Bästa runda; brutto",
+  my_note = "relativt b anans par",
+  output = "plot" # plot / tab
+)
+best_r_rel_gross
+```
+<details><summary>Klicka för detaljerad tabell</summary>
+<p>
+```{r best-round-gross-tab, echo=FALSE, results='asis'}
+best_r_rel_gross_tab <- get_top_x(
+  rank_ds = ranked_scores_round,
+  top_n = 10,
+  my_score_type = "rel_gross",
+  top_or_bot = "top",
+  main = "Bästa runda; brutto",
+  my_note = "relativt banans par",
+  output = "tab" # plot / tab
+)
+cat(best_r_rel_gross_tab)
+```
+</p>
+</details>
+
+
+#### Bästa tour - netto
+```{r best-tour-net, echo=FALSE}
+# Bästa total-score (netto)
+best_t_rel_net <- get_top_x(
+  rank_ds = ranked_scores_tour,
+  top_n = 20,
+  my_score_type = "rel_net",
+  top_or_bot = "top",
+  main = "Bästa tour; netto",
+  my_note = "relativt banans par",
+  output = "plot" # plot / tab
+)
+best_t_rel_net
+```
+<details><summary>Klicka för detaljerad tabell</summary>
+<p>
+```{r best-tour-net-tab, echo=FALSE, results='asis'}
+best_t_rel_net_tab <- get_top_x(
+  rank_ds = ranked_scores_tour,
+  top_n = 10,
+  my_score_type = "rel_net",
+  top_or_bot = "top",
+  main = "Bästa tour; netto",
+  my_note = "relativt banans par",
+  output = "tab" # plot / tab
+)
+cat(best_t_rel_net_tab)
+```
+</p>
+</details>
+
+
+
+#### Bästa tour - brutto
+```{r best-tour-gross, echo=FALSE}
+# Bästa total-score (netto)
+best_t_rel_gross <- get_top_x(
+  rank_ds = ranked_scores_tour,
+  top_n = 20,
+  my_score_type = "rel_gross",
+  top_or_bot = "top",
+  main = "Bästa tour; brutto",
+  my_note = "relativt banans par",
+  output = "plot" # plot / tab
+)
+best_t_rel_gross
+```
+<details><summary>Klicka för detaljerad tabell</summary>
+<p>
+```{r best-tour-gross-tab, echo=FALSE, results='asis'}
+best_t_rel_gross_tab <- get_top_x(
+  rank_ds = ranked_scores_tour,
+  top_n = 10,
+  my_score_type = "rel_gross",
+  top_or_bot = "top",
+  main = "Bästa tour; brutto",
+  my_note = "relativt banans par",
+  output = "tab" # plot / tab
+)
+cat(best_t_rel_gross_tab)
+```
+</p>
+</details>
+
+
+
+### Sämsta
+#### Sämsta runda - netto
+```{r worst-round-net, echo=FALSE}
+# Sämsta runda-score (netto)
+worst_r_rel_net <- get_top_x(
+  rank_ds = ranked_scores_round,
+  top_n = 20,
+  my_score_type = "rel_net",
+  top_or_bot = "bot",
+  main = "Sämsta runda; netto",
+  my_note = "relativt banans par",
+  output = "plot" # plot / tab
+)
+worst_r_rel_net
+```
+<details><summary>Klicka för detaljerad tabell</summary>
+<p>
+```{r worst-round-net-tab, echo=FALSE, results='asis'}
+worst_r_rel_net_tab <- get_top_x(
+  rank_ds = ranked_scores_tour,
+  top_n = 10,
+  my_score_type = "rel_net",
+  top_or_bot = "bot",
+  main = "Sämsta runda; netto",
+  my_note = "relativt banans par",
+  output = "tab" # plot / tab
+)
+cat(worst_r_rel_net_tab)
+```
+</p>
+</details>
+#### Sämsta runda - brutto
+```{r worst-round-gross, echo=FALSE}
+# Sämsta runda-score (netto)
+worst_r_rel_gross <- get_top_x(
+  rank_ds = ranked_scores_round,
+  top_n = 20,
+  my_score_type = "rel_gross",
+  top_or_bot = "bot",
+  main = "Sämsta runda; brutto",
+  my_note = "relativt banans par",
+  output = "plot" # plot / tab
+)
+worst_r_rel_gross
+```
+<details><summary>Klicka för detaljerad tabell</summary>
+<p>
+```{r worst-round-gross-tab, echo=FALSE, results='asis'}
+worst_r_rel_gross_tab <- get_top_x(
+  rank_ds = ranked_scores_tour,
+  top_n = 10,
+  my_score_type = "rel_gross",
+  top_or_bot = "bot",
+  main = "Sämsta runda; brutto",
+  my_note = "relativt banans par",
+  output = "tab" # plot / tab
+)
+cat(worst_r_rel_gross_tab)
+```
+</p>
+</details>
+
+#### Sämsta tour - netto
+```{r worst-tour-net, echo=FALSE}
+# Sämsta total-score (netto)
+worst_t_rel_net <- get_top_x(
+  rank_ds = ranked_scores_tour,
+  top_n = 20,
+  my_score_type = "rel_net",
+  top_or_bot = "bot",
+  main = "Sämsta tour; netto",
+  my_note = "relativt banans par",
+  output = "plot" # plot / tab
+)
+worst_t_rel_net
+```
+<details><summary>Klicka för detaljerad tabell</summary>
+<p>
+```{r worst-tour-net-tab, echo=FALSE, results='asis'}
+worst_t_rel_net_tab <- get_top_x(
+  rank_ds = ranked_scores_tour,
+  top_n = 10,
+  my_score_type = "rel_net",
+  top_or_bot = "bot",
+  main = "Sämsta tour; netto",
+  my_note = "relativt banans par",
+  output = "tab" # plot / tab
+)
+cat(worst_t_rel_net_tab)
+```
+</p>
+</details>
+
+#### Sämsta tour - brutto
+```{r worst-tour-gross, echo=FALSE}
+# Sämsta total-score (netto)
+worst_t_rel_gross <- get_top_x(
+  rank_ds = ranked_scores_tour,
+  top_n = 20,
+  my_score_type = "rel_gross",
+  top_or_bot = "bot",
+  main = "Sämsta tour; brutto",
+  my_note = "relativt banans par",
+  output = "plot" # plot / tab
+)
+worst_t_rel_gross
+```
+<details><summary>Klicka för detaljerad tabell</summary>
+<p>
+```{r worst-tour-gross-tab, echo=FALSE, results='asis'}
+worst_t_rel_gross_tab <- get_top_x(
+  rank_ds = ranked_scores_tour,
+  top_n = 10,
+  my_score_type = "rel_gross",
+  top_or_bot = "bot",
+  main = "Sämsta tour; brutto",
+  my_note = "relativt banans par",
+  output = "tab" # plot / tab
+)
+cat(worst_t_rel_gross_tab)
+```
+</p>
+</details>

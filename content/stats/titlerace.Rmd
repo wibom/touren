@@ -1,0 +1,117 @@
+---
+output: html_document  
+title: Titlerace  
+image: /img/misc/titlerace.jpg    
+showonlyimage: false  
+summary: Titelracet...
+---
+```{r setup, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+```
+
+
+Titelracet...
+
+
+```{r function, include=FALSE}
+plot_titlerace <- function(d, results_var = "results_net") {
+  # fixa klassisk plot med antal titlar over tid - 
+  # facet:s = {champ, drive, pin, tot}
+  results <- 
+    d %>% 
+    select(tour_id, res = !!rlang::sym(results_var)) %>% 
+    unnest(res)
+  
+  count_titles <- function(player, title_var, ds) {
+    title_count <- 
+      if_else(results[[title_var]] == player, 1, 0, missing = 0) %>% 
+      cumsum() %>% 
+      setNames(ds$tour_id) %>% 
+      enframe(name = "tour_id", value = "title_cumsum") %>% 
+      mutate(title_var = title_var)
+  }
+  players <- read_players_list() %>% filter(id != "Ingen") %>% pull(id) 
+  settings <- 
+    expand.grid(
+      player = players,
+      title_vars = c("champ", "longdrive_champ", "close_champ"),
+      stringsAsFactors = FALSE
+    ) %>% 
+    as_tibble()
+  title_counts <- 
+    settings %>% 
+    mutate(cumsum = map2(player, title_vars, count_titles, ds = results))
+  
+d_plot <-   
+  unnest(title_counts, cols = c(cumsum)) %>% 
+  mutate(
+    # För att undvika överplottning
+    offset = 
+      as_factor(player) %>% 
+      as.numeric() %>% 
+      {(. - median(.)) / (n_distinct(.) * 4)},
+    title_cumsum = title_cumsum + offset, 
+    title_var = factor(
+      title_var, 
+      levels = c("champ", "longdrive_champ", "close_champ"),
+      labels = c("Champ", "Big Dog", "Pinnen")
+    )
+  )
+
+ggplot(d_plot, aes(x = as_factor(tour_id), y = title_cumsum, group = player)) +
+  #geom_line
+  ggbump::geom_bump(
+    aes(color = player),
+    alpha = .8, 
+    size = 1, 
+    show.legend = FALSE
+  ) + 
+  geom_point(
+    data = 
+      d_plot %>% 
+      mutate(title_cumsum = if_else(title_cumsum < .5, NA_real_, title_cumsum)),
+    aes(color = player),
+    alpha = .4, 
+    size = 1.5, 
+    na.rm = TRUE
+  ) +
+  #ggsci::scale_color_d3(palette = "category20") +
+  scale_colour_manual(
+    values = get_player_colour(), 
+    name = NULL
+  ) +    
+  labs(
+    y = "antal titlar",
+    title = "Title race"
+  ) +
+  #theme_bw() + 
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_text(angle = 90, size = rel(.7), vjust = .5),
+    panel.grid.major.y = element_line(size = 3), 
+    legend.position = "bottom",
+    legend.title = element_blank(), 
+#    strip.text = element_text(hjust = 0, face = "bold"), 
+    panel.spacing = unit(1, "lines")
+  ) +
+  facet_wrap(facets = vars(title_var), ncol = 1, strip.position = "top")
+
+}
+```
+
+```{r, echo=FALSE, fig.height=8, out.width="100%"}
+plot_titlerace(d)
+```

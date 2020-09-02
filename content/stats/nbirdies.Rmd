@@ -1,0 +1,155 @@
+---
+output: html_document  
+title: Birdiecount  
+showonlyimage: true  
+image: /img/misc/birdie.jpg  
+summary: Alla birdies (eller bättre) i Tourens historia
+---
+```{r setup, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+library(ggiraph)
+theme_set(get_my_ggtheme())
+```
+
+
+Alla birdies (eller bättre) som presterats i Tourens historia. 
+
+
+```{r, echo=FALSE, fig.height=8, out.width="100%", include=FALSE}
+# Väljer en annan version av plotten istället, tills vidare :)
+
+d_plot <- 
+  setNames(d$shot_types, unnest(d, meta) %>% pull(date)) %>% 
+  imap_dfr(
+    ~ if(is.null(.)) {
+      NULL
+    } else {
+      summarise_if(., is.factor, ~ sum(. == "< par"))
+    },
+    .id = "tour_id"
+  ) %>% 
+  pivot_longer(
+    cols = -tour_id, 
+    names_to = "player", 
+    values_to = "n_birdie"
+  ) %>% 
+  mutate(tour_id = as_factor(tour_id)) %>% 
+  filter(n_birdie != 0) 
+
+#p <- 
+ggplot(d_plot, aes(x = n_birdie, y = 1, colour = player, group = player)) + 
+  geom_point(
+    size = 5,
+    shape = 20,
+    alpha = 1,
+    #stroke = 2,
+    position = position_dodge(width = .3)
+    #position = position_jitter(height = 0.1, width = 0)
+  ) +
+  labs(
+    title = "Antal birdies",
+    subtitle = "Inkluderar alla typer av fåglar",
+    x = "antal birdies"
+  ) +
+  #theme_bw() +
+  scale_colour_manual(
+    values = get_player_colour(), 
+    name = NULL
+  ) +  
+  theme(
+    panel.grid = element_blank(),
+    axis.text.x = element_text(vjust = .5, size = rel(.8)), 
+    axis.text.y = element_blank(), 
+    axis.ticks.y = element_blank(),
+    axis.title.x = element_blank(), 
+    axis.title.y = element_blank(), 
+    legend.position = "bottom", 
+    legend.title = element_blank(),
+    panel.spacing = unit(0, "lines"),
+    strip.text.y = element_text(angle = 180)
+  ) + 
+  facet_wrap(~tour_id, ncol = 1, scales = "free_y", strip.position = "left")
+  
+#plotly::ggplotly(p, tooltip = c("x", "colour"))
+```
+
+```{r, echo=FALSE, fig.height=8, out.width="100%"}
+d_plot <- 
+  setNames(d$shot_types, unnest(d, meta) %>% pull(date)) %>% 
+  imap_dfr(
+    ~ if(is.null(.)) {
+      NULL
+    } else {
+      summarise_if(., is.factor, ~ sum(. == "< par"))
+    },
+    .id = "tour_id"
+  ) %>% 
+  pivot_longer(
+    cols = -tour_id, 
+    names_to = "player", 
+    values_to = "n_birdie"
+  ) %>% 
+  mutate(
+    tour_id = as_factor(tour_id),
+    tooltip_txt = str_c(player, " = ", n_birdie, sep = ""),
+  ) %>% 
+  filter(n_birdie != 0)
+
+p <- 
+  ggplot(d_plot, aes(x = tour_id, y = n_birdie, group = player, colour = player)) + 
+  scale_x_discrete() + 
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = seq(1.5, nlevels(d_plot$tour_id), by = 1)) +
+  geom_linerange(
+    aes(ymin = 0, ymax = n_birdie), 
+    position = position_dodge(width = .7), 
+    size = 1, 
+    alpha = 1, 
+    show.legend = FALSE
+  ) + 
+  # geom_point(
+  #   position = position_dodge(width = .7), 
+  #   size = 1.5, 
+  #   alpha = .5
+  # ) +
+  geom_point_interactive(
+    aes(
+      tooltip = enc2utf8(tooltip_txt),
+      data_id = enc2utf8(player)          # https://stackoverflow.com/a/56900588
+    ), 
+    position = position_dodge(width = .7),
+    size = 2
+  ) +   
+  #theme_bw() +
+  scale_colour_manual(
+    values = get_player_colour(), 
+    name = NULL
+  ) +   
+  coord_flip() + 
+  labs(
+    title = "Antal birdies",
+    subtitle = "Inkluderar alla typer av fåglar",
+    x = "antal birdies"
+  ) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    axis.text.x = element_text(vjust = .5, size = rel(.8)),
+    legend.position = "bottom", 
+    legend.title = element_blank()
+  )  
+x <- girafe(ggobj = p, height_svg = 8)
+x
+```
+

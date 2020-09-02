@@ -1,0 +1,47 @@
+---
+output: html_document
+title: Placeringar
+showonlyimage: false  
+image: /img/misc/placing.jpg  
+summary: Slutplacering för samtliga spelare genom histien
+---
+```{r setup, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+```
+
+```{r, echo=FALSE, message=FALSE, warnings=FALSE, fig.height=8}
+pw <- plot_placing(d, results_type = "results_net")
+print(pw)
+```
+
+
+<details>
+<summary>Nyfiken hur det sett ut ifall Touren spelats brutto?</summary>
+<p>
+
+Placeringar ifall Touren spelats brutto:
+```{r, echo=FALSE, message=FALSE, warnings=FALSE, fig.height=8}
+pw <- plot_placing(
+  # Inga scorekort från Tour 1-4; kan inte veta vem som vann.
+  ds = d %>% slice(-c(1:4)),
+  results_type = "results_gross"
+)
+print(pw)
+```
+
+</p>
+</details>
+

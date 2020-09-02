@@ -1,0 +1,460 @@
+---
+always_allow_html: true
+output:
+  md_document:
+    pandoc_args: [
+      "--from", "markdown-markdown_in_html_blocks+raw_html+line_blocks",
+    ]
+---
+```{r cw-comment, include=FALSE}
+# Denna sida genereras med anrop från rmarkdown::render (i scriptet
+# `02_render_multi.R`), med specificerade värden för `output_file` och
+# `output_dir`.
+#
+# Figurer som "chunk-output" klarar inte av att hantera relative paths på ett 
+# vettigt sätt: 
+# https://github.com/rstudio/rmarkdown/issues/587#issuecomment-168437646
+#
+# Min workaround blir att spara output-figurer till lämpligt ställe i mappen 
+# `/static` samt skriva ut sökvägen. På så vis kan Hugo rendera sidan korrekt.
+#
+# Processen för t.ex. `player = Karlsson` är alltså:
+# 1) rmarkdown::render processar "chunks" och konverterar till markdown. Output
+#    sparas temporärt i filen 'Karlsson.knit.md'
+# 2) pandoc konverterar 'Karlsson.knit.md' till det format som anges i 
+#    .Rmd-YAML-header (`md_document`); alltså 'karlsson.md'.
+# 3) hugo läser 'karlsson.md' och genererar en statisk websida
+#
+# Under steg 2 (pandoc) sker en del formatering som inte kan påverkas, bl.a. 
+# raderas inledande whitespace (https://stackoverflow.com/a/57756870). Av denna
+# anledning behöver man ibland krångla med `chunk`-output, så det blir rätt 
+# efter det processats av pandoc.
+```
+```{r setup, include=FALSE}
+library(patchwork)
+theme_set(get_my_ggtheme())
+```
+```{r settings, include=FALSE}
+img_url <- str_c("/img/players/", str_to_lower(player), "230x230.jpg")
+fig_width = width = unit(7, "in")
+fig_height = unit(4, "in")
+fig_dpi = 300
+```
+```{r player-stats, include=FALSE}
+lbs <- map(d$tour_id, ~get_leaderboard(ds = d, "rel_net", .x))
+n_tours <- map_int(lbs, ~ if_else(any(.$player == player), 1L, 0L)) %>% sum()
+status <- read_players_list() %>% filter(id == player) %>% pull(status)
+```
+
+```{r hugo-front-matter-yaml, echo=FALSE, results='asis', comment=FALSE}
+# `summary:` kräver radbrytning och indragning på följande rader
+glue::glue(
+"
+\\-\\-\\-  
+draft: false  
+image: {img_url}  
+showonlyimage: true  
+title: {player}  
+summary: \\
+  \\'**Status:** {status} <br> \\
+    **Antal Tourer:** {n_tours}\\'  
+\\-\\-\\-
+"
+)
+```
+
+```{r player-pic, echo=FALSE, results='asis', comment=FALSE}
+glue::glue('![{player}]({img_url})')
+```
+
+--------------------------------------------------------------------------------
+
+
+__Status:__ `r status`  
+__Antal tourer:__ `r n_tours`  
+
+
+--------------------------------------------------------------------------------
+
+### Placeringar genom tiderna
+```{r placing-net, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+placing <- plot_placing(ds = d, results_type = "results_net", lastname = player)
+
+# placera plot-filen under `./static/playerstats/`
+abspath <- file.path(
+  here::here(), "static/playerstats",  
+  glue::glue('{player}.placing.net.png')
+)
+if (!dir.exists(dirname(abspath))) {
+  dir.create(dirname(abspath), recursive = TRUE)
+} 
+ggsave(
+  filename = abspath,
+  plot = placing,
+  width = fig_width,
+  height = fig_height,
+  dpi = fig_dpi
+)
+relpath <- str_remove(abspath, "^.+(?=/playerstats)")
+glue::glue('![placeringshistorik]({relpath})')
+```
+<br><br>
+<details>
+<summary>Nyfiken hur det sett ut ifall Touren spelats brutto?</summary>
+<p>
+
+```{r placing-gross, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+placing <- plot_placing(
+  # Inga scorekort från Tour 1-4; kan inte veta vem som vann.
+  ds = d %>% slice(-c(1:4)),
+  results_type = "results_gross", 
+  lastname = player
+)
+
+# placera plot-filen under `./static/playerstats/`
+abspath <- file.path(
+  here::here(), "static/playerstats",  
+  glue::glue('{player}.placing.gross.png')
+)
+if (!dir.exists(dirname(abspath))) {
+  dir.create(dirname(abspath), recursive = TRUE)
+} 
+ggsave(
+  filename = abspath,
+  plot = placing,
+  width = fig_width,
+  height = fig_height,
+  dpi = fig_dpi
+)
+relpath <- str_remove(abspath, "^.+(?=/playerstats)")
+glue::glue('![placeringshistorik]({relpath})')
+```
+</p>
+</details>
+
+--------------------------------------------------------------------------------
+
+### Samtliga scores per runda
+```{r totscores, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+totscores <- plot_totscore_over_time(d, sum_by_round = TRUE, lastname = player)
+
+# placera plot-filen under `./static/playerstats/`
+abspath <- file.path(
+  here::here(), "static/playerstats",  
+  glue::glue('{player}.totscores.png')
+)
+if (!dir.exists(dirname(abspath))) {
+  dir.create(dirname(abspath), recursive = TRUE)
+} 
+ggsave(
+  filename = abspath,
+  plot = totscores,
+  width = fig_width,
+  height = fig_height,
+  dpi = fig_dpi
+)
+relpath <- str_remove(abspath, "^.+(?=/playerstats)")
+glue::glue('![totscores]({relpath})')
+```
+
+Samma plot finns för varje enskild spelare (med upplösning per Tour) på 
+`stats/playerscores`. Tänker att denna kan bytas ut mot en mer informativ 
+plot här på spelar-sidan... Här kan man ha total-score/poäng/erhållna slag i 
+en plot med 3 paneler (upplösning per runda / markera vilka rundor som "hör 
+ihop")...
+
+Ifall denna plot tas bort både härifrån och från `stats/playerscores`, kan även 
+funktionen raderas från `helpers.Rmd`.
+
+
+--------------------------------------------------------------------------------
+
+### Innbördes möten
+Innbördes möten räknas per runda, då två spelare deltagit vid samma Tour och 
+således sepelat samma bana på samma dag.
+
+```{r h2h-net, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+get_head2head <- function(player1, player2, d, score_type = "results_net") {
+  get_win_lose_draw <- function(scores, p1, p2, round_id) {
+    # Avgör ifall player1 har vunnit eller förlorat
+    p1_score = filter(scores, player == p1)[[round_id]] 
+    p2_score = filter(scores, player == p2)[[round_id]] 
+    case_when(
+      p1_score < p2_score  ~ "win",
+      p1_score == p2_score ~ "draw",
+      p1_score > p2_score  ~ "lose"
+    )
+  }
+  results_all <- 
+    d %>% 
+    unnest(!!rlang::sym(score_type)) %>% 
+    select(tour_id, lb) %>% 
+    unnest(lb)
+  
+  # Tourer där player1 och player2 mötts
+  head2head_tours <- 
+    results_all %>% 
+    nest(
+      data = c(player, erh.slag, `Runda 1`, `Runda 2`, `Runda 3`, tot, pos)
+    ) %>% 
+    mutate(
+      idx = map_lgl(data, ~ (player1 %in% .$player) & (player2 %in% .$player))
+    ) %>% 
+    filter(idx) %>% 
+    pull(tour_id)
+  
+  results_all %>% 
+    filter(tour_id %in% head2head_tours) %>% 
+    filter(player %in% c(player1, player2)) %>% 
+    nest(
+      lb = c(player, erh.slag, `Runda 1`, `Runda 2`, `Runda 3`, tot, pos)
+    ) %>% 
+    mutate(
+      r1 = map_chr(lb, get_win_lose_draw, player1, player2, "Runda 1"),
+      r2 = map_chr(lb, get_win_lose_draw, player1, player2, "Runda 2"),
+      r3 = map_chr(lb, get_win_lose_draw, player1, player2, "Runda 3")
+    )
+}
+plot_individual_h2h <- function(player, score_type = "results_net") {
+  other_players <- players[players != player]
+  h2h <- 
+    map(
+      other_players, 
+      ~ get_head2head(player, ..1, d, score_type)
+    ) %>% 
+    set_names(other_players) %>% 
+    bind_rows(.id = "oponent")
+  
+  # Fixa gemensam axel med labels (date och tour-no)
+  all_rounds <-
+    list(
+      tour_id = tours[-c(1:4)],
+      round_id = c("r1", "r2", "r3")
+    ) %>%
+    cross_df() %>%
+    arrange(tour_id, round_id) %>% 
+    mutate(x_idx = row_number()) %>% 
+    left_join(unnest(d, meta) %>% select(tour_id:date), by = "tour_id") %>% 
+    mutate(tour_lab = glue::glue("{date} (#{no})"))
+  
+  d_plot <- 
+    h2h %>% 
+    select(-lb) %>% 
+    pivot_longer(
+      cols = c(r1, r2, r3), 
+      names_to = "round_id", 
+      values_to = "h2h_result"
+    ) %>% 
+    # gemensam x-axel
+    #right_join(all_rounds, by = c("tour_id", "round_id")) %>% 
+    arrange(tour_id, round_id) %>% 
+    group_by(oponent) %>% 
+    mutate(
+      h2h_count = case_when(
+        h2h_result == "win"  ~ 1L,
+        h2h_result == "draw" ~ 0L,
+        h2h_result == "lose" ~ -1L
+      ), 
+      h2h_cumsum = cumsum(coalesce(h2h_count, 0L)), 
+      h2h2_ridx = row_number(),
+      lab_diff = if_else(h2h2_ridx == max(h2h2_ridx), h2h_cumsum, NA_integer_)
+    ) %>% 
+    select(-h2h2_ridx) %>% 
+    ungroup() %>% 
+    mutate(
+      #r_id = str_c(tour_id, round_id, sep = "_") %>% as_factor(), 
+      fill_col = if_else(h2h_cumsum >= 0, "pos", "neg")
+    ) %>% 
+    # gemensam x-axel
+    right_join(
+      all_rounds, by = c("tour_id", "round_id")
+    ) %>% 
+    filter(!is.na(oponent))
+  
+  h2h_time <- 
+    ggplot(d_plot, aes(x = x_idx, y = h2h_cumsum, fill = fill_col)) + 
+    scale_y_continuous(
+      breaks = function(x, n = 5) pretty(x, n)[pretty(x, n) %% 1 == 0] 
+    ) +
+    scale_x_continuous(
+      breaks = 
+        all_rounds %>% 
+        filter(round_id == "r2") %>% 
+        pull(x_idx),
+      labels = 
+        all_rounds %>%
+        filter(round_id == "r2") %>%
+        pull(tour_lab),
+      expand = expand_scale(mult = 0, add = c(0, 3))
+    ) +
+    geom_col(width = 1, size = .5, alpha = .6) +
+    ggbump::geom_bump(aes(group = 1), size = .5) +
+    #geom_line(aes(group = 1), size = .5) + 
+    geom_point(aes(colour = as.factor(h2h_count)), pch = 19, size = 2) +
+    scale_fill_manual(
+      values = c(
+        "pos" = scales::muted("green"),
+        "neg" = scales::muted("red")
+      )
+    ) +
+    scale_colour_manual(
+      values = c(
+        "1"  = scales::muted("green"),
+        "0"  = "gray50",
+        "-1" = scales::muted("red")
+      ), 
+      guide = "none"
+    ) +
+    geom_hline(yintercept = 0) +
+    geom_vline(
+      xintercept = seq(0, max(all_rounds$x_idx), 3) + .5, 
+      colour = "gray50", 
+      alpha = .5
+    ) +
+    ggrepel::geom_label_repel(
+      aes(label = lab_diff), 
+      colour = "white",
+      segment.colour = "black",
+      na.rm = TRUE, 
+      nudge_x = 1.5, 
+      size = rel(3.5),
+      label.padding = 0.25, 
+      box.padding = .5
+    ) +
+    theme(
+      axis.text.x = element_text(angle = 90, size = 8, vjust = .5), 
+      axis.text.y = element_text(size = 7),
+      strip.placement = NULL, 
+      strip.text.y = element_text(size = rel(.7), hjust = .5), 
+      plot.margin = margin(0, 0, 0, 0, "cm"), 
+      legend.position = "none",
+      panel.grid.major.x = element_blank(),
+      panel.border = element_rect(
+        colour = "gray20", linetype = "solid", fill = NA, size = 1
+      )
+    ) + 
+    facet_wrap(
+      vars(oponent), 
+      ncol = 1, 
+      strip.position = "left"
+      #scales = "free_y"
+    )
+  
+  d_plot_count <- 
+    d_plot %>% 
+    group_by(oponent) %>% 
+    count(h2h_result) %>% 
+    ungroup() %>% 
+    filter(!is.na(h2h_result)) %>% 
+    mutate(h2h_result = factor(h2h_result, levels = c("win", "lose", "draw")))
+  h2h_sum <- 
+    ggplot(d_plot_count, aes(x = h2h_result, y = n, colour = h2h_result)) + 
+    scale_colour_manual(
+      values = c(
+        "win" = scales::muted("green"), 
+        "lose" = scales::muted("red"),
+        "draw" = "gray50"
+      )
+    ) +
+    #geom_hline(yintercept = 0) +
+    ggrepel::geom_text_repel(aes(label = n), size = rel(3)) +
+    #geom_text(aes(label = n, hjust = -.8), size = rel(3)) +
+    geom_point(size = 3) + 
+    geom_segment(aes(yend = 0, xend = h2h_result), size = 1.2) +
+    theme(
+      axis.text.x = element_text(angle = 90, size = 8, vjust = .5),
+      axis.text.y = element_blank(),
+      strip.background = element_blank(),
+      strip.text = element_blank(),
+      plot.margin = margin(0, 0, 0, 0, "cm"), 
+      legend.position = "none", 
+      panel.grid.major = element_blank(),
+      panel.border = element_rect(
+        colour = "gray20", linetype = "solid", fill = NA, size = 1
+      )      
+    ) +     
+    facet_wrap(vars(oponent), ncol = 1, strip.position = "left")
+  
+  score_type_txt <- case_when(
+    score_type == "results_net" ~ "netto-score",
+    score_type == "results_gross" ~ "brutto-score"
+  )
+  p <- 
+    h2h_time + h2h_sum + 
+    plot_layout(widths = c(5, 1)) +
+    plot_annotation(
+      title = glue::glue("{player}s samtliga innbördes möten"), 
+      subtitle = glue::glue("Baserat på {score_type_txt}"), 
+      caption = "Finns inga scorekort från Tour 1 - 4", 
+      theme = theme(plot.caption = element_text(colour = "gray50"))
+    )      
+  
+  return (p)
+}
+h2h_plot <- plot_individual_h2h(player, score_type = "results_net")
+
+# placera plot-filen under `./static/playerstats/`
+abspath <- file.path(
+  here::here(), "static/playerstats",  
+  glue::glue('{player}.h2h.net.png')
+)
+if (!dir.exists(dirname(abspath))) {
+  dir.create(dirname(abspath), recursive = TRUE)
+} 
+ggsave(
+  filename = abspath,
+  plot = h2h_plot,
+  width = fig_width,
+  height = unit(8, "in"),
+  dpi = fig_dpi
+)
+relpath <- str_remove(abspath, "^.+(?=/playerstats)")
+glue::glue('![h2h.net]({relpath})')
+```
+<br><br>
+<details>
+<summary>Nyfiken hur det sett ut ifall Touren spelats brutto?</summary>
+<p>
+
+```{r, h2h-gross, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+h2h_plot <- plot_individual_h2h(player, score_type = "results_gross")
+
+# placera plot-filen under `./static/playerstats/`
+abspath <- file.path(
+  here::here(), "static/playerstats",  
+  glue::glue('{player}.h2h.gross.png')
+)
+if (!dir.exists(dirname(abspath))) {
+  dir.create(dirname(abspath), recursive = TRUE)
+} 
+ggsave(
+  filename = abspath,
+  plot = h2h_plot,
+  width = fig_width,
+  height = unit(8, "in"),
+  dpi = fig_dpi
+)
+relpath <- str_remove(abspath, "^.+(?=/playerstats)")
+glue::glue('![h2h.gross]({relpath})')
+```
+</p>
+</details>
+
+
+
+--------------------------------------------------------------------------------
+
+# Todo...
+
+lägg till:
+
+* aktuell ranking (bästa ranking; senaste tid för bästa ranking)
+    + lägg till även i `summary`
+    + sortera spelarna i ranking-ordning (front-matter `weight`)
+* figur: ranking (highligh player)
+* ~~figur: placerings-historia (highlight player)~~
+* ~~figur: alla round-scorer (brutto och netto)~~
+* figur: antal slag till godo/runda över tid (figur)
+* figur: vår-vs-höst + en mening med p-värde
+
+

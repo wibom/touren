@@ -1,0 +1,199 @@
+---
+output: html_document  
+title: Rounds   
+image: /img/misc/round123.jpg    
+showonlyimage: false  
+summary: Runda 1 2 och 3
+---
+```{r setup, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+```
+
+
+Score från samtliga rundor som spelats på Touren.
+
+
+```{r function, include=FALSE}
+plot_avgscores_round123 <- function(d, score_type = "rel_net") {
+
+  # copy/paste från `plot_spring_vs_fall`
+  # score_type <- "rel_net"
+
+  p_colours <- get_player_colour()
+
+  d_plot <-
+    d %>%
+    filter(map_lgl(.[[score_type]], ~!is.null(.))) %>%
+    unnest(!!rlang::sym(score_type)) %>%
+    mutate(
+      hole_nr_tmp = str_extract(hole_id, "\\d+$") %>% as.integer(),
+      round_id = ceiling(hole_nr_tmp / 18) %>% as.character(),
+      comb_id = str_c(tour_id, round_id, sep = "-")
+    ) %>%
+    group_by(tour_id, comb_id) %>%
+    summarise_at(vars(one_of(names(p_colours))), sum) %>%
+    ungroup() %>%
+    pivot_longer(
+      cols = -c(comb_id, tour_id),
+      names_to = "player",
+      values_to = "score"
+    )
+
+  dates <-
+    d %>%
+    unnest(meta) %>%
+    select(tour_id, date) %>%
+    mutate(
+      season = case_when(
+        str_detect(date, "^HT") ~ "Höst",
+        str_detect(date, "^VT") ~ "Vår",
+        TRUE ~ NA_character_
+      ),
+      season = factor(season, levels = c("Vår", "Höst")),
+      year = str_extract(date, "\\d+$") %>% str_c("20", .) %>% as.integer()
+    )
+
+  d_plot <- left_join(d_plot, dates, by = "tour_id")
+
+  # ----
+  # ny kod
+  d_plot <- 
+    d_plot %>% 
+    mutate(
+      date = as_factor(date),
+      comb_id = as_factor(comb_id),
+      r_id = str_extract(comb_id, "\\d$") %>% factor()
+    )
+  
+  ggplot(d_plot, aes(x = r_id, y = score)) + 
+    geom_hline(
+      yintercept = 0, 
+      color = "gray", 
+      size = 2
+    ) + 
+    geom_boxplot(
+      aes(fill = player),
+      outlier.colour = NA,
+      alpha = .5,
+      na.rm = TRUE
+    ) + 
+    geom_jitter(
+      aes(colour = year),
+      width = .2,
+      height = 0,
+      alpha = .8,
+      size = 1,
+      na.rm = TRUE
+    ) + 
+    scale_fill_manual(
+      values = p_colours, 
+      drop = FALSE, 
+      guide = FALSE
+    ) +
+    scale_colour_viridis_c(option = "inferno", end = .8) +
+    labs(
+      title = "Score / runda",
+      x = NULL
+    ) +
+    #theme_bw() +
+    theme(
+      legend.text = element_text(size = rel(.7), angle = 90, vjust = 0.5, hjust = .5), 
+      legend.position = "bottom"
+    ) +
+    facet_wrap(~player)
+}
+plot_avgscores_allrounds <- function(d, score_type = "rel_net") {
+  
+  # copy/paste från `plot_spring_vs_fall`
+  # score_type <- "rel_net"
+
+  p_colours <- get_player_colour()
+  
+  d_plot <- 
+    d %>% 
+    filter(map_lgl(.[[score_type]], ~!is.null(.))) %>% 
+    unnest(!!rlang::sym(score_type)) %>% 
+    mutate(
+      hole_nr_tmp = str_extract(hole_id, "\\d+$") %>% as.integer(),
+      round_id = ceiling(hole_nr_tmp / 18) %>% as.character(),
+      comb_id = str_c(tour_id, round_id, sep = "-")
+    ) %>% 
+    group_by(tour_id, comb_id) %>% 
+    summarise_at(vars(one_of(names(p_colours))), sum) %>% 
+    ungroup() %>% 
+    pivot_longer(
+      cols = -c(comb_id, tour_id),
+      names_to = "player",
+      values_to = "score"
+    )
+  
+  dates <- 
+    d %>% 
+    unnest(meta) %>%
+    select(tour_id, date) %>% 
+    mutate(
+      season = case_when(
+        str_detect(date, "^HT") ~ "Höst",
+        str_detect(date, "^VT") ~ "Vår",
+        TRUE ~ NA_character_
+      ), 
+      season = factor(season, levels = c("Vår", "Höst")), 
+      year = str_extract(date, "\\d+$") %>% str_c("20", .) %>% as.integer()
+    )
+  
+  d_plot <- left_join(d_plot, dates, by = "tour_id")
+  
+  # ---- 
+  # ny kod
+  d_plot <- 
+    d_plot %>% 
+    mutate(
+      date = as_factor(date),
+      comb_id = as_factor(comb_id),
+      r_id = str_extract(comb_id, "\\d$") %>% factor(., levels = c("3", "2", "1"))
+    )
+  ggplot(d_plot, aes(x = date, y = score)) + 
+  geom_boxplot(
+    aes(fill = r_id),
+    #outlier.colour = NA,
+    alpha = .5,
+    na.rm = TRUE
+  ) + 
+  geom_vline(
+    xintercept = seq(1.5,  n_distinct(d_plot$date), by = 1)
+  ) + 
+  coord_flip() +
+  #theme_bw() +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
+  
+}
+```
+
+```{r plot-1, echo=FALSE, fig.height=8, out.width="100%"}
+plot_avgscores_round123(d, score_type = "rel_net")
+```
+
+Tänker att detta kan göras bättre. Kanske en linje som sammanbinder r1-r2-r3, 
+och färgas grön för positiv-trend och röd för negativ trend... ? 
+
+**********
+
+```{r plot-2, echo=FALSE, fig.height=8, out.width="100%"}
+plot_avgscores_allrounds(d, score_type = "rel_net")
+```
+
