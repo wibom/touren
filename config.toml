@@ -14,9 +14,10 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   # Use custom.css for your custom styling
   style = "default"
   description = "Describe your website"
-  copyright = "&copy;2019 Touren"
+  copyright = "&copy;2020 Touren"
   sidebarAbout = [
-    "Stats and data-viz pertaining to the prestigious, bi-annual, friendly golf tournament Touren.",
+    "Resultat, statistik och bilder från den prestigefulla, vänskapliga
+    golftävlingen Touren.",
     "Leve Champ!"
   ]
   # Contact page
