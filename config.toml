@@ -13,7 +13,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   # Style options: default (pink), blue, green, pink, red, sea, violet
   # Use custom.css for your custom styling
   style = "default"
-  description = "Describe your website"
+  description = "Touren online"
   copyright = "&copy;2020 Touren"
   sidebarAbout = [
     "Resultat, statistik och bilder från den prestigefulla, vänskapliga golftävlingen Touren.",
@@ -31,7 +31,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
      # - send a dummy email yourself to confirm your account
      # - click the confirm link in the email from www.formspree.io
      # - you're done. Happy mailing!
-  email = "you@yoursite.com"
+  email = "c.wibom@gmail.com"
 
     # Optional Matomo analytics (formerly piwik)
       # [params.analytics.matomo]
@@ -73,24 +73,20 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   url = "contact/"
 
   [[params.navlinks]]
-  name = "Posts"
-  url = "post/"
-
-  [[params.navlinks]]
-  name = "Templates"
+  name = "Todo-dev"
   url = "portfolio/"
 
   [params.social]
   #facebook      = "full page or profile url in facebook"
   #googleplus    = "full profile url in googleplus"
-  email         = "email@example.com"
-  twitter       = "full profile url in twitter"
+  #email         = "c.wibom@gmail.com"
+  #twitter       = "full profile url in twitter"
   #linkedin      = "full profile url in linkedin"
   #stackoverflow = "full profile url in stackoverflow"
-  instagram     = "full profile url in instagram"
-  github        = "full profile url in github"
+  instagram     = "https://instagram.com/tourkavajen"
+  github        = "https://github.com/wibom/touren"
   #youtube       = "full profile url in youtube"
-  whatsapp      = "wa.me service link"
+  #whatsapp      = "wa.me service link"
 
 # https://discourse.gohugo.io/t/raw-html-getting-omitted-in-0-60-0/22032
 # https://gohugo.io/news/0.60.0-relnotes/
