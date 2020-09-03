@@ -16,8 +16,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   description = "Describe your website"
   copyright = "&copy;2020 Touren"
   sidebarAbout = [
-    "Resultat, statistik och bilder från den prestigefulla, vänskapliga
-    golftävlingen Touren.",
+    "Resultat, statistik och bilder från den prestigefulla, vänskapliga golftävlingen Touren.",
     "Leve Champ!"
   ]
   # Contact page
