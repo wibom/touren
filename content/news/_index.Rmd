@@ -1,0 +1,26 @@
+---
+output: html_document
+title: ''
+---
+```{r source-data, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+```
+
+![](/img/logo/logo200.gif)
+
+--------------------------------------------------------------------------------
+
+## 2020-09-23
+Beta-test
