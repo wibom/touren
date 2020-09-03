@@ -1,22 +1,10 @@
 ---
 output: html_document
-title: ''
+title: Nyheter
 ---
-```{r source-data, include=FALSE}
-source(
-  file.path(
-    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
-    "helpers.R"
-  ),
-  encoding = "UTF8"
-)
-d <- read_rds(
-  file.path(
-    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
-    "data/complete_data.RDS"
-  )  
-)
-```
+
+Ingen text på denna sida tycks fungera. Vet ej varför?!
+
 
 ![](/img/logo/logo200.gif)
 
@@ -25,3 +13,4 @@ d <- read_rds(
 ## 2020-09-23
 
 alpha-test
+
