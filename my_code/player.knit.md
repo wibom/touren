@@ -13,31 +13,31 @@ output:
 
 \-\-\-  
 draft: false  
-image: /img/players/karlsson230x230.jpg  
+image: /img/players/jonsson230x230.jpg  
 showonlyimage: true  
-title: Karlsson  
-summary:   \'**Status:** aktiv <br>     **Antal Tourer:** 24\'  
+title: Jonsson  
+summary:   \'**Status:** aktiv <br>     **Antal Tourer:** 1\'  
 \-\-\-
 
-![Karlsson](/img/players/karlsson230x230.jpg)
+![Jonsson](/img/players/jonsson230x230.jpg)
 
 --------------------------------------------------------------------------------
 
 
 __Status:__ aktiv  
-__Antal tourer:__ 24  
+__Antal tourer:__ 1  
 
 
 --------------------------------------------------------------------------------
 
 ### Placeringar genom tiderna
-![placeringshistorik](/playerstats/Karlsson.placing.net.png)
+![placeringshistorik](/playerstats/Jonsson.placing.net.png)
 <br><br>
 <details>
 <summary>Nyfiken hur det sett ut ifall Touren spelats brutto?</summary>
 <p>
 
-![placeringshistorik](/playerstats/Karlsson.placing.gross.png)
+![placeringshistorik](/playerstats/Jonsson.placing.gross.png)
 </p>
 </details>
 
@@ -49,25 +49,49 @@ __Antal tourer:__ 24
 ## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
 ```
 
-![totscores](/playerstats/Karlsson.totscores.png)
+![totscores](/playerstats/Jonsson.totscores.png)
 
-Samma plot finns för varje enskild spelare (med upplösning per Tour) på 
-`stats/playerscores`. Tänker att denna kan bytas ut mot en mer informativ 
-plot här på spelar-sidan... Här kan man ha total-score/poäng/erhållna slag i 
-en plot med 3 paneler (upplösning per runda / markera vilka rundor som "hör 
+Samma plot finns fÃ¶r varje enskild spelare (med upplÃ¶sning per Tour) pÃ¥ 
+`stats/playerscores`. TÃ¤nker att denna kan bytas ut mot en mer informativ 
+plot hÃ¤r pÃ¥ spelar-sidan... HÃ¤r kan man ha total-score/poÃ¤ng/erhÃ¥llna slag i 
+en plot med 3 paneler (upplÃ¶sning per runda / markera vilka rundor som "hÃ¶r 
 ihop")...
 
-Ifall denna plot tas bort både härifrån och från `stats/playerscores`, kan även 
-funktionen raderas från `helpers.Rmd`.
+Ifall denna plot tas bort bÃ¥de hÃ¤rifrÃ¥n och frÃ¥n `stats/playerscores`, kan Ã¤ven 
+funktionen raderas frÃ¥n `helpers.Rmd`.
 
 
 --------------------------------------------------------------------------------
 
-### Innbördes möten
-Innbördes möten räknas per runda, då två spelare deltagit vid samma Tour och 
-således sepelat samma bana på samma dag.
+### InnbÃ¶rdes mÃ¶ten
+InnbÃ¶rdes mÃ¶ten rÃ¤knas per runda, dÃ¥ tvÃ¥ spelare deltagit vid samma Tour och 
+sÃ¥ledes sepelat samma bana pÃ¥ samma dag.
+
+![h2h.net](/playerstats/Jonsson.h2h.net.png)
+<br><br>
+<details>
+<summary>Nyfiken hur det sett ut ifall Touren spelats brutto?</summary>
+<p>
+
+![h2h.gross](/playerstats/Jonsson.h2h.gross.png)
+</p>
+</details>
 
 
 
+--------------------------------------------------------------------------------
+
+# Todo...
+
+lÃ¤gg till:
+
+* aktuell ranking (bÃ¤sta ranking; senaste tid fÃ¶r bÃ¤sta ranking)
+    + lÃ¤gg till Ã¤ven i `summary`
+    + sortera spelarna i ranking-ordning (front-matter `weight`)
+* figur: ranking (highligh player)
+* ~~figur: placerings-historia (highlight player)~~
+* ~~figur: alla round-scorer (brutto och netto)~~
+* figur: antal slag till godo/runda Ã¶ver tid (figur)
+* figur: vÃ¥r-vs-hÃ¶st + en mening med p-vÃ¤rde
 
 

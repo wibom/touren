@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/tour17/scaled/029.JPG  
+image: /img/tour17/scaled/072.JPG  
 showonlyimage: false  
 title: foton från tour 17  
 weight: 17  

@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/tour24/scaled/030.JPG  
+image: /img/tour24/scaled/024.JPG  
 showonlyimage: false  
 title: foton från tour 24  
 weight: 24  

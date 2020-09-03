@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/tour15/scaled/008.JPG  
+image: /img/tour15/scaled/007.JPG  
 showonlyimage: false  
 title: foton från tour 15  
 weight: 15  

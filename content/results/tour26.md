@@ -115,11 +115,6 @@ Score - totalt
 
 <img src="/results/tour26/relnet.lineplot.all.png" alt="score - total">
 <br><br>
-
-    FALSE Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-
-    FALSE Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-
 <img src="/results/tour26/absgross.scorecard.all.png" alt="scorecard - total">
 
 ------------------------------------------------------------------------
@@ -129,11 +124,6 @@ Round 1
 
 <img src="/results/tour26/relnet.lineplot.r1.png" alt="score - r1">
 <br><br>
-
-    FALSE Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-
-    FALSE Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-
 <img src="/results/tour26/absgross.scorecard.r1.png" alt="scorecard - r1">
 
 ------------------------------------------------------------------------
@@ -143,11 +133,6 @@ Round 2
 
 <img src="/results/tour26/relnet.lineplot.r2.png" alt="score - r2">
 <br><br>
-
-    FALSE Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-
-    FALSE Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-
 <img src="/results/tour26/absgross.scorecard.r2.png" alt="scorecard - r2">
 
 ------------------------------------------------------------------------
@@ -157,9 +142,4 @@ Round 3
 
 <img src="/results/tour26/relnet.lineplot.r3.png" alt="score - r3">
 <br><br>
-
-    FALSE Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-
-    FALSE Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-
 <img src="/results/tour26/absgross.scorecard.r3.png" alt="scorecard - r3">

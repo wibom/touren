@@ -3,7 +3,7 @@ always_allow_html: true
 output:
   md_document:
     pandoc_args: [
-      "--from", "markdown-markdown_in_html_blocks+raw_html",
+      "--from", "markdown-markdown_in_html_blocks+raw_html+line_blocks",
     ]
 ---
 ```{r setup, include=FALSE}
@@ -523,7 +523,7 @@ htmltab_scorecard_plot <- function(sc, ds, gross_or_net,  my_tour_id, my_round_i
     geom_tile(colour = "black", alpha = .7) +
     geom_text(size = if_else(my_round_id == "all", 2, 4)) +
     scale_x_discrete(breaks = x_breaks) +
-    scale_y_discrete(expand = expand_scale(mult = 0, add = 0)) +
+    scale_y_discrete(expand = expansion(mult = 0, add = 0)) +
     scale_fill_manual(
       breaks = c(
         "<=birdie",
@@ -568,7 +568,7 @@ htmltab_scorecard_plot <- function(sc, ds, gross_or_net,  my_tour_id, my_round_i
     geom_tile(aes(fill = round), colour = "black") +
     scale_fill_grey(start = .4, end = .6, na.value = "gray40") + 
     geom_text(size = if_else(my_round_id == "all", 2, 4), na.rm = TRUE) + 
-    scale_y_discrete(expand = expand_scale(mult = 0, add = 0)) +
+    scale_y_discrete(expand = expansion(mult = 0, add = 0)) +
     theme(
       panel.grid = element_blank(),
       panel.grid.major = element_blank(),

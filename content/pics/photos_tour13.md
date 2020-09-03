@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/tour13/scaled/037.JPG  
+image: /img/tour13/scaled/052.JPG  
 showonlyimage: false  
 title: foton från tour 13  
 weight: 13  
