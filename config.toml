@@ -46,6 +46,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   [[params.navlinks]]
   name = "Nyheter"
   url = "news/"
+  home = true
 
   [[params.navlinks]]
   name = "Spelare"
@@ -66,7 +67,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   [[params.navlinks]]
   name = "Om Touren"
   url = "about/"
-  home = true
+#  home = true
 
   [[params.navlinks]]
   name = "Get in touch"
