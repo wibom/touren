@@ -13,7 +13,7 @@ resize_img <- function(SourceFile, orient, new_name, target_dir, ...) {
   # https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Cut_and_edit
 
   # Create target directory if necessary
-  dir.create(target_dir, showWarnings = FALSE)
+  dir.create(target_dir, recursive = TRUE, showWarnings = FALSE)
 
   # Leave small README in directory, if it does not exist
   readme_txt <- glue::glue(
@@ -26,6 +26,7 @@ resize_img <- function(SourceFile, orient, new_name, target_dir, ...) {
       "
   )
   readme_path <- file.path(target_dir, "README.txt")
+
   if(!file.exists(readme_path)) {
     write_file(readme_txt, readme_path)
   }
@@ -123,16 +124,21 @@ manage_photos <- function(path, force_reprocessing, target = "static/img") {
   write_tsv(d_exif, path = file.path(org_dir, "exif.tsv"))
 
   # Photo Magick ----
-  # Copy orginal photos and resize
+  # Copy original to /scaled
   target_dir_scaled <- file.path(target_dir, "scaled")
-  target_dir_thumbs <- file.path(target_dir, "thumbs")
   pwalk(
     .l = d_exif,
     .f = resize_img,
     target_dir = target_dir_scaled
   )
+
+  # Copy scaled to /thumbs
+  d_exif_thumbs <-
+    d_exif %>%
+    mutate(SourceFile = file.path(target_dir_scaled, new_name))
+  target_dir_thumbs <- file.path(target_dir, "thumbs")
   pwalk(
-    .l = d_exif,
+    .l = d_exif_thumbs,
     .f = resize_img,
     target_dir = target_dir_thumbs
   )
