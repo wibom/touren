@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/tour09/scaled/051.JPG  
+image: /img/tour09/scaled/019.JPG  
 showonlyimage: false  
 title: foton från tour 09  
 weight: 9  

@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/tour22/scaled/017.JPG  
+image: /img/tour22/scaled/002.JPG  
 showonlyimage: false  
 title: foton från tour 22  
 weight: 22  

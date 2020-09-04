@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/tour08/scaled/005.JPG  
+image: /img/tour08/scaled/085.JPG  
 showonlyimage: false  
 title: foton från tour 08  
 weight: 8  

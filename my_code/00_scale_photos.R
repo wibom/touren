@@ -9,11 +9,10 @@ library(magick)
 #   ändrats)
 force_reprocessing <- FALSE
 
-resize_img <- function(SourceFile, orient, new_name, imgdir, sub_dir, ...) {
+resize_img <- function(SourceFile, orient, new_name, target_dir, ...) {
   # https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Cut_and_edit
 
   # Create target directory if necessary
-  target_dir = str_replace(imgdir, "\\w+$", sub_dir)
   dir.create(target_dir, showWarnings = FALSE)
 
   # Leave small README in directory, if it does not exist
@@ -34,12 +33,12 @@ resize_img <- function(SourceFile, orient, new_name, imgdir, sub_dir, ...) {
   # Resize and save to disk
   img <- magick::image_read(SourceFile)
   dim <- case_when(
-    orient == "landscape" & sub_dir == "scaled" ~ "x400", # height = 400
-    orient == "portrait"  & sub_dir == "scaled" ~ "400",  # width = 400
-    orient == "square"    & sub_dir == "scaled" ~ "400",  # width = 400
+    orient == "landscape" & str_detect(target_dir, "scaled") ~ "x400", # height = 400
+    orient == "portrait"  & str_detect(target_dir, "scaled") ~ "400",  # width = 400
+    orient == "square"    & str_detect(target_dir, "scaled") ~ "400",  # width = 400
 
     # https://stackoverflow.com/a/43178447
-    sub_dir == "thumbs"                         ~ "100x67!"
+    str_detect(target_dir, "thumbs")                         ~ "100x67!"
   )
   magick::image_write(
     magick::image_scale(img, geometry = dim),
@@ -48,19 +47,20 @@ resize_img <- function(SourceFile, orient, new_name, imgdir, sub_dir, ...) {
 
   return(NULL)
 }
-manage_photos <- function(path, force_reprocessing) {
-  imgdir <- file.path(path, "Org")
+manage_photos <- function(path, force_reprocessing, target = "static/img") {
+  org_dir <- file.path(path, "Org")
+  target_dir <- file.path(here::here(), target, basename(path))
 
   str_extract(path, "tour\\d+") %>% cat('processing', ., "...")
 
   # Innehåller mappen några bilder?
-  if(length(list.files(imgdir)) == 0) {
+  if(length(list.files(org_dir)) == 0) {
     cat(' -- empty, moving on...\n')
     invisible(return(NULL))
   }
 
   # Är bilderna redan skalade?
-  if(!force_reprocessing && dir.exists(file.path(path, "scaled")) ) {
+  if(!force_reprocessing && dir.exists(file.path(target_dir, "scaled")) ) {
     cat(' -- already processed, moving on...\n')
     invisible(return(NULL))
   }
@@ -81,7 +81,7 @@ manage_photos <- function(path, force_reprocessing) {
   # - annotera m.a.p. bild-orientering
   d_exif <-
     exifr::read_exif(
-      path = imgdir,
+      path = org_dir,
 
       # urval av tillgänliga exif-data
       tags = c(
@@ -120,20 +120,30 @@ manage_photos <- function(path, force_reprocessing) {
     )
 
   # Write EXIF-data to disk
-  write_tsv(d_exif, path = file.path(imgdir, "exif.tsv"))
+  write_tsv(d_exif, path = file.path(org_dir, "exif.tsv"))
 
   # Photo Magick ----
   # Copy orginal photos and resize
-  pwalk(.l = d_exif, .f = resize_img, imgdir = imgdir, sub_dir = "scaled")
-  pwalk(.l = d_exif, .f = resize_img, imgdir = imgdir, sub_dir = "thumbs")
+  target_dir_scaled <- file.path(target_dir, "scaled")
+  target_dir_thumbs <- file.path(target_dir, "thumbs")
+  pwalk(
+    .l = d_exif,
+    .f = resize_img,
+    target_dir = target_dir_scaled
+  )
+  pwalk(
+    .l = d_exif,
+    .f = resize_img,
+    target_dir = target_dir_thumbs
+  )
   cat(' done!\n')
 }
 
-main_dir <- file.path(here::here(), "static/img")
-tour_dirs <-
+main_dir <- file.path(here::here(), "photos_repo")
+repo_dirs <-
   list.dirs(path = main_dir, full.names = TRUE, recursive = FALSE) %>%
   enframe(value = "path") %>%
   filter(str_detect(path, "tour\\d+$")) %>%
   select(path) # %>% slice(1:5)
 
-map(tour_dirs$path, manage_photos, force_reprocessing)
+map(repo_dirs$path, manage_photos, force_reprocessing)

@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/tour21/scaled/011.JPG  
+image: /img/tour21/scaled/018.JPG  
 showonlyimage: false  
 title: foton från tour 21  
 weight: 21  

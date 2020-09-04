@@ -285,7 +285,7 @@ plot_individual_h2h <- function(player, score_type = "results_net") {
         all_rounds %>%
         filter(round_id == "r2") %>%
         pull(tour_lab),
-      expand = expand_scale(mult = 0, add = c(0, 3))
+      expand = expansion(mult = 0, add = c(0, 3))
     ) +
     geom_col(width = 1, size = .5, alpha = .6) +
     ggbump::geom_bump(aes(group = 1), size = .5) +
