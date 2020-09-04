@@ -28,8 +28,6 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-    ## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-
 ![totscores](/playerstats/Strömdahl.totscores.png)
 
 Samma plot finns för varje enskild spelare (med upplösning per Tour) på

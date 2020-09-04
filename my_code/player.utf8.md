@@ -44,11 +44,6 @@ __Antal tourer:__ 1
 --------------------------------------------------------------------------------
 
 ### Samtliga scores per runda
-
-```
-## Warning: `expand_scale()` is deprecated; use `expansion()` instead.
-```
-
 ![totscores](/playerstats/Jonsson.totscores.png)
 
 Samma plot finns för varje enskild spelare (med upplösning per Tour) på 
