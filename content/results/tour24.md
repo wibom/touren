@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour24.jpg  
+image: /img/champs/thumbs/tour24.jpg  
 showonlyimage: false  
 title: Touren XXIV  
 weight: 4  

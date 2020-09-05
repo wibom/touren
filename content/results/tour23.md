@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour23.jpg  
+image: /img/champs/thumbs/tour23.jpg  
 showonlyimage: false  
 title: Touren XXIII  
 weight: 5  

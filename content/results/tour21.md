@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour21.jpg  
+image: /img/champs/thumbs/tour21.jpg  
 showonlyimage: false  
 title: Touren XXI  
 weight: 7  

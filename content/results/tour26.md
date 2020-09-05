@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour26.jpg  
+image: /img/champs/thumbs/tour26.jpg  
 showonlyimage: false  
 title: Touren XXVI  
 weight: 2  

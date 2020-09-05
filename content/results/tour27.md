@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour27.jpg  
+image: /img/champs/thumbs/tour27.jpg  
 showonlyimage: false  
 title: Touren XXVII  
 weight: 1  

@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour03.jpg  
+image: /img/champs/thumbs/tour03.jpg  
 showonlyimage: false  
 title: Touren III  
 weight: 24  

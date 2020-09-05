@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour04.jpg  
+image: /img/champs/thumbs/tour04.jpg  
 showonlyimage: false  
 title: Touren IV  
 weight: 23  

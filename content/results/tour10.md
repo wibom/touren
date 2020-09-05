@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour10.jpg  
+image: /img/champs/thumbs/tour10.jpg  
 showonlyimage: false  
 title: Touren X  
 weight: 17  

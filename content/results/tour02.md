@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour02.jpg  
+image: /img/champs/thumbs/tour02.jpg  
 showonlyimage: false  
 title: Touren II  
 weight: 25  

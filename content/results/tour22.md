@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour22.jpg  
+image: /img/champs/thumbs/tour22.jpg  
 showonlyimage: false  
 title: Touren XXII  
 weight: 6  

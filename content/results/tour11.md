@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour11.jpg  
+image: /img/champs/thumbs/tour11.jpg  
 showonlyimage: false  
 title: Touren XI  
 weight: 16  

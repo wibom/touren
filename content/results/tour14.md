@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour14.jpg  
+image: /img/champs/thumbs/tour14.jpg  
 showonlyimage: false  
 title: Touren XIV  
 weight: 13  

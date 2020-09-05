@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour09.jpg  
+image: /img/champs/thumbs/tour09.jpg  
 showonlyimage: false  
 title: Touren IX  
 weight: 18  

@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour13.jpg  
+image: /img/champs/thumbs/tour13.jpg  
 showonlyimage: false  
 title: Touren XIII  
 weight: 14  

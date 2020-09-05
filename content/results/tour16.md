@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour16.jpg  
+image: /img/champs/thumbs/tour16.jpg  
 showonlyimage: false  
 title: Touren XVI  
 weight: 11  

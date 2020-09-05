@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour05.jpg  
+image: /img/champs/thumbs/tour05.jpg  
 showonlyimage: false  
 title: Touren V  
 weight: 22  

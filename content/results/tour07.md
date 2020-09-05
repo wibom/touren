@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/scaled/tour07.jpg  
+image: /img/champs/thumbs/tour07.jpg  
 showonlyimage: false  
 title: Touren VII  
 weight: 20  
