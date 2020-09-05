@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/tour01/scaled/045.JPG  
+image: /img/covers/scaled/tour01.jpg  
 showonlyimage: false  
 title: foton från tour 01  
 weight: 1  

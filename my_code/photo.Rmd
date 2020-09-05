@@ -22,7 +22,7 @@ tour_numeric <- str_extract(tour, "\\d+$") %>% as.numeric()
 glue::glue(
 '\\-\\-\\-  
 draft: false  
-image: /img/{tour}/scaled/{cover_photo}  
+image: /img/covers/scaled/{tour}.jpg  
 showonlyimage: false  
 title: foton från {tour_txt}  
 weight: {tour_numeric}  

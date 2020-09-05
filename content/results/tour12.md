@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/thumbs/tour12.jpg  
+image: /img/champs/scaled/tour12.jpg  
 showonlyimage: false  
 title: Touren XII  
 weight: 15  

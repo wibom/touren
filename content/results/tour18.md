@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/thumbs/tour18.jpg  
+image: /img/champs/scaled/tour18.jpg  
 showonlyimage: false  
 title: Touren XVIII  
 weight: 9  

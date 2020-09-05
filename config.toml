@@ -43,10 +43,14 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
       #  hash = ""
 
   # Nav links in the side bar
-  # [[params.navlinks]]
-  # name = "Nyheter"
-  # url = "news/"
-  # home = true
+  [[params.navlinks]]
+  name = "Nyheter"
+  url = "news/"
+  home = true
+
+  [[params.navlinks]]
+  name = "Om Touren"
+  url = "about/"
 
   [[params.navlinks]]
   name = "Spelare"
@@ -64,18 +68,13 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   name = "Bilder"
   url = "pics/"
 
-  [[params.navlinks]]
-  name = "Om Touren"
-  url = "about/"
-  home = true
+  # [[params.navlinks]]
+  # name = "Get in touch"
+  # url = "contact/"
 
-  [[params.navlinks]]
-  name = "Get in touch"
-  url = "contact/"
-
-  [[params.navlinks]]
-  name = "Todo-dev"
-  url = "portfolio/"
+  # [[params.navlinks]]
+  # name = "Portfolio"
+  # url = "portfolio/"
 
   [params.social]
   #facebook      = "full page or profile url in facebook"

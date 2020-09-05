@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/thumbs/tour01.jpg  
+image: /img/champs/scaled/tour01.jpg  
 showonlyimage: false  
 title: Touren I  
 weight: 26  

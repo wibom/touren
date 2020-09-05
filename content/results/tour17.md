@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/thumbs/tour17.jpg  
+image: /img/champs/scaled/tour17.jpg  
 showonlyimage: false  
 title: Touren XVII  
 weight: 10  

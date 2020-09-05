@@ -46,15 +46,6 @@ __Antal tourer:__ 1
 ### Samtliga scores per runda
 ![totscores](/playerstats/Jonsson.totscores.png)
 
-Samma plot finns för varje enskild spelare (med upplösning per Tour) på 
-`stats/playerscores`. Tänker att denna kan bytas ut mot en mer informativ 
-plot här på spelar-sidan... Här kan man ha total-score/poäng/erhållna slag i 
-en plot med 3 paneler (upplösning per runda / markera vilka rundor som "hör 
-ihop")...
-
-Ifall denna plot tas bort både härifrån och från `stats/playerscores`, kan även 
-funktionen raderas från `helpers.Rmd`.
-
 
 --------------------------------------------------------------------------------
 
@@ -74,19 +65,5 @@ således sepelat samma bana på samma dag.
 
 
 
---------------------------------------------------------------------------------
-
-# Todo...
-
-lägg till:
-
-* aktuell ranking (bästa ranking; senaste tid för bästa ranking)
-    + lägg till även i `summary`
-    + sortera spelarna i ranking-ordning (front-matter `weight`)
-* figur: ranking (highligh player)
-* ~~figur: placerings-historia (highlight player)~~
-* ~~figur: alla round-scorer (brutto och netto)~~
-* figur: antal slag till godo/runda över tid (figur)
-* figur: vår-vs-höst + en mening med p-värde
 
 

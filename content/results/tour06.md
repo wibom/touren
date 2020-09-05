@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/thumbs/tour06.jpg  
+image: /img/champs/scaled/tour06.jpg  
 showonlyimage: false  
 title: Touren VI  
 weight: 21  

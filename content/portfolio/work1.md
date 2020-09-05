@@ -6,8 +6,6 @@ showonlyimage: true
 title: Name of the work 1
 weight: 0
 ---
-![Jonsson](/img/players/jonsson230x230.jpg)
-
 
 Here there should be another image:
 

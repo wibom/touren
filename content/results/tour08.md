@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/thumbs/tour08.jpg  
+image: /img/champs/scaled/tour08.jpg  
 showonlyimage: false  
 title: Touren VIII  
 weight: 19  

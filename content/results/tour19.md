@@ -1,6 +1,6 @@
 ---  
 draft: false  
-image: /img/champs/thumbs/tour19.jpg  
+image: /img/champs/scaled/tour19.jpg  
 showonlyimage: false  
 title: Touren XIX  
 weight: 8  

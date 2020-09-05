@@ -9,7 +9,7 @@ library(magick)
 #   ändrats)
 force_reprocessing <- FALSE
 
-resize_img <- function(SourceFile, orient, new_name, target_dir, ...) {
+resize_img <- function(SourceFile, new_name, orient, target_dir, dim = NA, ...) {
   # https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Cut_and_edit
 
   # Create target directory if necessary
@@ -32,15 +32,17 @@ resize_img <- function(SourceFile, orient, new_name, target_dir, ...) {
   }
 
   # Resize and save to disk
-  img <- magick::image_read(SourceFile)
-  dim <- case_when(
-    orient == "landscape" & str_detect(target_dir, "scaled") ~ "x400", # height = 400
-    orient == "portrait"  & str_detect(target_dir, "scaled") ~ "400",  # width = 400
-    orient == "square"    & str_detect(target_dir, "scaled") ~ "400",  # width = 400
+  if (is.na(dim)) {
+    dim <- case_when(
+      orient == "landscape" & str_detect(target_dir, "scaled") ~ "x400", # height = 400
+      orient == "portrait"  & str_detect(target_dir, "scaled") ~ "400",  # width = 400
+      orient == "square"    & str_detect(target_dir, "scaled") ~ "400",  # width = 400
 
-    # https://stackoverflow.com/a/43178447
-    str_detect(target_dir, "thumbs")                         ~ "100x67!"
-  )
+      # https://stackoverflow.com/a/43178447
+      str_detect(target_dir, "thumbs")                         ~ "100x67!"
+    )
+  }
+  img <- magick::image_read(SourceFile)
   magick::image_write(
     magick::image_scale(img, geometry = dim),
     path = file.path(target_dir, new_name)
@@ -98,8 +100,11 @@ manage_photos <- function(path, force_reprocessing, target = "static/img") {
 
         # "ExifImageWidth",  saknas för vissa bilder som jag editerat
         # "ExifImageHeight"  saknar för vissa bilder som jag editerat
-        "ImageWidth",
-        "ImageHeight"
+        "ImageWidth",        # uppdateras inte då bilden roteras i Utforskaren
+        "ImageHeight"        # uppdateras inte då bilden roteras i utforskaren
+
+        # Om det är viktigt att få detta rätt, kan man använda `ExifImageWidth`
+        # när det är tillgängligt, och `ImageWidth` i annat fall...
       ),
       recursive = TRUE,
       #quiet = FALSE
@@ -145,6 +150,7 @@ manage_photos <- function(path, force_reprocessing, target = "static/img") {
   cat(' done!\n')
 }
 
+# fotoalbum ----
 main_dir <- file.path(here::here(), "photos_repo")
 repo_dirs <-
   list.dirs(path = main_dir, full.names = TRUE, recursive = FALSE) %>%
@@ -153,3 +159,41 @@ repo_dirs <-
   select(path) # %>% slice(1:5)
 
 map(repo_dirs$path, manage_photos, force_reprocessing)
+
+
+# champs ----
+champs_repo <- file.path(here::here(), "/photos_repo/champs")
+champs_files <- list.files(champs_repo, full.names = TRUE, recursive = FALSE)
+map2(
+  champs_files,
+  basename(champs_files),
+  resize_img,
+  target_dir = file.path(here::here(), 'static/img/champs/scaled'),
+  dim = "332x664"
+)
+map2(
+  champs_files,
+  basename(champs_files),
+  resize_img,
+  target_dir = file.path(here::here(), 'static/img/champs/thumbs'),
+  dim = "166x332"
+)
+
+# covers ----
+# bilder att använda "som länk" till respektive Tours fotoalbum
+covers_repo <- file.path(here::here(), "/photos_repo/covers")
+covers_files <- list.files(covers_repo, full.names = TRUE, recursive = FALSE)
+map2(
+  covers_files,
+  basename(covers_files),
+  resize_img,
+  target_dir = file.path(here::here(), 'static/img/covers/scaled'),
+  orient = "landscape"
+)
+map2(
+  covers_files,
+  basename(covers_files),
+  resize_img,
+  target_dir = file.path(here::here(), 'static/img/covers/thumbs'),
+  orient = "landscape"
+)
