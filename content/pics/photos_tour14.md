@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour14.jpg
 showonlyimage: false  
 title: foton från tour 14  
 weight: 14  
+summary: '**Stad:** Göteborg <br> **Datum:** VT-12'  
 ---
 
-Den här sidan visar foton från tour 14.
+Den här sidan visar foton från Touren XIV, som spelades VT-12 i Göteborg
+
+> -   champ = Wiklund  
+> -   longdrive = Wiklund  
+> -   närmast-pinnen = Strömdahl
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour14/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

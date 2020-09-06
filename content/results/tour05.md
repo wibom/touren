@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour05.jpg  
 showonlyimage: false  
 title: Touren V  
-weight: 22  
+weight: 23  
 ---
 
 Touren V spelades i Gävle (HT-07)

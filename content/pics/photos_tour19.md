@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour19.jpg
 showonlyimage: false  
 title: foton från tour 19  
 weight: 19  
+summary: '**Stad:** Umeå <br> **Datum:** HT-14'  
 ---
 
-Den här sidan visar foton från tour 19.
+Den här sidan visar foton från Touren XIX, som spelades HT-14 i Umeå
+
+> -   champ = Karlsson  
+> -   longdrive = Karlsson  
+> -   närmast-pinnen = Karlsson
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour19/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

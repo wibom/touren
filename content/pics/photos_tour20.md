@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour20.jpg
 showonlyimage: false  
 title: foton från tour 20  
 weight: 20  
+summary: '**Stad:** Barcelona <br> **Datum:** HT-15'  
 ---
 
-Den här sidan visar foton från tour 20.
+Den här sidan visar foton från Touren XX, som spelades HT-15 i Barcelona
+
+> -   champ = NA  
+> -   longdrive = NA  
+> -   närmast-pinnen = NA
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour20/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

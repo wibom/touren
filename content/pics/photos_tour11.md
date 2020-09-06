@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour11.jpg
 showonlyimage: false  
 title: foton från tour 11  
 weight: 11  
+summary: '**Stad:** Västerås <br> **Datum:** HT-10'  
 ---
 
-Den här sidan visar foton från tour 11.
+Den här sidan visar foton från Touren XI, som spelades HT-10 i Västerås
+
+> -   champ = Wibom  
+> -   longdrive = Lundström  
+> -   närmast-pinnen = NA
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour11/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

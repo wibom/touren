@@ -3,7 +3,7 @@ draft: false
 image: /img/players/östh230x230.jpg  
 showonlyimage: true  
 title: Östh  
-summary: '**Status:** aktiv <br> **Antal Tourer:** 8'  
+summary: '**Status:** aktiv <br> **Antal Tourer:** 9'  
 ---
 
 ![Östh](/img/players/östh230x230.jpg)
@@ -11,7 +11,7 @@ summary: '**Status:** aktiv <br> **Antal Tourer:** 8'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Antal tourer:** 8
+**Antal tourer:** 9
 
 ------------------------------------------------------------------------
 

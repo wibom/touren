@@ -4,9 +4,15 @@ image: /img/covers/scaled/tour24.jpg
 showonlyimage: false  
 title: foton från tour 24  
 weight: 24  
+summary: '**Stad:** Sundsvall <br> **Datum:** VT-18'  
 ---
 
-Den här sidan visar foton från tour 24.
+Den här sidan visar foton från Touren XXIV, som spelades VT-18 i
+Sundsvall
+
+> -   champ = Forsell  
+> -   longdrive = Wibom  
+> -   närmast-pinnen = Strömdahl
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour24/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

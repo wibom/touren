@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour01.jpg
 showonlyimage: false  
 title: foton från tour 01  
 weight: 1  
+summary: '**Stad:** Gävle <br> **Datum:** HT-05'  
 ---
 
-Den här sidan visar foton från tour 01.
+Den här sidan visar foton från Touren I, som spelades HT-05 i Gävle
+
+> -   champ = Strömdahl  
+> -   longdrive = NA  
+> -   närmast-pinnen = NA
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour01/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

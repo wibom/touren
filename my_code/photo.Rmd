@@ -1,4 +1,5 @@
 ---
+always_allow_html: true
 output: 
   md_document:
     pandoc_args: [
@@ -16,23 +17,37 @@ photos <- list.files(
 tour_txt <- str_replace(tour, "(\\d+)$", " \\1")
 cover_photo <- sample(photos, 1)
 tour_numeric <- str_extract(tour, "\\d+$") %>% as.numeric()
+
+tour_d <- d %>% filter(tour_id == tour)
+meta <- tour_d %>% select(meta) %>% unnest(meta)
 ```
 ```{r, echo=FALSE, results='asis', comment=FALSE}
 # https://stackoverflow.com/a/49411052/7439717
 glue::glue(
-'\\-\\-\\-  
+"
+\\-\\-\\-  
 draft: false  
 image: /img/covers/scaled/{tour}.jpg  
 showonlyimage: false  
 title: foton från {tour_txt}  
 weight: {tour_numeric}  
+summary: \\
+  \\'**Stad:** {meta$city} <br> \\
+    **Datum:** {meta$date}\\'  
 \\-\\-\\-  
-'
+"
 )
 ```
 
 
-Den här sidan visar foton från `r tour_txt`.
+Den här sidan visar foton från Touren `r meta$roman_numeral`, som spelades
+`r meta$date` i `r meta$city`.
+
+>* champ = `r tour_d[[results_var]][[1]] %>% pull(champ)`  
+>* longdrive = `r meta$longdrive_champ`  
+>* närmast-pinnen = `r meta$close_champ`  
+
+
 
 ```{r results='asis', echo=FALSE, comment=FALSE}
 # https://ashleydw.github.io/lightbox/#image-gallery

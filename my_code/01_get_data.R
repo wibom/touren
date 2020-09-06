@@ -8,7 +8,7 @@ source(
 
 # Läs data från disk ----
 read_courses <- function (tour_id, mydir) {
-  not_available <- c("tour01", "tour02", "tour03", "tour04")
+  not_available <- c("tour01", "tour02", "tour03", "tour04", "tour20")
   if (tour_id %in% not_available) { return(NULL) }
 
   courses <-
@@ -71,7 +71,7 @@ read_shots_given <- function (mytour_id, mydir, courses) {
   return (r)
 }
 read_scores <- function (tour_id, mydir) {
-  not_available <- c("tour01", "tour02", "tour03", "tour04")
+  not_available <- c("tour01", "tour02", "tour03", "tour04", "tour20")
   if (tour_id %in% not_available) { return(NULL) }
 
   scores <-
@@ -85,12 +85,12 @@ read_scores <- function (tour_id, mydir) {
 tours <- read_tours_list()
 courses <-
   tours %>%
-  slice(-c(1:4)) %>%
+  slice(-c(1:4, 20)) %>%
   select(tour_id) %>%
   mutate(courses = map(tour_id, read_courses, mydir))
 shots_given <-
   tours %>%
-  slice(-c(1:4)) %>%
+  slice(-c(1:4, 20)) %>%
   select(tour_id) %>%
   mutate(shots_given = map(tour_id, read_shots_given, mydir, courses))
 

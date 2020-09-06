@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour05.jpg
 showonlyimage: false  
 title: foton från tour 05  
 weight: 5  
+summary: '**Stad:** Gävle <br> **Datum:** HT-07'  
 ---
 
-Den här sidan visar foton från tour 05.
+Den här sidan visar foton från Touren V, som spelades HT-07 i Gävle
+
+> -   champ = Östh  
+> -   longdrive = Östh  
+> -   närmast-pinnen = Lundström
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour05/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

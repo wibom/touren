@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour26.jpg
 showonlyimage: false  
 title: foton från tour 26  
 weight: 26  
+summary: '**Stad:** Lindö <br> **Datum:** VT-19'  
 ---
 
-Den här sidan visar foton från tour 26.
+Den här sidan visar foton från Touren XXVI, som spelades VT-19 i Lindö
+
+> -   champ = Scherlund  
+> -   longdrive = Nyberg  
+> -   närmast-pinnen = Nyberg
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour26/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

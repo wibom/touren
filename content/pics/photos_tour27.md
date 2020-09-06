@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour27.jpg
 showonlyimage: false  
 title: foton från tour 27  
 weight: 27  
+summary: '**Stad:** Umeå <br> **Datum:** HT-19'  
 ---
 
-Den här sidan visar foton från tour 27.
+Den här sidan visar foton från Touren XXVII, som spelades HT-19 i Umeå
+
+> -   champ = Karlsson  
+> -   longdrive = Karlsson  
+> -   närmast-pinnen = NA
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour27/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

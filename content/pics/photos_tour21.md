@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour21.jpg
 showonlyimage: false  
 title: foton från tour 21  
 weight: 21  
+summary: '**Stad:** Uppsala <br> **Datum:** VT-16'  
 ---
 
-Den här sidan visar foton från tour 21.
+Den här sidan visar foton från Touren XXI, som spelades VT-16 i Uppsala
+
+> -   champ = Wibom  
+> -   longdrive = Karlsson  
+> -   närmast-pinnen = Wibom
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour21/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

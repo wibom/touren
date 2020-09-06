@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour08.jpg
 showonlyimage: false  
 title: foton från tour 08  
 weight: 8  
+summary: '**Stad:** Uppsala <br> **Datum:** VT-09'  
 ---
 
-Den här sidan visar foton från tour 08.
+Den här sidan visar foton från Touren VIII, som spelades VT-09 i Uppsala
+
+> -   champ = Wiklund  
+> -   longdrive = Karlsson  
+> -   närmast-pinnen = Wiklund
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour08/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

@@ -15,9 +15,9 @@ players <- read_players_list() %>% filter(id != "Ingen") %>% pull(id)
 tours <- d$tour_id
 
 # re-processing settings:
-force_plr_reprocessing <- FALSE
-force_img_reprocessing <- FALSE
-force_res_reprocessing <- FALSE
+force_plr_reprocessing <- TRUE
+force_img_reprocessing <- TRUE
+force_res_reprocessing <- TRUE
 
 # Spelare ----
 #players <- players[1]
@@ -47,8 +47,7 @@ for (player in players) {
 
 
 # Bilder ----
-tour_img <- c(tours, "tour20") # tour20; missing data, has photos
-for(tour in tour_img) {
+for(tour in tours) {
 
   if(dir.exists(file.path(here::here(), 'static/img', tour, 'scaled'))){
 
@@ -75,6 +74,8 @@ results_var <- "results_net"
 abs_or_rel <- "rel"
 my_weights <- setNames(seq_along(rev(tours)), rev(tours))
 for(tour in tours) {
+
+  if (tour == "tour20") { next } # no data available
 
   # create results-page if
   # 1) it does not already exist

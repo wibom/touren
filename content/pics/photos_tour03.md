@@ -4,9 +4,15 @@ image: /img/covers/scaled/tour03.jpg
 showonlyimage: false  
 title: foton från tour 03  
 weight: 3  
+summary: '**Stad:** Sundsvall <br> **Datum:** HT-06'  
 ---
 
-Den här sidan visar foton från tour 03.
+Den här sidan visar foton från Touren III, som spelades HT-06 i
+Sundsvall
+
+> -   champ = Karlsson  
+> -   longdrive = Karlsson  
+> -   närmast-pinnen = Nyberg
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour03/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

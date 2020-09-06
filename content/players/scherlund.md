@@ -3,7 +3,7 @@ draft: false
 image: /img/players/scherlund230x230.jpg  
 showonlyimage: true  
 title: Scherlund  
-summary: '**Status:** aktiv <br> **Antal Tourer:** 20'  
+summary: '**Status:** aktiv <br> **Antal Tourer:** 21'  
 ---
 
 ![Scherlund](/img/players/scherlund230x230.jpg)
@@ -11,7 +11,7 @@ summary: '**Status:** aktiv <br> **Antal Tourer:** 20'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Antal tourer:** 20
+**Antal tourer:** 21
 
 ------------------------------------------------------------------------
 

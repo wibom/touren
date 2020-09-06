@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour17.jpg
 showonlyimage: false  
 title: foton från tour 17  
 weight: 17  
+summary: '**Stad:** Gävle <br> **Datum:** HT-13'  
 ---
 
-Den här sidan visar foton från tour 17.
+Den här sidan visar foton från Touren XVII, som spelades HT-13 i Gävle
+
+> -   champ = Wänman  
+> -   longdrive = Karlsson  
+> -   närmast-pinnen = Strömdahl
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour17/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

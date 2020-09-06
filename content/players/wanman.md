@@ -3,7 +3,7 @@ draft: false
 image: /img/players/wänman230x230.jpg  
 showonlyimage: true  
 title: Wänman  
-summary: '**Status:** aktiv <br> **Antal Tourer:** 19'  
+summary: '**Status:** aktiv <br> **Antal Tourer:** 20'  
 ---
 
 ![Wänman](/img/players/wänman230x230.jpg)
@@ -11,7 +11,7 @@ summary: '**Status:** aktiv <br> **Antal Tourer:** 19'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Antal tourer:** 19
+**Antal tourer:** 20
 
 ------------------------------------------------------------------------
 

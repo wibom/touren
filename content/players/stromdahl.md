@@ -3,7 +3,7 @@ draft: false
 image: /img/players/strömdahl230x230.jpg  
 showonlyimage: true  
 title: Strömdahl  
-summary: '**Status:** aktiv <br> **Antal Tourer:** 21'  
+summary: '**Status:** aktiv <br> **Antal Tourer:** 22'  
 ---
 
 ![Strömdahl](/img/players/strömdahl230x230.jpg)
@@ -11,7 +11,7 @@ summary: '**Status:** aktiv <br> **Antal Tourer:** 21'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Antal tourer:** 21
+**Antal tourer:** 22
 
 ------------------------------------------------------------------------
 

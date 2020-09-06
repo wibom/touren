@@ -3,7 +3,7 @@ draft: false
 image: /img/players/wiklund230x230.jpg  
 showonlyimage: true  
 title: Wiklund  
-summary: '**Status:** aktiv <br> **Antal Tourer:** 15'  
+summary: '**Status:** aktiv <br> **Antal Tourer:** 16'  
 ---
 
 ![Wiklund](/img/players/wiklund230x230.jpg)
@@ -11,7 +11,7 @@ summary: '**Status:** aktiv <br> **Antal Tourer:** 15'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Antal tourer:** 15
+**Antal tourer:** 16
 
 ------------------------------------------------------------------------
 

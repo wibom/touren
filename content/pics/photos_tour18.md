@@ -4,9 +4,15 @@ image: /img/covers/scaled/tour18.jpg
 showonlyimage: false  
 title: foton från tour 18  
 weight: 18  
+summary: '**Stad:** Sundsvall <br> **Datum:** VT-14'  
 ---
 
-Den här sidan visar foton från tour 18.
+Den här sidan visar foton från Touren XVIII, som spelades VT-14 i
+Sundsvall
+
+> -   champ = Lundström  
+> -   longdrive = Lundström  
+> -   närmast-pinnen = Strömdahl
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour18/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

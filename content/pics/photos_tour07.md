@@ -4,9 +4,15 @@ image: /img/covers/scaled/tour07.jpg
 showonlyimage: false  
 title: foton från tour 07  
 weight: 7  
+summary: '**Stad:** Sundsvall <br> **Datum:** HT-08'  
 ---
 
-Den här sidan visar foton från tour 07.
+Den här sidan visar foton från Touren VII, som spelades HT-08 i
+Sundsvall
+
+> -   champ = Forsell  
+> -   longdrive = Karlsson  
+> -   närmast-pinnen = NA
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour07/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

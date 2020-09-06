@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour25.jpg
 showonlyimage: false  
 title: foton från tour 25  
 weight: 25  
+summary: '**Stad:** Umeå <br> **Datum:** HT-18'  
 ---
 
-Den här sidan visar foton från tour 25.
+Den här sidan visar foton från Touren XXV, som spelades HT-18 i Umeå
+
+> -   champ = Karlsson  
+> -   longdrive = Wiklund  
+> -   närmast-pinnen = NA
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour25/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

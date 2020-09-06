@@ -4,9 +4,15 @@ image: /img/covers/scaled/tour04.jpg
 showonlyimage: false  
 title: foton från tour 04  
 weight: 4  
+summary: '**Stad:** Norrköping <br> **Datum:** VT-07'  
 ---
 
-Den här sidan visar foton från tour 04.
+Den här sidan visar foton från Touren IV, som spelades VT-07 i
+Norrköping
+
+> -   champ = Karlsson  
+> -   longdrive = Scherlund  
+> -   närmast-pinnen = NA
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour04/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

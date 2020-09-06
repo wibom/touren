@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour10.jpg
 showonlyimage: false  
 title: foton från tour 10  
 weight: 10  
+summary: '**Stad:** Prag <br> **Datum:** VT-10'  
 ---
 
-Den här sidan visar foton från tour 10.
+Den här sidan visar foton från Touren X, som spelades VT-10 i Prag
+
+> -   champ = Scherlund  
+> -   longdrive = Wänman  
+> -   närmast-pinnen = Karlsson
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour10/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

@@ -3,7 +3,7 @@ draft: false
 image: /img/players/forsgren230x230.jpg  
 showonlyimage: true  
 title: Forsgren  
-summary: '**Status:** pensionerad <br> **Antal Tourer:** 14'  
+summary: '**Status:** pensionerad <br> **Antal Tourer:** 15'  
 ---
 
 ![Forsgren](/img/players/forsgren230x230.jpg)
@@ -11,7 +11,7 @@ summary: '**Status:** pensionerad <br> **Antal Tourer:** 14'
 ------------------------------------------------------------------------
 
 **Status:** pensionerad  
-**Antal tourer:** 14
+**Antal tourer:** 15
 
 ------------------------------------------------------------------------
 

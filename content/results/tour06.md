@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour06.jpg  
 showonlyimage: false  
 title: Touren VI  
-weight: 21  
+weight: 22  
 ---
 
 Touren VI spelades i Västerås (VT-08)

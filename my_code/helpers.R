@@ -57,7 +57,7 @@ read_tours_list <- function(){
   tours <-
     file.path(mydir, "data/tours.txt") %>%
     read_tsv(
-      locale = locale(encoding = "latin1"),
+      #locale = locale(encoding = "latin1"),
       col_types = "ccicccc"
     ) %>%
     rename(tour_id = id)
@@ -66,7 +66,7 @@ get_leaderboard <- function (ds, my_score_type, my_tour_id) {
 
   # my_score_type: { "abs_gross", "abs_net", "rel_gross", "rel_net" }
   # my_round_id: { "round_1", "round_2", "round_3", "all" }
-  missing_scores <- c("tour01", "tour02", "tour03", "tour04")
+  missing_scores <- c("tour01", "tour02", "tour03", "tour04", "tour20")
   if (my_tour_id %in% missing_scores) {
     # Sparade ej scorer - hårdkodar resultatlista / deltagarlista
     if (my_tour_id == "tour01") {
@@ -112,6 +112,21 @@ get_leaderboard <- function (ds, my_score_type, my_tour_id) {
         "Nyberg",    4,
         "Lundström", 5,
         "Forsgren",  6
+      )
+    }
+    if (my_tour_id == "tour20") {
+      lb <- tribble(
+        ~player,     ~pos,
+        "Strömdahl", NA,
+        "Wibom",     NA,
+        "Wänman",    NA,
+        "Karlsson",  NA,
+        "Forsgren",  NA,
+        "Scherlund", NA,
+        "Nyberg",    NA,
+        "Wiklund",   NA,
+        "Forsell",   NA,
+        "Östh",      NA
       )
     }
     lb <-

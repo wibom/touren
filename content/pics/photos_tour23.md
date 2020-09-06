@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour23.jpg
 showonlyimage: false  
 title: foton från tour 23  
 weight: 23  
+summary: '**Stad:** Umeå <br> **Datum:** HT-17'  
 ---
 
-Den här sidan visar foton från tour 23.
+Den här sidan visar foton från Touren XXIII, som spelades HT-17 i Umeå
+
+> -   champ = Karlsson  
+> -   longdrive = NA  
+> -   närmast-pinnen = Wibom
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour23/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

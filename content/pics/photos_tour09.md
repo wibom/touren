@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour09.jpg
 showonlyimage: false  
 title: foton från tour 09  
 weight: 9  
+summary: '**Stad:** Gävle <br> **Datum:** HT-09'  
 ---
 
-Den här sidan visar foton från tour 09.
+Den här sidan visar foton från Touren IX, som spelades HT-09 i Gävle
+
+> -   champ = Lundström  
+> -   longdrive = Nyberg  
+> -   närmast-pinnen = Karlsson
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour09/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

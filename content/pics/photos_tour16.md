@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour16.jpg
 showonlyimage: false  
 title: foton från tour 16  
 weight: 16  
+summary: '**Stad:** Uppsala <br> **Datum:** VT-13'  
 ---
 
-Den här sidan visar foton från tour 16.
+Den här sidan visar foton från Touren XVI, som spelades VT-13 i Uppsala
+
+> -   champ = Forsell  
+> -   longdrive = Lundström  
+> -   närmast-pinnen = Wibom
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour16/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

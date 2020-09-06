@@ -4,9 +4,14 @@ image: /img/covers/scaled/tour06.jpg
 showonlyimage: false  
 title: foton från tour 06  
 weight: 6  
+summary: '**Stad:** Västerås <br> **Datum:** VT-08'  
 ---
 
-Den här sidan visar foton från tour 06.
+Den här sidan visar foton från Touren VI, som spelades VT-08 i Västerås
+
+> -   champ = Wibom  
+> -   longdrive = Wiklund  
+> -   närmast-pinnen = NA
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour06/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

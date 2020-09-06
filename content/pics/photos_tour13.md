@@ -4,9 +4,15 @@ image: /img/covers/scaled/tour13.jpg
 showonlyimage: false  
 title: foton från tour 13  
 weight: 13  
+summary: '**Stad:** Skellefteå <br> **Datum:** HT-11'  
 ---
 
-Den här sidan visar foton från tour 13.
+Den här sidan visar foton från Touren XIII, som spelades HT-11 i
+Skellefteå
+
+> -   champ = Wiklund  
+> -   longdrive = Wiklund  
+> -   närmast-pinnen = Forsgren
 
 <div class="col-md-8"> <div class="row">  
 <a href="/img/tour13/scaled/001.JPG" data-toggle="lightbox"         data-gallery="example-gallery" class="col-sm-4">

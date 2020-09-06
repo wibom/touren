@@ -3,7 +3,7 @@ draft: false
 image: /img/players/karlsson230x230.jpg  
 showonlyimage: true  
 title: Karlsson  
-summary: '**Status:** aktiv <br> **Antal Tourer:** 24'  
+summary: '**Status:** aktiv <br> **Antal Tourer:** 25'  
 ---
 
 ![Karlsson](/img/players/karlsson230x230.jpg)
@@ -11,7 +11,7 @@ summary: '**Status:** aktiv <br> **Antal Tourer:** 24'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Antal tourer:** 24
+**Antal tourer:** 25
 
 ------------------------------------------------------------------------
 
