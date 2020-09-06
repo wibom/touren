@@ -4,7 +4,7 @@ title: Topscores
 image: /img/misc/topscores.jpg
 showonlyimage: false
 summary: Bästa och sämtsta scorerna i tourens histora
-draft: true
+draft: false
 ---
 ```{r setup, include=FALSE}
 library(patchwork)
@@ -245,16 +245,17 @@ get_top_x <- function(rank_ds, top_n, my_score_type, top_or_bot, main = NULL,
       unnest(ranked_score) %>%
       filter(ranked <= top_n) %>%
       right_join(tour_info, ., by = "tour_id") %>%
-      select(-tour_id, score_type)
+      select(-tour_id, score_type) %>% 
+      arrange(ranked)
   } else if (top_or_bot == "bot") {
     top_x <-
       rank_ds %>%
       filter(score_type == my_score_type) %>%
       unnest(ranked_score) %>%
       filter(ranked >= (nrow(.) - top_n)) %>%
-      arrange(desc(ranked)) %>%
       right_join(tour_info, ., by = "tour_id") %>%
-      select(-tour_id, score_type)
+      select(-tour_id, score_type) %>% 
+      arrange(desc(ranked))
   }
 
   # Formatera för html
@@ -318,7 +319,7 @@ best_r_rel_gross <- get_top_x(
   my_score_type = "rel_gross",
   top_or_bot = "top",
   main = "Bästa runda; brutto",
-  my_note = "relativt b anans par",
+  my_note = "relativt banans par",
   output = "plot" # plot / tab
 )
 best_r_rel_gross
