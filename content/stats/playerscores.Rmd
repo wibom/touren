@@ -3,7 +3,7 @@ output: html_document
 title: Playerscores
 image: /img/misc/playerscores.jpg    
 showonlyimage: false  
-summary: Varje spelares totalscore för samtliga Tourer genom histien
+summary: Varje spelares totalscore för samtliga Tourer genom historien
 ---
 ```{r setup, include=FALSE}
 library(patchwork)
