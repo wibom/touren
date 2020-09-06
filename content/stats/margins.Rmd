@@ -179,16 +179,28 @@ plot_margin <- function(ds, score_type = "rel_net", champ_loser = "champ") {
     champ_loser == "champ" ~ "Marginal mellan Champ och Runnerup",
     champ_loser == "loser" ~ "Marginal mellan Loser och Näst-loser"
   )
-  girafe(
-    code = print(
-      p_meta + p_player1 + p_winmarg + p_runnerup + 
-      plot_layout(nrow = 1, widths = c(3, 1, 2, 1)) + 
-      plot_annotation(
-        title = title_txt, 
-        subtitle = glue::glue("Baserat på {score_type_txt}"), 
-      )
-    ), 
-    height_svg = 8
+  
+  # 2020-09-06
+  # denna kod har funkat länge - nu gör den inte det.
+  # något måste ha uppdaterats i girafe - som nu buggar.
+  # får fixa detta senare...
+  # girafe(
+  #   code = print(
+  #     p_meta + p_player1 + p_winmarg + p_runnerup + 
+  #     plot_layout(nrow = 1, widths = c(3, 1, 2, 1)) + 
+  #     plot_annotation(
+  #       title = title_txt, 
+  #       subtitle = glue::glue("Baserat på {score_type_txt}"), 
+  #     )
+  #   ), 
+  #   height_svg = 8
+  # )
+  
+  p_meta + p_player1 + p_winmarg + p_runnerup +
+  plot_layout(nrow = 1, widths = c(3, 1, 2, 1)) +
+  plot_annotation(
+    title = title_txt,
+    subtitle = glue::glue("Baserat på {score_type_txt}"),
   )
 }
 ```
