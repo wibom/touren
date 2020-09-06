@@ -311,6 +311,8 @@ plot_placing <- function(ds, results_type = "results_net",
 
   bg <-
     ds %>%
+    # bortse från tour20 (Barcelona)
+    filter(tour_id != "tour20") %>%
     unnest(meta) %>%
     select(tour_id, roman_numeral, date, !!results_type) %>%
     mutate(
@@ -327,6 +329,8 @@ plot_placing <- function(ds, results_type = "results_net",
   for (p in players) {
     d_player <-
       ds %>%
+      # bortse från tour20 (Barcelona)
+      filter(tour_id != "tour20") %>%
       unnest(meta) %>%
       select(tour_id, roman_numeral, date, !!results_type) %>%
       mutate(

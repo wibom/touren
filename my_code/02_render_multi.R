@@ -16,8 +16,8 @@ tours <- d$tour_id
 
 # re-processing settings:
 force_plr_reprocessing <- TRUE
-force_img_reprocessing <- TRUE
-force_res_reprocessing <- TRUE
+force_img_reprocessing <- FALSE
+force_res_reprocessing <- FALSE
 
 # Spelare ----
 #players <- players[1]
