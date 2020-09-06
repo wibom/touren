@@ -492,7 +492,7 @@ plot_totscore_over_time <- function(ds, lastname = NA_character_,
       labels =
         d_plot_meta %>%
         pull(tour_lab),
-      expand = expansion(mult = 0, add = c(0, 3))
+      expand = expansion(mult = 0, add = c(0, 0))
     )
     my_vline <- ggplot2::geom_vline(
       xintercept = seq(0, max(d_plot_meta$x_idx), 1) + .5,
