@@ -401,7 +401,7 @@ plot_placing <- function(ds, results_type = "results_net",
       plots, ~ . + theme(
         plot.title = element_text(size = rel(.8)),
         axis.text.y = element_text(size = rel(.8)),
-        plot.margin = margin(1, 1, 1, 1, "cm")
+        plot.margin = margin(.1, .1, .1, .1, "cm")
       )
     )
 
