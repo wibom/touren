@@ -26,6 +26,8 @@ theme_set(get_my_ggtheme())
 Sekretariatet har inte arkiverat varje spelares HCP genom åren. Däremot har 
 antal givna slag på Slopen sparats, vilket reflekterar HCP.
 
+Klicka på ett namn i figurlegenden för att dölja vald spelare. Dubbelklicka för
+att visa enbart vald spelare.
 
 ```{r, echo=FALSE, fig.height=8, out.width="100%", warning=FALSE}
 

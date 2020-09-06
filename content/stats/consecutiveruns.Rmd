@@ -25,8 +25,6 @@ theme_set(get_my_ggtheme())
 
 En oavbruten svit räknas inom en och samma runda.
 
->Kanske är det ändå roligate att tillåta en svit spänna över flera rundor vid 
->samma Tour...?
 
 
 ```{r function, include=FALSE}
@@ -199,6 +197,4 @@ Längsta oavbrutna svit feppel:
 make_htmltab(consecutive_runs, "cons_feppel") 
 ```
 
-
-> Det är möjligt att göra samma sak baserat på poäng (dvs `rel_net`... visst?!)!
 

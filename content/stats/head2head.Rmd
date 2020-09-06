@@ -177,6 +177,8 @@ Grå punkter representerar totala antalet vinster (positiva värden; `n_win`) oc
 förluster (negativa värden; `n_lose`). Färgade punkter representerar skillnaden, 
 dvs "plus/minus" i innbördesmöten (`h2h`).
 
+Klicka på ett namn i figurlegenden för att dölja vald spelare. Dubbelklicka för
+att visa enbart vald spelare.
 ```{r head2head-net, echo=FALSE, fig.height=10, out.width = "100%", warning=FALSE}
 # https://plotly-r.com/control-modebar.html
 #   https://github.com/plotly/plotly.js/blob/master/src/components/modebar/buttons.js

@@ -193,6 +193,10 @@ plot_margin <- function(ds, score_type = "rel_net", champ_loser = "champ") {
 }
 ```
 
+Hur stora har marginalerna varit mellan Champ och Runnerup, respektive
+mellan Loser och Näst-loser?
+
+
 ```{r plot-champ-net, echo=FALSE, fig.height=8, out.width="100%"}
 plot_margin(ds = d, score_type = "rel_net", champ_loser = "champ")
 ```

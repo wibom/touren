@@ -26,11 +26,3 @@ theme_set(get_my_ggtheme())
 ```{r, echo=FALSE, message=FALSE, warnings=FALSE, fig.height=8}
 plot_totscore_over_time(d)
 ```
-
-Samma plot finns för varje enskild spelare (men med runda-upplösning) på
-spelar-sidan.
-
-Tveksamt om denna plott ska vara kvar. Inte så informativ tänker jag...
-
-Ifall den kommer tas bort både härifrån och från spelar-sidan, kan även
-funktionen raderas från `helpers.Rmd`.

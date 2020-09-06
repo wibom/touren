@@ -188,8 +188,6 @@ plot_avgscores_allrounds <- function(d, score_type = "rel_net") {
 plot_avgscores_round123(d, score_type = "rel_net")
 ```
 
-Tänker att detta kan göras bättre. Kanske en linje som sammanbinder r1-r2-r3, 
-och färgas grön för positiv-trend och röd för negativ trend... ? 
 
 **********
 

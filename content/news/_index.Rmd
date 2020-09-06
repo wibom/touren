@@ -28,5 +28,5 @@ d <- read_rds(
 #### [2020-09-05] Deploy
 Comeback för Touren online :)
 
-En mordernare och mer lättunderhållen version av Touren online är nu online.
+En modernare och mer lättunderhållen version av Touren online är nu online.
 Enjoy!
