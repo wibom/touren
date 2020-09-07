@@ -427,7 +427,7 @@ worst_r_rel_net
 <p>
 ```{r worst-round-net-tab, echo=FALSE, results='asis'}
 worst_r_rel_net_tab <- get_top_x(
-  rank_ds = ranked_scores_tour,
+  rank_ds = ranked_scores_round,
   top_n = 10,
   my_score_type = "rel_net",
   top_or_bot = "bot",
@@ -457,7 +457,7 @@ worst_r_rel_gross
 <p>
 ```{r worst-round-gross-tab, echo=FALSE, results='asis'}
 worst_r_rel_gross_tab <- get_top_x(
-  rank_ds = ranked_scores_tour,
+  rank_ds = ranked_scores_round,
   top_n = 10,
   my_score_type = "rel_gross",
   top_or_bot = "bot",
