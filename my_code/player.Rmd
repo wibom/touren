@@ -44,6 +44,7 @@ fig_dpi = 300
 lbs <- map(d$tour_id, ~get_leaderboard(ds = d, "rel_net", .x))
 n_tours <- map_int(lbs, ~ if_else(any(.$player == player), 1L, 0L)) %>% sum()
 status <- read_players_list() %>% filter(id == player) %>% pull(status)
+current_ranking <- get_current_rank(d, results_type = "results_net", player)
 ```
 
 ```{r hugo-front-matter-yaml, echo=FALSE, results='asis', comment=FALSE}
@@ -55,8 +56,10 @@ draft: false
 image: {img_url}  
 showonlyimage: true  
 title: {player}  
+weight: {current_ranking}  
 summary: \\
   \\'**Status:** {status} <br> \\
+    **Aktuell ranking:** {current_ranking} <br> \\
     **Antal Tourer:** {n_tours}\\'  
 \\-\\-\\-
 "
@@ -71,6 +74,7 @@ glue::glue('![{player}]({img_url})')
 
 
 __Status:__ `r status`  
+__Aktuell ranking::__ `r current_ranking`  
 __Antal tourer:__ `r n_tours`  
 
 

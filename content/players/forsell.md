@@ -3,7 +3,9 @@ draft: false
 image: /img/players/forsell230x230.jpg  
 showonlyimage: true  
 title: Forsell  
-summary: '**Status:** aktiv <br> **Antal Tourer:** 13'  
+weight: 5  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 5 <br> **Antal
+Tourer:** 13'  
 ---
 
 ![Forsell](/img/players/forsell230x230.jpg)

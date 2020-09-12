@@ -3,7 +3,9 @@ draft: false
 image: /img/players/lundström230x230.jpg  
 showonlyimage: true  
 title: Lundström  
-summary: '**Status:** aktiv <br> **Antal Tourer:** 18'  
+weight: 8  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 8 <br> **Antal
+Tourer:** 18'  
 ---
 
 ![Lundström](/img/players/lundström230x230.jpg)

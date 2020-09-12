@@ -1,0 +1,151 @@
+---
+output: html_document  
+title: Ranking  
+image: /img/misc/ranking.jpg    
+showonlyimage: false  
+summary: Varje spelares ranking över tid
+---
+```{r setup, include=FALSE}
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+library(ggiraph)
+library(kableExtra)
+theme_set(get_my_ggtheme())
+```
+```{r function, include=FALSE}
+plot_ranking <- function(d, results_type = "results_net") {
+
+  rank_ds <- get_rank_data(d, results_type, get = "rollsum")
+  d_plot <- 
+    rank_ds %>% 
+    pivot_longer(
+      cols = -tour_id, 
+      names_to = "player", 
+      values_to = "pts_rollsum"
+    ) 
+  
+  
+  p <- 
+    ggplot(d_plot, aes(x = as_factor(tour_id), y = pts_rollsum, group = player)) +
+    #geom_line
+    ggbump::geom_bump(
+      aes(color = player),
+      alpha = .8, 
+      size = 1, 
+      show.legend = FALSE, 
+      na.rm = TRUE
+    ) + 
+    # geom_point(
+    #   aes(color = player),
+    #   alpha = .4, 
+    #   size = 1.5, 
+    #   na.rm = TRUE
+    # ) +
+    geom_point_interactive(
+      aes(
+        color = player,
+        tooltip = pts_rollsum,
+        data_id = enc2utf8(player)          # https://stackoverflow.com/a/56900588
+      ), 
+      alpha = .7,
+      size = 2,
+      na.rm = TRUE
+    ) +       
+    #ggsci::scale_color_d3(palette = "category20") +
+    scale_colour_manual(
+      values = get_player_colour(), 
+      name = NULL
+    ) +    
+    labs(
+      y = "rankingpoäng",
+      title = "Rankingpoäng", 
+      subtitle = "Rullande summa av rankingpoäng senaste fem tourerna"
+    ) +
+    #theme_bw() + 
+    theme(
+      axis.title.x = element_blank(),
+      axis.text.x = element_text(angle = 90, size = rel(.7), vjust = .5),
+      #panel.grid.major.y = element_line(size = 3), 
+      legend.position = "bottom",
+      legend.title = element_blank()
+    )
+  x <- girafe(ggobj = p, height_svg = 8)
+
+}
+```
+
+Rankingpoäng räknas ut enligt följande:
+
+
+ 1) En spelare tilldelas 1 poäng för att deltaga och placera sig på sista plats.
+ <br>
+ 
+ 2) Vidare tilldelas ytterligare 1 poäng per placering bättre än sista platsen.
+ <br>
+ 
+ 3) Till den spelare som vinner tilldelas ytterligare 3 poäng.
+ <br>
+ 
+ 4) För del- och skillstävlingar tilldelas vinnaren 1 poäng. Dessa tävlingar är:
+      + Vinnare runda 1
+      + Vinnare runda 2
+      + Längsta drive
+      + Närmast hål
+
+<br>
+Rankingpoängen summeras över de senaste fem tourerna.
+
+<br><br>
+
+
+## Aktuell ranking
+```{r, echo=FALSE}
+rank_rollsum <- get_rank_data(d, results_type = "results_net", get = "rollsum")
+ranking <-
+  rank_rollsum %>%
+  slice(nrow(.)) %>%
+  pivot_longer(cols = -tour_id, names_to = "player", values_to = "rank_pts") %>%
+  mutate(rank = rank(-rank_pts, ties.method = "min", na.last = "keep")) %>%
+  arrange(rank)
+ranking %>%
+  select(-tour_id) %>% 
+  rename(`spelare` = player, `poäng` = rank_pts, ranking = rank) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "responsive"))
+```
+
+
+
+## Rankingpoäng över tid
+```{r, echo=FALSE, fig.height=6, out.width="100%"}
+p <- plot_ranking(d, results_type = "results_net")
+p
+```
+
+<br><br>
+<hr>
+<br>
+
+<details>
+<summary>Nyfiken hur det sett ut ifall Touren spelats brutto?</summary>
+<p>
+
+Ranking ifall Touren spelats brutto:
+```{r, echo=FALSE, fig.height=6, out.width="100%"}
+p <- plot_ranking(d, results_type = "results_gross")
+p
+```
+
+</p>
+</details>

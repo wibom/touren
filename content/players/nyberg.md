@@ -3,7 +3,9 @@ draft: false
 image: /img/players/nyberg230x230.jpg  
 showonlyimage: true  
 title: Nyberg  
-summary: '**Status:** aktiv <br> **Antal Tourer:** 26'  
+weight: 3  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 3 <br> **Antal
+Tourer:** 26'  
 ---
 
 ![Nyberg](/img/players/nyberg230x230.jpg)

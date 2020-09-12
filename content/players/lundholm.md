@@ -3,7 +3,9 @@ draft: false
 image: /img/players/lundholm230x230.jpg  
 showonlyimage: true  
 title: Lundholm  
-summary: '**Status:** avvaktande <br> **Antal Tourer:** 1'  
+weight: NA  
+summary: '**Status:** avvaktande <br> **Aktuell ranking:** NA <br>
+**Antal Tourer:** 1'  
 ---
 
 ![Lundholm](/img/players/lundholm230x230.jpg)

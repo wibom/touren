@@ -3,7 +3,9 @@ draft: false
 image: /img/players/wänman230x230.jpg  
 showonlyimage: true  
 title: Wänman  
-summary: '**Status:** aktiv <br> **Antal Tourer:** 20'  
+weight: 6  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 6 <br> **Antal
+Tourer:** 20'  
 ---
 
 ![Wänman](/img/players/wänman230x230.jpg)

@@ -16,7 +16,8 @@ draft: false
 image: /img/players/jonsson230x230.jpg  
 showonlyimage: true  
 title: Jonsson  
-summary:   \'**Status:** aktiv <br>     **Antal Tourer:** 1\'  
+weight: 10  
+summary:   \'**Status:** aktiv <br>     **Aktuell ranking:** 10 <br>     **Antal Tourer:** 1\'  
 \-\-\-
 
 ![Jonsson](/img/players/jonsson230x230.jpg)

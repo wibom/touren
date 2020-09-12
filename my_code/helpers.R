@@ -163,7 +163,7 @@ get_leaderboard <- function (ds, my_score_type, my_tour_id) {
   d_score <-
     ds %>%
     filter(tour_id == my_tour_id) %>%
-    unnest(!!rlang::sym(my_score_type))
+    unnest(cols = !!rlang::sym(my_score_type))
 
   # leaderboard (lb) = score för varje runda
   n_played_rounds <- (nrow(d_score) / 18) %>% ceiling(.)
@@ -646,5 +646,173 @@ plot_totscore_over_time <- function(ds, lastname = NA_character_,
   } else {
     p %+% filter(d_plot, player == lastname)
   }
+
+}
+
+# ranking ----------------------------------------------------------------------
+calc_rankpoints <- function(my_tour_id, ds, results_type = "results_net") {
+  # my_tour_id <- "tour02"
+  missing_scores <- c("tour01", "tour02", "tour03", "tour04", "tour20")
+  if (my_tour_id %in% missing_scores) {
+    return(NULL)
+  }
+
+  # Rankingpoäng räknas ut enligt följande:
+  #  1) En spelare tilldelas 1 poäng för att deltaga och placera sig på sista
+  #     plats.
+  #  2) Vidare tilldelas ytterligare 1 poäng per placering bättre än sista
+  #     platsen.
+  #  3) Till den spelare som vinner tilldelas ytterligare 3 poäng.
+  #  4) För varje del- och skillstävling tilldelas vinnaren 1 poäng. Dessa
+  #     tävlingar är:
+  #       a) Vinnare runda 1
+  #       b) Vinnare runda 2
+  #       c) Längsta drive
+  #       d) Närmast hål
+
+
+  # points from final placing
+  lb <-
+    ds %>%
+    filter(tour_id == my_tour_id) %>%
+    unnest(cols = !!rlang::sym(results_type)) %>%
+    select(lb) %>%
+    unnest(cols = lb)
+
+  rank_points_place <-
+    lb %>%
+    arrange(pos) %>%
+    mutate(
+      # ranking points calculated by reversed final position
+      place = rev(pos),
+      # plus 3 points to Champ :)
+      place = (place + c(3, rep(0, nrow(lb) - 1))) %>% as.integer()
+    ) %>%
+    select(player, place)
+
+  # add points from skills
+  longdrive_champ <-
+    ds %>%
+    filter(tour_id == my_tour_id) %>%
+    unnest(cols = c("meta")) %>%
+    .$longdrive_champ
+  close_champ <-
+    ds %>%
+    filter(tour_id == my_tour_id) %>%
+    unnest(cols = c("meta")) %>%
+    .$close_champ
+
+  # Vinnare av runda 1 och 2 (inklusive rätt särskiljningsregel):
+  # Extrahera data från aktuell runda, och använd `get_leaderboard`-funktionen
+  score_type <- case_when(
+    results_type == "results_net" ~ "rel_net",
+    results_type == "results_gross" ~ "rel_gross",
+    TRUE ~ NA_character_  # <-- ska inte hända
+  )
+  score_r1 <-
+    ds %>%
+    mutate(
+      # Behåller endast score från runda 1 i `rel_net` / `rel_gross`
+      !!rlang::sym(score_type) := map(
+        !!rlang::sym(score_type),
+        ~ if(is.null(..1)) { NULL } else {slice(..1, 1:18)}
+      )
+    )
+  winner_r1 <-
+    get_leaderboard(ds = score_r1, my_score_type = score_type, my_tour_id) %>%
+    slice(1) %>%
+    pull(player)
+
+  score_r2 <-
+    ds %>%
+    mutate(
+      # Behåller endast score från runda 2 i `rel_net` / `rel_gross`
+      !!rlang::sym(score_type) := map(
+        !!rlang::sym(score_type),
+        ~ if(is.null(..1)) { NULL } else {slice(..1, 19:36)}
+      )
+    )
+  winner_r2 <-
+    get_leaderboard(ds = score_r2, my_score_type = score_type, my_tour_id) %>%
+    slice(1) %>%
+    pull(player)
+
+
+  # return ranking points gained at a given tour:
+  #    player    place skills   tot
+  #    <chr>     <int>  <int> <int>
+  skills_winners <- c(longdrive_champ, close_champ, winner_r1, winner_r2)
+  rank_points <-
+    rank_points_place %>%
+    mutate(
+      skills = map_int(player, ~ sum(..1 == skills_winners, na.rm = TRUE)),
+      tot = place + skills
+    )
+
+}
+get_rank_data <- function(ds, results_type = "results_net", get = "ov") {
+  # get = {"ov", "details", "rollsum"}
+
+  # ranking poäng
+  rank_pts_detailed <- map(ds$tour_id, calc_rankpoints, ds, results_type)
+  names(rank_pts_detailed) <- ds$tour_id
+
+  # tourerna som saknar score-kort returnerar NULL från `calc_rankpoints`,
+  # stryk dessa:
+  rank_pts_detailed <- rank_pts_detailed %>% discard(is.null)
+
+  # formatera till tibble, med lämpliga kolumnnamn
+  rank_pts_detailed <-
+   rank_pts_detailed %>%
+   imap(
+     # add `tour_id` to colnames, exept first column (`player`)
+     # https://stackoverflow.com/a/53969052
+     ~ set_names(.x, c(names(.x)[1], str_c(names(.x)[-1], .y, sep = ".")))
+    ) %>%
+   purrr::reduce(full_join, by = "player")
+
+
+  rank_pts_overview <-
+    rank_pts_detailed %>%
+    select(player, starts_with("tot")) %>%
+    rename_with(str_remove, pattern = "tot.")
+
+
+  # beräkna "rolling sum" för senaste 5 tourerna
+  rank_ds <-
+    rank_pts_overview %>%
+    pivot_longer(cols = -player, names_to = "tour_id", values_to = "pts") %>%
+    pivot_wider(id_cols = tour_id, names_from = player, values_from = "pts")
+  rank_rollsum <-
+    rank_ds %>%
+    mutate_at(vars(-tour_id), ~ roll::roll_sum(., width = 5, min_obs = 1))
+
+
+  if (get == "details") {
+
+    return(rank_pts_detailed)
+
+  } else if (get == "ov") {
+
+    return(rank_pts_overview)
+
+  } else if (get == "rollsum") {
+
+    return(rank_rollsum)
+
+  }
+}
+get_current_rank <- function(ds, results_type = "results_net", lastname) {
+
+  rank_rollsum <- get_rank_data(ds, results_type, get = "rollsum")
+  ranking <-
+    rank_rollsum %>%
+    slice(nrow(.)) %>%
+    pivot_longer(cols = -tour_id, names_to = "player", values_to = "rank_pts") %>%
+    mutate(rank = rank(-rank_pts, ties.method = "min", na.last = "keep")) %>%
+    arrange(rank)
+
+  # aktuell ranking för vald spelare
+  ranking %>% filter(player == lastname) %>% pull(rank)
 
 }
