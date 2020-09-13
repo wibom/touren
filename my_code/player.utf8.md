@@ -26,6 +26,7 @@ summary:   \'**Status:** aktiv <br>     **Aktuell ranking:** 10 <br>     **Antal
 
 
 __Status:__ aktiv  
+__Aktuell ranking::__ 10  
 __Antal tourer:__ 1  
 
 

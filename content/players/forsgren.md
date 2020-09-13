@@ -13,6 +13,7 @@ summary: '**Status:** pensionerad <br> **Aktuell ranking:** NA <br>
 ------------------------------------------------------------------------
 
 **Status:** pensionerad  
+**Aktuell ranking::** NA  
 **Antal tourer:** 15
 
 ------------------------------------------------------------------------
