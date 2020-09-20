@@ -7,7 +7,7 @@ weight: 5
 summary: '**Stad:** Gävle <br> **Datum:** HT-07'  
 ---
 
-Den här sidan visar foton från Touren V, som spelades HT-07 i Gävle
+Den här sidan visar foton från Touren V, som spelades HT-07 i Gävle.
 
 > -   champ = Östh  
 > -   longdrive = Östh  

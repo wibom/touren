@@ -8,7 +8,7 @@ summary: '**Stad:** Sundsvall <br> **Datum:** HT-06'
 ---
 
 Den här sidan visar foton från Touren III, som spelades HT-06 i
-Sundsvall
+Sundsvall.
 
 > -   champ = Karlsson  
 > -   longdrive = Karlsson  

@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour09.jpg  
 showonlyimage: false  
 title: Touren IX  
-weight: 19  
+weight: 20  
 ---
 
 Touren IX spelades i Gävle (HT-09)

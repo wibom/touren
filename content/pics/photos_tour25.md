@@ -7,7 +7,7 @@ weight: 25
 summary: '**Stad:** Umeå <br> **Datum:** HT-18'  
 ---
 
-Den här sidan visar foton från Touren XXV, som spelades HT-18 i Umeå
+Den här sidan visar foton från Touren XXV, som spelades HT-18 i Umeå.
 
 > -   champ = Karlsson  
 > -   longdrive = Wiklund  

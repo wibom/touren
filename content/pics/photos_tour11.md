@@ -7,7 +7,7 @@ weight: 11
 summary: '**Stad:** Västerås <br> **Datum:** HT-10'  
 ---
 
-Den här sidan visar foton från Touren XI, som spelades HT-10 i Västerås
+Den här sidan visar foton från Touren XI, som spelades HT-10 i Västerås.
 
 > -   champ = Wibom  
 > -   longdrive = Lundström  

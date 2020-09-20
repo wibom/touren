@@ -16,8 +16,8 @@ tours <- d$tour_id
 
 # re-processing settings:
 force_plr_reprocessing <- TRUE
-force_img_reprocessing <- FALSE
-force_res_reprocessing <- FALSE
+force_img_reprocessing <- TRUE
+force_res_reprocessing <- TRUE
 
 # Spelare ----
 #players <- players[1]
@@ -46,27 +46,6 @@ for (player in players) {
 }
 
 
-# Bilder ----
-for(tour in tours) {
-
-  if(dir.exists(file.path(here::here(), 'static/img', tour, 'scaled'))){
-
-    # create photo-page if
-    # 1) it does not already exist
-    #    - or -
-    # 2) it should be re-processed
-    img_processed <- file.exists(glue::glue("./content/pics/photos_{tour}.md"))
-    if(!img_processed | force_img_reprocessing) {
-      rmarkdown::render(
-        input = "my_code/photo.Rmd",
-        output_file = paste0("photos_", tour),
-        output_dir = "content/pics",
-        clean = TRUE,
-        run_pandoc = TRUE
-      )
-    }
-  }
-}
 
 
 # Tourer ----
@@ -97,4 +76,26 @@ for(tour in tours) {
   }
 }
 
+
+# Bilder ----
+for(tour in tours) {
+
+  if(dir.exists(file.path(here::here(), 'static/img', tour, 'scaled'))){
+
+    # create photo-page if
+    # 1) it does not already exist
+    #    - or -
+    # 2) it should be re-processed
+    img_processed <- file.exists(glue::glue("./content/pics/photos_{tour}.md"))
+    if(!img_processed | force_img_reprocessing) {
+      rmarkdown::render(
+        input = "my_code/photo.Rmd",
+        output_file = paste0("photos_", tour),
+        output_dir = "content/pics",
+        clean = TRUE,
+        run_pandoc = TRUE
+      )
+    }
+  }
+}
 

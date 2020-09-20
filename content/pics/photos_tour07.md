@@ -8,7 +8,7 @@ summary: '**Stad:** Sundsvall <br> **Datum:** HT-08'
 ---
 
 Den här sidan visar foton från Touren VII, som spelades HT-08 i
-Sundsvall
+Sundsvall.
 
 > -   champ = Forsell  
 > -   longdrive = Karlsson  

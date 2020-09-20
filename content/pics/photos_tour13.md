@@ -8,7 +8,7 @@ summary: '**Stad:** Skellefteå <br> **Datum:** HT-11'
 ---
 
 Den här sidan visar foton från Touren XIII, som spelades HT-11 i
-Skellefteå
+Skellefteå.
 
 > -   champ = Wiklund  
 > -   longdrive = Wiklund  

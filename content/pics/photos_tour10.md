@@ -7,7 +7,7 @@ weight: 10
 summary: '**Stad:** Prag <br> **Datum:** VT-10'  
 ---
 
-Den här sidan visar foton från Touren X, som spelades VT-10 i Prag
+Den här sidan visar foton från Touren X, som spelades VT-10 i Prag.
 
 > -   champ = Scherlund  
 > -   longdrive = Wänman  

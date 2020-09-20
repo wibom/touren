@@ -7,7 +7,8 @@ weight: 14
 summary: '**Stad:** Göteborg <br> **Datum:** VT-12'  
 ---
 
-Den här sidan visar foton från Touren XIV, som spelades VT-12 i Göteborg
+Den här sidan visar foton från Touren XIV, som spelades VT-12 i
+Göteborg.
 
 > -   champ = Wiklund  
 > -   longdrive = Wiklund  

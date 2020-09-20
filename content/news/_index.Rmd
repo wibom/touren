@@ -25,6 +25,16 @@ d <- read_rds(
 # Nyheter
 
 
+#### [2020-09-20] Touren XXVIII avgjord
+Helgen 18-19 september avgjordes Touren XXVIII på banorna Norrmjöle GK och 
+Sörfors GK i Umeå. Solen sken och vinden pinade de åtta tappra som antagit
+utmaningen. Julla hanterade vinden bäst när närmast-hål skulle avgöras, medan 
+all övrig golf dominerades av Tour-giganten Karlsson, som både plockade hem 
+sin 9:e longest drive och sin 9:e Champ-titel! **Grattis Karlsson!!!**
+
+Leve Champ!
+
+
 #### [2020-09-05] Deploy
 Comeback för Touren online :)
 

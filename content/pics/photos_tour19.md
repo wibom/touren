@@ -7,7 +7,7 @@ weight: 19
 summary: '**Stad:** Umeå <br> **Datum:** HT-14'  
 ---
 
-Den här sidan visar foton från Touren XIX, som spelades HT-14 i Umeå
+Den här sidan visar foton från Touren XIX, som spelades HT-14 i Umeå.
 
 > -   champ = Karlsson  
 > -   longdrive = Karlsson  

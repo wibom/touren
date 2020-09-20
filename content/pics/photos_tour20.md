@@ -7,7 +7,8 @@ weight: 20
 summary: '**Stad:** Barcelona <br> **Datum:** HT-15'  
 ---
 
-Den här sidan visar foton från Touren XX, som spelades HT-15 i Barcelona
+Den här sidan visar foton från Touren XX, som spelades HT-15 i
+Barcelona.
 
 > -   champ = NA  
 > -   longdrive = NA  

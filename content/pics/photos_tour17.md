@@ -7,7 +7,7 @@ weight: 17
 summary: '**Stad:** Gävle <br> **Datum:** HT-13'  
 ---
 
-Den här sidan visar foton från Touren XVII, som spelades HT-13 i Gävle
+Den här sidan visar foton från Touren XVII, som spelades HT-13 i Gävle.
 
 > -   champ = Wänman  
 > -   longdrive = Karlsson  

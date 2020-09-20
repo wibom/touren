@@ -26,3 +26,4 @@ tour24	XXIV	24	Sundsvall	VT-18	Wibom	Strömdahl
 tour25	XXV	25	Umeå	HT-18	Wiklund	NA
 tour26	XXVI	26	Lindö	VT-19	Nyberg	Nyberg
 tour27	XXVII	27	Umeå	HT-19	Karlsson	NA
+tour28	XXVIII	28	Umeå	HT-20	Karlsson	Strömdahl

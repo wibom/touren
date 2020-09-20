@@ -8,7 +8,7 @@ summary: '**Stad:** Norrköping <br> **Datum:** VT-07'
 ---
 
 Den här sidan visar foton från Touren IV, som spelades VT-07 i
-Norrköping
+Norrköping.
 
 > -   champ = Karlsson  
 > -   longdrive = Scherlund  

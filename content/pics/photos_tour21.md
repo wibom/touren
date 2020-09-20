@@ -7,7 +7,7 @@ weight: 21
 summary: '**Stad:** Uppsala <br> **Datum:** VT-16'  
 ---
 
-Den här sidan visar foton från Touren XXI, som spelades VT-16 i Uppsala
+Den här sidan visar foton från Touren XXI, som spelades VT-16 i Uppsala.
 
 > -   champ = Wibom  
 > -   longdrive = Karlsson  

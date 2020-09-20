@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour18.jpg  
 showonlyimage: false  
 title: Touren XVIII  
-weight: 10  
+weight: 11  
 ---
 
 Touren XVIII spelades i Sundsvall (VT-14)

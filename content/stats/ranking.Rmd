@@ -91,7 +91,7 @@ Rankingpoäng räknas ut enligt följande:
  1) En spelare tilldelas 1 poäng för att deltaga och placera sig på sista plats.
  <br>
  
- 2) Vidare tilldelas ytterligare 1 poäng per placering bättre än sista platsen.
+ 2) Vidare tilldelas ytterligare 1 poäng per placering bättre än sistaplatsen.
  <br>
  
  3) Till den spelare som vinner tilldelas ytterligare 3 poäng.

@@ -3,9 +3,9 @@ draft: false
 image: /img/players/wibom230x230.jpg  
 showonlyimage: true  
 title: Wibom  
-weight: 3  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 3 <br> **Antal
-Tourer:** 26'  
+weight: 2  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 2 <br> **Antal
+Tourer:** 27'  
 ---
 
 ![Wibom](/img/players/wibom230x230.jpg)
@@ -13,8 +13,8 @@ Tourer:** 26'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking::** 3  
-**Antal tourer:** 26
+**Aktuell ranking::** 2  
+**Antal tourer:** 27
 
 ------------------------------------------------------------------------
 

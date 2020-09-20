@@ -7,7 +7,7 @@ weight: 23
 summary: '**Stad:** Umeå <br> **Datum:** HT-17'  
 ---
 
-Den här sidan visar foton från Touren XXIII, som spelades HT-17 i Umeå
+Den här sidan visar foton från Touren XXIII, som spelades HT-17 i Umeå.
 
 > -   champ = Karlsson  
 > -   longdrive = NA  

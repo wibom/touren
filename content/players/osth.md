@@ -3,9 +3,9 @@ draft: false
 image: /img/players/östh230x230.jpg  
 showonlyimage: true  
 title: Östh  
-weight: NA  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** NA <br> **Antal
-Tourer:** 9'  
+weight: 11  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 11 <br> **Antal
+Tourer:** 10'  
 ---
 
 ![Östh](/img/players/östh230x230.jpg)
@@ -13,8 +13,8 @@ Tourer:** 9'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking::** NA  
-**Antal tourer:** 9
+**Aktuell ranking::** 11  
+**Antal tourer:** 10
 
 ------------------------------------------------------------------------
 

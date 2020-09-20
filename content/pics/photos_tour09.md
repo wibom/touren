@@ -7,7 +7,7 @@ weight: 9
 summary: '**Stad:** Gävle <br> **Datum:** HT-09'  
 ---
 
-Den här sidan visar foton från Touren IX, som spelades HT-09 i Gävle
+Den här sidan visar foton från Touren IX, som spelades HT-09 i Gävle.
 
 > -   champ = Lundström  
 > -   longdrive = Nyberg  

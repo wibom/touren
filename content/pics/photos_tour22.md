@@ -7,7 +7,7 @@ weight: 22
 summary: '**Stad:** Umeå <br> **Datum:** HT-16'  
 ---
 
-Den här sidan visar foton från Touren XXII, som spelades HT-16 i Umeå
+Den här sidan visar foton från Touren XXII, som spelades HT-16 i Umeå.
 
 > -   champ = Karlsson  
 > -   longdrive = Karlsson  

@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour03.jpg  
 showonlyimage: false  
 title: Touren III  
-weight: 25  
+weight: 26  
 ---
 
 Touren III spelades i Sundsvall (HT-06)

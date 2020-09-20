@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour10.jpg  
 showonlyimage: false  
 title: Touren X  
-weight: 18  
+weight: 19  
 ---
 
 Touren X spelades i Prag (VT-10)

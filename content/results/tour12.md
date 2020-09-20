@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour12.jpg  
 showonlyimage: false  
 title: Touren XII  
-weight: 16  
+weight: 17  
 ---
 
 Touren XII spelades i Ö-vik (VT-11)

@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour25.jpg  
 showonlyimage: false  
 title: Touren XXV  
-weight: 3  
+weight: 4  
 ---
 
 Touren XXV spelades i Umeå (HT-18)

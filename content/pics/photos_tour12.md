@@ -7,7 +7,7 @@ weight: 12
 summary: '**Stad:** Ö-vik <br> **Datum:** VT-11'  
 ---
 
-Den här sidan visar foton från Touren XII, som spelades VT-11 i Ö-vik
+Den här sidan visar foton från Touren XII, som spelades VT-11 i Ö-vik.
 
 > -   champ = Strömdahl  
 > -   longdrive = Wänman  

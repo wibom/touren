@@ -7,7 +7,7 @@ weight: 16
 summary: '**Stad:** Uppsala <br> **Datum:** VT-13'  
 ---
 
-Den här sidan visar foton från Touren XVI, som spelades VT-13 i Uppsala
+Den här sidan visar foton från Touren XVI, som spelades VT-13 i Uppsala.
 
 > -   champ = Forsell  
 > -   longdrive = Lundström  

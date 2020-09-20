@@ -8,7 +8,7 @@ summary: '**Stad:** Sundsvall <br> **Datum:** VT-14'
 ---
 
 Den här sidan visar foton från Touren XVIII, som spelades VT-14 i
-Sundsvall
+Sundsvall.
 
 > -   champ = Lundström  
 > -   longdrive = Lundström  

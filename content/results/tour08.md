@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour08.jpg  
 showonlyimage: false  
 title: Touren VIII  
-weight: 20  
+weight: 21  
 ---
 
 Touren VIII spelades i Uppsala (VT-09)

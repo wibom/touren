@@ -7,7 +7,7 @@ weight: 27
 summary: '**Stad:** Umeå <br> **Datum:** HT-19'  
 ---
 
-Den här sidan visar foton från Touren XXVII, som spelades HT-19 i Umeå
+Den här sidan visar foton från Touren XXVII, som spelades HT-19 i Umeå.
 
 > -   champ = Karlsson  
 > -   longdrive = Karlsson  

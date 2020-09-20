@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour02.jpg  
 showonlyimage: false  
 title: Touren II  
-weight: 26  
+weight: 27  
 ---
 
 Touren II spelades i Göteborg (VT-06)

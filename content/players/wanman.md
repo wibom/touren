@@ -3,8 +3,8 @@ draft: false
 image: /img/players/wänman230x230.jpg  
 showonlyimage: true  
 title: Wänman  
-weight: 6  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 6 <br> **Antal
+weight: 8  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 8 <br> **Antal
 Tourer:** 20'  
 ---
 
@@ -13,7 +13,7 @@ Tourer:** 20'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking::** 6  
+**Aktuell ranking::** 8  
 **Antal tourer:** 20
 
 ------------------------------------------------------------------------

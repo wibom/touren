@@ -7,7 +7,8 @@ weight: 8
 summary: '**Stad:** Uppsala <br> **Datum:** VT-09'  
 ---
 
-Den här sidan visar foton från Touren VIII, som spelades VT-09 i Uppsala
+Den här sidan visar foton från Touren VIII, som spelades VT-09 i
+Uppsala.
 
 > -   champ = Wiklund  
 > -   longdrive = Karlsson  

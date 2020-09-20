@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour22.jpg  
 showonlyimage: false  
 title: Touren XXII  
-weight: 6  
+weight: 7  
 ---
 
 Touren XXII spelades i Umeå (HT-16)

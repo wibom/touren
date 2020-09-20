@@ -17,7 +17,7 @@ image: /img/players/jonsson230x230.jpg
 showonlyimage: true  
 title: Jonsson  
 weight: 10  
-summary:   \'**Status:** aktiv <br>     **Aktuell ranking:** 10 <br>     **Antal Tourer:** 1\'  
+summary:   \'**Status:** aktiv <br>     **Aktuell ranking:** 10 <br>     **Antal Tourer:** 2\'  
 \-\-\-
 
 ![Jonsson](/img/players/jonsson230x230.jpg)
@@ -27,7 +27,7 @@ summary:   \'**Status:** aktiv <br>     **Aktuell ranking:** 10 <br>     **Antal
 
 __Status:__ aktiv  
 __Aktuell ranking::__ 10  
-__Antal tourer:__ 1  
+__Antal tourer:__ 2  
 
 
 --------------------------------------------------------------------------------

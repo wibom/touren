@@ -7,7 +7,7 @@ weight: 1
 summary: '**Stad:** Gävle <br> **Datum:** HT-05'  
 ---
 
-Den här sidan visar foton från Touren I, som spelades HT-05 i Gävle
+Den här sidan visar foton från Touren I, som spelades HT-05 i Gävle.
 
 > -   champ = Strömdahl  
 > -   longdrive = NA  

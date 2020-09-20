@@ -7,7 +7,8 @@ weight: 15
 summary: '**Stad:** Sundsvall <br> **Datum:** HT-12'  
 ---
 
-Den här sidan visar foton från Touren XV, som spelades HT-12 i Sundsvall
+Den här sidan visar foton från Touren XV, som spelades HT-12 i
+Sundsvall.
 
 > -   champ = Wiklund  
 > -   longdrive = Strömdahl  

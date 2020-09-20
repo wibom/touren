@@ -7,7 +7,7 @@ weight: 6
 summary: '**Stad:** Västerås <br> **Datum:** VT-08'  
 ---
 
-Den här sidan visar foton från Touren VI, som spelades VT-08 i Västerås
+Den här sidan visar foton från Touren VI, som spelades VT-08 i Västerås.
 
 > -   champ = Wibom  
 > -   longdrive = Wiklund  

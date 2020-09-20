@@ -8,7 +8,7 @@ summary: '**Stad:** Sundsvall <br> **Datum:** VT-18'
 ---
 
 Den här sidan visar foton från Touren XXIV, som spelades VT-18 i
-Sundsvall
+Sundsvall.
 
 > -   champ = Forsell  
 > -   longdrive = Wibom  

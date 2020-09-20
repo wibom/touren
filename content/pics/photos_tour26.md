@@ -7,7 +7,7 @@ weight: 26
 summary: '**Stad:** Lindö <br> **Datum:** VT-19'  
 ---
 
-Den här sidan visar foton från Touren XXVI, som spelades VT-19 i Lindö
+Den här sidan visar foton från Touren XXVI, som spelades VT-19 i Lindö.
 
 > -   champ = Scherlund  
 > -   longdrive = Nyberg  
