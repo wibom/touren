@@ -7,6 +7,8 @@ summary: Varje spelares totalscore för samtliga Tourer genom historien
 ---
 ```{r setup, include=FALSE}
 library(patchwork)
+library(ggridges)
+library(ggiraph)
 source(
   file.path(
     "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
@@ -22,7 +24,132 @@ d <- read_rds(
 )
 theme_set(get_my_ggtheme())
 ```
+```{r functions, include=FALSE}
+plot_player_scores <- function(ds, results_type = "results_net") {
+  # results_type: { "results_gross", "results_net" }
 
+  roundscores <- 
+    map2_dfr(
+      ds[[results_type]], 
+      ds$tour_id, 
+      ~ select(..1$lb[[1]], c(player, starts_with("Runda"))) %>% 
+        pivot_longer(
+          cols = starts_with("Runda"), 
+          names_to = "round", 
+          values_to = "score"
+        ) %>% 
+        mutate(tour_id = ..2)
+    )
+  if (results_type == "results_gross") {
+    # Standardisera brutto-score till par 72
+    roundscores <- roundscores %>% mutate(score = score + 72)
+  }
+  
+  roundscores_stats <- 
+    roundscores %>% 
+    group_by(player) %>% 
+    summarise(
+      median_score = median(score, na.rm = TRUE), 
+      mean_score = mean(score, na.rm = TRUE),
+      min_score = min(score, na.rm = TRUE),
+      max_score = max(score, na.rm = TRUE)
+    ) %>% 
+    arrange(median_score, mean_score) %>% 
+    # Använder endast medel-score för sortering
+    select(-mean_score) %>% 
+    pivot_longer(
+      cols = ends_with("score"), 
+      names_to = "stat",
+      values_to = "score"
+    ) %>% 
+    mutate(
+      player = as_factor(player),
+      txt = case_when(
+        stat == "median_score" ~  str_c(player, "\n", "median: ", score),
+        stat == "min_score" ~  str_c(player, "\n", "lägsta: ", score),
+        stat == "max_score" ~  str_c(player, "\n", "högsta: ", score)
+      )
+    )
+  roundscores_sorted <- 
+    roundscores %>% 
+    mutate(player = factor(player, levels = levels(roundscores_stats$player)))
+  
+  # Labs
+  if (results_type == "results_net") {
+    my_title = "Antal slag per runda; netto"
+    my_subtitle = "relativt bananas par"
+  } else if (results_type == "results_gross") {
+    my_title = "Antal slag per runda; brutto"
+    my_subtitle = "standardiserat till par 72"
+  }
+  
+  # https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html
+  p <- 
+    ggplot(roundscores_sorted, aes(x = score, y = player, fill = player)) +
+    geom_density_ridges2(
+      na.rm = TRUE, 
+      #stat = "binline",
+      scale = 2, # amount overlap
+      rel_min_height = 0.01,
+      quantile_lines = TRUE, 
+      quantiles = 2,
+      alpha = 0.5, 
+      #position = position_points_jitter(width = 0.2, height = .5),
+      #point_shape = '|', 
+      jittered_points = TRUE,
+      point_size = 1, 
+      point_alpha = .15
+    ) + 
+    scale_fill_manual(
+      values = get_player_colour(), 
+      guide = FALSE
+    ) +
+    # Osynlig punkt tillför interaktivitet
+    geom_point_interactive(
+      data = roundscores_stats,
+      aes(
+        x = score, 
+        y = as.numeric(player) + .2, 
+        tooltip = txt
+        #colour = player
+      ),
+      size = 10,
+      shape = 15,
+      #colour = "red", # <- användbart för utveckling
+      alpha = 0.01 # Kan inte vara 0
+    ) +
+    scale_colour_manual(
+      values = get_player_colour(), 
+      guide = FALSE
+    ) +    
+    labs(
+      title = my_title,
+      subtitle = my_subtitle,
+      caption = "strecket markerar median-score"
+    )
+  p_interactive <- ggiraph::girafe(
+    ggobj = p, 
+    height_svg = 6, 
+    # width_svg = 5, 
+    options = list(
+      opts_sizing(rescale = TRUE, width = .7)
+    )
+  )
+  
+ }
+```
+
+# Nettoscorer
+```{r, echo=FALSE, message=FALSE, warnings=FALSE, out.width="100%"}
+(plot_player_scores(d, results_type = "results_net"))
+```
+
+# Bruttoscorer
+```{r, echo=FALSE, message=FALSE, warnings=FALSE, fig.align='left'}
+(plot_player_scores(d, results_type = "results_gross"))
+```
+
+# Scorer över tid
 ```{r, echo=FALSE, message=FALSE, warnings=FALSE, fig.height=8}
 plot_totscore_over_time(d)
 ```
