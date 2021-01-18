@@ -129,7 +129,7 @@ plot_player_scores <- function(ds, results_type = "results_net") {
     )
   p_interactive <- ggiraph::girafe(
     ggobj = p, 
-    height_svg = 6, 
+    height_svg = 6
     # width_svg = 5, 
     # options = list(
     #   opts_sizing(rescale = TRUE, width = .7)
