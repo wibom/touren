@@ -5,7 +5,7 @@ showonlyimage: true
 title: Karlsson  
 weight: 1  
 summary: '**Status:** aktiv <br> **Aktuell ranking:** 1 <br> **Antal
-Tourer:** 26'  
+Tourer:** 27'  
 ---
 
 ![Karlsson](/img/players/karlsson230x230.jpg)
@@ -14,7 +14,7 @@ Tourer:** 26'
 
 **Status:** aktiv  
 **Aktuell ranking::** 1  
-**Antal tourer:** 26
+**Antal tourer:** 27
 
 ------------------------------------------------------------------------
 

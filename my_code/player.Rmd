@@ -2,9 +2,9 @@
 always_allow_html: true
 output:
   md_document:
-    pandoc_args: [
-      "--from", "markdown-markdown_in_html_blocks+raw_html+line_blocks",
-    ]
+    # pandoc_args: [
+    #   "--from", "markdown-markdown_in_html_blocks+raw_html+line_blocks",
+    # ]
 ---
 ```{r cw-comment, include=FALSE}
 # Denna sida genereras med anrop från rmarkdown::render (i scriptet

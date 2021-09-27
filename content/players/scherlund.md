@@ -5,7 +5,7 @@ showonlyimage: true
 title: Scherlund  
 weight: 3  
 summary: '**Status:** aktiv <br> **Aktuell ranking:** 3 <br> **Antal
-Tourer:** 22'  
+Tourer:** 23'  
 ---
 
 ![Scherlund](/img/players/scherlund230x230.jpg)
@@ -14,7 +14,7 @@ Tourer:** 22'
 
 **Status:** aktiv  
 **Aktuell ranking::** 3  
-**Antal tourer:** 22
+**Antal tourer:** 23
 
 ------------------------------------------------------------------------
 

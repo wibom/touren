@@ -3,22 +3,20 @@ draft: false
 image: /img/champs/thumbs/tour16.jpg  
 showonlyimage: false  
 title: Touren XVI  
-weight: 13  
+weight: 14  
 ---
 
 Touren XVI spelades i Uppsala (VT-13)
 
 <!--more-->
 
-Titlar
-------
+## Titlar
 
 -   champ = Forsell  
 -   longdrive = Lundström  
 -   närmast-pinnen = Wibom
 
-Leader board
-------------
+## Leader board
 
 <table class="table table-striped table-bordered table-hover table-condensed table-responsive" style="font-size: 12px; ">
  <thead>
@@ -110,8 +108,7 @@ Leader board
 
 ------------------------------------------------------------------------
 
-Score - totalt
---------------
+## Score - totalt
 
 <img src="/results/tour16/relnet.lineplot.all.png" alt="score - total">
 <br><br>
@@ -119,8 +116,7 @@ Score - totalt
 
 ------------------------------------------------------------------------
 
-Round 1
--------
+## Round 1
 
 <img src="/results/tour16/relnet.lineplot.r1.png" alt="score - r1">
 <br><br>
@@ -128,8 +124,7 @@ Round 1
 
 ------------------------------------------------------------------------
 
-Round 2
--------
+## Round 2
 
 <img src="/results/tour16/relnet.lineplot.r2.png" alt="score - r2">
 <br><br>
@@ -137,8 +132,7 @@ Round 2
 
 ------------------------------------------------------------------------
 
-Round 3
--------
+## Round 3
 
 <img src="/results/tour16/relnet.lineplot.r3.png" alt="score - r3">
 <br><br>

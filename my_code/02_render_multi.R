@@ -19,6 +19,37 @@ force_plr_reprocessing <- TRUE
 force_img_reprocessing <- TRUE
 force_res_reprocessing <- TRUE
 
+# argument till pandoc ----
+# Jag önskar använda R-kod som genererar html-snuttar, vilka ska utvärderas av
+# pandoc tillsammans med övrig markdown när det slutgiltiga html-dokumentet
+# skapas (Rmd --(rmarkdown)--> markdown --(pandoc)--> html). Jag önskar kunna
+# använda intenderad html-kod för detta, för ökad läsbarhet. Per default tolkar
+# pandoc detta som "kodsnuttar", typ (`<pre> min-html </pre>`).
+# - https://stackoverflow.com/questions/39220389/embed-indented-html-in-markdown-with-pandoc
+#
+# Detta kan man lösa genom att lägga till strängen "-markdown_in_html_blocks"
+# (eller "-markdown_in_html_blocks+raw_html") till `from`-argument när man ropar
+# på pandoc. Pandoc-anropet genereras automatiskt av rmarkdown::render().
+#
+# Tidigare (2020-09) kunde man göra detta tillägg till pandocs `from` genom att
+# specificera det i YAML-frontmatter i denna Rmd-fil:
+# - https://stackoverflow.com/questions/39220389/embed-indented-html-in-markdown-with-pandoc
+#
+#
+# Nu (2021-09) visar det sig att det pandoc-call som genereras av
+# `rmarkdown::render()` innehåller ett default-värde som skickas till pandoc
+# `from` (--from markdown+autolink_bare_uris+tex_math_single_backslash). Det
+# värde som anges mha `pandoc_args` i YAML-frontmatter i denna Rmd-fil läggs
+# till sist i pandoc-anropet men utvärderas aldrig.
+# - https://stackoverflow.com/questions/63551238/how-can-i-override-default-pandoc-options-using-yaml-header-to-specify-github-ma
+#
+#
+# Istället kan man ändra hur pandoc-anropas genom att inklduera
+# `output_options = list(md_extensions = "-markdown_in_html_blocks")` i anropet
+# till rmarkdown::render() (se `02_render_multi.R`).
+# - https://stackoverflow.com/a/68335875/7439717
+
+
 # Spelare ----
 #players <- players[1]
 for (player in players) {
@@ -39,13 +70,12 @@ for (player in players) {
       input = "my_code/player.Rmd",
       output_file = player_formated,
       output_dir = "content/players",
-      clean = FALSE,
-      run_pandoc = TRUE
+      clean = TRUE,
+      run_pandoc = TRUE,
+      output_options = list(md_extensions = "-markdown_in_html_blocks+raw_html")
     )
   }
 }
-
-
 
 
 # Tourer ----
@@ -71,7 +101,8 @@ for(tour in tours) {
       output_file = tour,
       output_dir = "content/results",
       clean = TRUE,
-      run_pandoc = TRUE
+      run_pandoc = TRUE,
+      output_options = list(md_extensions = "-markdown_in_html_blocks+raw_html")
     )
   }
 }
@@ -93,7 +124,8 @@ for(tour in tours) {
         output_file = paste0("photos_", tour),
         output_dir = "content/pics",
         clean = TRUE,
-        run_pandoc = TRUE
+        run_pandoc = TRUE,
+        output_options = list(md_extensions = "-markdown_in_html_blocks+raw_html")
       )
     }
   }

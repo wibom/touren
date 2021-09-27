@@ -3,22 +3,20 @@ draft: false
 image: /img/champs/thumbs/tour03.jpg  
 showonlyimage: false  
 title: Touren III  
-weight: 26  
+weight: 27  
 ---
 
 Touren III spelades i Sundsvall (HT-06)
 
 <!--more-->
 
-Titlar
-------
+## Titlar
 
 -   champ = Karlsson  
 -   longdrive = Karlsson  
 -   närmast-pinnen = Nyberg
 
-Leader board
-------------
+## Leader board
 
 <table class="table table-striped table-bordered table-hover table-condensed table-responsive" style="font-size: 12px; ">
  <thead>
@@ -110,28 +108,24 @@ Leader board
 
 ------------------------------------------------------------------------
 
-Score - totalt
---------------
+## Score - totalt
 
 inga data <br><br>
 
 ------------------------------------------------------------------------
 
-Round 1
--------
+## Round 1
 
 inga data <br><br>
 
 ------------------------------------------------------------------------
 
-Round 2
--------
+## Round 2
 
 inga data <br><br>
 
 ------------------------------------------------------------------------
 
-Round 3
--------
+## Round 3
 
 inga data <br><br>

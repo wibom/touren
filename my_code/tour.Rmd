@@ -2,9 +2,9 @@
 always_allow_html: true
 output:
   md_document:
-    pandoc_args: [
-      "--from", "markdown-markdown_in_html_blocks+raw_html+line_blocks",
-    ]
+    # pandoc_args: [
+    #   "--from", "markdown-markdown_in_html_blocks+raw_html+line_blocks",
+    # ]
 ---
 ```{r setup, include=FALSE}
 library(patchwork)
@@ -146,9 +146,14 @@ plot_scores_lineplot <- function(ds, my_score_type, my_tour_id, my_round_id) {
       minor_breaks = seq(-20, 150, 2)
     ) +
     scale_colour_manual(
-      values = get_player_colour(),
-      name = NULL
-    ) +    
+      values = get_player_colour(), 
+      name = NULL,
+      # bug in ggplot2_3.3.5 (2021-09-26)
+      # workaround:
+      # https://github.com/tidyverse/ggplot2/issues/4511#issuecomment-866185530
+      # https://github.com/tidyverse/ggplot2/pull/4619#pullrequestreview-758208160
+      limits = force  
+    ) +
     #ggsci::scale_color_jco() +
     geom_hline(
       aes(yintercept = 0)

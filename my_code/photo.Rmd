@@ -2,10 +2,45 @@
 always_allow_html: true
 output: 
   md_document:
-    pandoc_args: [
-      "--from", "markdown-markdown_in_html_blocks+raw_html",
-    ]
+    # pandoc_args: [
+    #   "--from", "markdown-markdown_in_html_blocks+raw_html",
+    # ]
 ---
+```{r cw-comment, include=FALSE}
+# Denna sida genereras med anrop från rmarkdown::render (i scriptet
+# `02_render_multi.R`), med specificerade värden för `output_file` och
+# `output_dir`.
+#
+# argument till pandoc ----
+# Jag önskar använda R-kod som genererar html-snuttar, vilka ska utvärderas av
+# pandoc tillsammans med övrig markdown när det slutgiltiga html-dokumentet 
+# skapas (Rmd --(rmarkdown)--> markdown --(pandoc)--> html). Jag önskar kunna
+# använda intenderad html-kod för detta, för ökad läsbarhet. Per default tolkar
+# pandoc detta som "kodsnuttar", typ (`<pre> min-html </pre>`).
+# - https://stackoverflow.com/questions/39220389/embed-indented-html-in-markdown-with-pandoc
+# 
+# Detta kan man lösa genom att lägga till strängen "-markdown_in_html_blocks" 
+# (eller "-markdown_in_html_blocks+raw_html") till `from`-argument när man ropar 
+# på pandoc. Pandoc-anropet genereras automatiskt av rmarkdown::render().
+#
+# Tidigare (2020-09) kunde man göra detta tillägg till pandocs `from` genom att
+# specificera det i YAML-frontmatter i denna Rmd-fil:
+# - https://stackoverflow.com/questions/39220389/embed-indented-html-in-markdown-with-pandoc
+#
+# 
+# Nu (2021-09) visar det sig att det pandoc-call som genereras av 
+# `rmarkdown::render()` innehåller ett default-värde som skickas till pandoc 
+# `from` (--from markdown+autolink_bare_uris+tex_math_single_backslash). Det
+# värde som anges mha `pandoc_args` i YAML-frontmatter i denna Rmd-fil läggs 
+# till sist i pandoc-anropet men utvärderas aldrig.
+# - https://stackoverflow.com/questions/63551238/how-can-i-override-default-pandoc-options-using-yaml-header-to-specify-github-ma
+#
+# 
+# Istället kan man ändra hur pandoc-anropas genom att inklduera
+# `output_options = list(md_extensions = "-markdown_in_html_blocks")` i anropet 
+# till rmarkdown::render() (se `02_render_multi.R`).
+# - https://stackoverflow.com/a/68335875/7439717
+```
 ```{r, include=FALSE}
 photodir <- file.path(here::here(), 'static/img', tour, 'scaled')
 photos <- list.files(
@@ -51,7 +86,6 @@ Den här sidan visar foton från Touren `r meta$roman_numeral`, som spelades
 
 ```{r results='asis', echo=FALSE, comment=FALSE}
 # https://ashleydw.github.io/lightbox/#image-gallery
-# https://stackoverflow.com/questions/39220389/embed-indented-html-in-markdown-with-pandoc
 
 # img html
 img_html <- glue::glue('

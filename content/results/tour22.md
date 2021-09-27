@@ -3,22 +3,20 @@ draft: false
 image: /img/champs/thumbs/tour22.jpg  
 showonlyimage: false  
 title: Touren XXII  
-weight: 7  
+weight: 8  
 ---
 
 Touren XXII spelades i Umeå (HT-16)
 
 <!--more-->
 
-Titlar
-------
+## Titlar
 
 -   champ = Karlsson  
 -   longdrive = Karlsson  
 -   närmast-pinnen = Karlsson
 
-Leader board
-------------
+## Leader board
 
 <table class="table table-striped table-bordered table-hover table-condensed table-responsive" style="font-size: 12px; ">
  <thead>
@@ -101,8 +99,7 @@ Leader board
 
 ------------------------------------------------------------------------
 
-Score - totalt
---------------
+## Score - totalt
 
 <img src="/results/tour22/relnet.lineplot.all.png" alt="score - total">
 <br><br>
@@ -110,8 +107,7 @@ Score - totalt
 
 ------------------------------------------------------------------------
 
-Round 1
--------
+## Round 1
 
 <img src="/results/tour22/relnet.lineplot.r1.png" alt="score - r1">
 <br><br>
@@ -119,8 +115,7 @@ Round 1
 
 ------------------------------------------------------------------------
 
-Round 2
--------
+## Round 2
 
 <img src="/results/tour22/relnet.lineplot.r2.png" alt="score - r2">
 <br><br>
@@ -128,8 +123,7 @@ Round 2
 
 ------------------------------------------------------------------------
 
-Round 3
--------
+## Round 3
 
 <img src="/results/tour22/relnet.lineplot.r3.png" alt="score - r3">
 <br><br>

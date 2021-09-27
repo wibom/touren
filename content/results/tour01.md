@@ -3,22 +3,20 @@ draft: false
 image: /img/champs/thumbs/tour01.jpg  
 showonlyimage: false  
 title: Touren I  
-weight: 28  
+weight: 29  
 ---
 
 Touren I spelades i Gävle (HT-05)
 
 <!--more-->
 
-Titlar
-------
+## Titlar
 
 -   champ = Strömdahl  
 -   longdrive = NA  
 -   närmast-pinnen = NA
 
-Leader board
-------------
+## Leader board
 
 <table class="table table-striped table-bordered table-hover table-condensed table-responsive" style="font-size: 12px; ">
  <thead>
@@ -101,28 +99,24 @@ Leader board
 
 ------------------------------------------------------------------------
 
-Score - totalt
---------------
+## Score - totalt
 
 inga data <br><br>
 
 ------------------------------------------------------------------------
 
-Round 1
--------
+## Round 1
 
 inga data <br><br>
 
 ------------------------------------------------------------------------
 
-Round 2
--------
+## Round 2
 
 inga data <br><br>
 
 ------------------------------------------------------------------------
 
-Round 3
--------
+## Round 3
 
 inga data <br><br>

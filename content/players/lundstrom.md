@@ -5,7 +5,7 @@ showonlyimage: true
 title: Lundström  
 weight: 6  
 summary: '**Status:** aktiv <br> **Aktuell ranking:** 6 <br> **Antal
-Tourer:** 19'  
+Tourer:** 20'  
 ---
 
 ![Lundström](/img/players/lundström230x230.jpg)
@@ -14,7 +14,7 @@ Tourer:** 19'
 
 **Status:** aktiv  
 **Aktuell ranking::** 6  
-**Antal tourer:** 19
+**Antal tourer:** 20
 
 ------------------------------------------------------------------------
 

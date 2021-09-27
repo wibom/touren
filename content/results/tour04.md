@@ -3,22 +3,20 @@ draft: false
 image: /img/champs/thumbs/tour04.jpg  
 showonlyimage: false  
 title: Touren IV  
-weight: 25  
+weight: 26  
 ---
 
 Touren IV spelades i Norrköping (VT-07)
 
 <!--more-->
 
-Titlar
-------
+## Titlar
 
 -   champ = Karlsson  
 -   longdrive = Scherlund  
 -   närmast-pinnen = NA
 
-Leader board
-------------
+## Leader board
 
 <table class="table table-striped table-bordered table-hover table-condensed table-responsive" style="font-size: 12px; ">
  <thead>
@@ -92,28 +90,24 @@ Leader board
 
 ------------------------------------------------------------------------
 
-Score - totalt
---------------
+## Score - totalt
 
 inga data <br><br>
 
 ------------------------------------------------------------------------
 
-Round 1
--------
+## Round 1
 
 inga data <br><br>
 
 ------------------------------------------------------------------------
 
-Round 2
--------
+## Round 2
 
 inga data <br><br>
 
 ------------------------------------------------------------------------
 
-Round 3
--------
+## Round 3
 
 inga data <br><br>
