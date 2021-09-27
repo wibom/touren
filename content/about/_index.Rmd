@@ -90,7 +90,7 @@ overview %>%
           * Denna metod används även för särskiljning avseende spurtpriset, då 
             bräkningen utgår från hål 46 o.s.v.
           * <small> Till och med Tour XIII (HT-11, Skellefteå) användes 
-            **HCP-metoden**, dvs vid oavgjort vann den med lägst antal erhållna 
+            *HCP-metoden*, dvs vid oavgjort vann den med lägst antal erhållna 
             slag på slopen.</small>
         <br><br>
         
