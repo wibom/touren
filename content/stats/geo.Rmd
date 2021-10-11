@@ -1,0 +1,111 @@
+---
+output: html_document  
+title: Touren was here  
+image: /img/misc/geo.jpg    
+showonlyimage: false  
+summary: Var har Touren varit?
+editor_options: 
+  chunk_output_type: console
+---
+```{r setup, include=FALSE}
+library(ggiraph)
+library(sf)
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+
+```
+
+
+Vilka kommuner har Touren besökt?
+
+
+```{r, echo=FALSE, message=FALSE, fig.height=8, out.width="100%", fig.align='left'}
+# Referens-data ----
+# Relevanta kommunkoder
+# https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/lan-och-kommuner/lan-och-kommuner-i-kodnummerordning/#Vasterbottens_lan
+knkoder <- 
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "mapinfo/kommunlankod-2021.xlsx"
+  ) %>% 
+  readxl::read_xlsx(
+    skip = 5
+  ) %>% 
+  # länskoder är 2-siffriga; exkludera
+  filter(nchar(Code) != 2)
+
+# https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser/
+sweshp <-
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "mapinfo/shape_svenska_210505/KommunSweref99TM/Kommun_Sweref99TM_region.shp"
+  ) %>% 
+  sf::st_read(quiet = TRUE)
+
+# Tour-data ----
+tours <- read_tours_list()
+tours_kommun_count <- 
+  tours %>% 
+  # Kommunnamn
+  mutate(
+    kommun = city,
+    kommun = recode(
+      kommun,
+      "Ö-vik" = "Örnsköldsvik", 
+      "Lindö" = "Vallentuna"
+      )
+  ) %>% 
+  group_by(kommun) %>% 
+  summarise(n = n()) %>% 
+  left_join(knkoder, by = c("kommun" = "Name"))
+  
+# plot ----
+sweshp_tourcount <- 
+  sweshp %>% 
+  left_join(tours_kommun_count, by = c("KnNamn" = "kommun")) %>% 
+  mutate(
+    txt = case_when(
+      is.na(n) ~ NA_character_,
+      TRUE ~ glue::glue("{KnNamn}: {n}") %>% as.character()
+    )
+  )
+
+p <- ggplot(data = sweshp_tourcount) + 
+  ggiraph::geom_sf_interactive(
+    aes(fill = n, tooltip = txt),
+    size = .1, 
+    color = "black"
+  ) +
+  #geom_sf(size = .1, color = "black", aes(fill = n)) + 
+  coord_sf() +
+  scale_fill_viridis_c(
+    name = "antal besök",
+    na.value = "grey85", 
+    guide = guide_colourbar(title.position = "top")
+  ) +
+  #theme_void() +
+  theme(
+    #plot.margin = grid::unit(c(.5, .5, .5, .5), "cm"),
+    axis.text = element_text(size = rel(.6)),
+    plot.title = element_text(size = rel(.6)),
+    legend.title = element_text(size = rel(.6)),
+    legend.text = element_text(size = rel(.6)), 
+    legend.key.height = unit(rel(.6), "cm")
+  ) +
+  labs(
+    title = "Kommuner Touren\nbesökt"
+  )
+ggiraph::girafe(ggobj = p)
+```
