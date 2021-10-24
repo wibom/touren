@@ -4,8 +4,11 @@ title: Rounds
 image: /img/misc/round123.jpg    
 showonlyimage: false  
 summary: Runda 1 2 och 3
+editor_options: 
+  chunk_output_type: console
 ---
 ```{r setup, include=FALSE}
+library(patchwork)
 source(
   file.path(
     "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
@@ -22,11 +25,84 @@ d <- read_rds(
 theme_set(get_my_ggtheme())
 ```
 
-
-Score från samtliga rundor som spelats på Touren.
-
+Noterbart hur sällan runda 3 är en spelares bästa runda.
 
 ```{r function, include=FALSE}
+plot_proportion_best_round <- function(d, score_type = "rel_gross") {
+  p_colours <- get_player_colour()
+  
+  # Hur ofta (%) är runda 1 bäst , eller runda 2 eller runda 3?
+  d_plot <-
+    d %>%
+    filter(map_lgl(.[[score_type]], ~!is.null(.))) %>%
+    unnest(!!rlang::sym(score_type)) %>%
+    mutate(
+      hole_nr_tmp = str_extract(hole_id, "\\d+$") %>% as.integer(),
+      round_id = ceiling(hole_nr_tmp / 18) %>% as.character()
+      #comb_id = str_c(tour_id, round_id, sep = "-")
+    ) %>% 
+    group_by(tour_id, round_id) %>%
+    summarise(across(all_of(names(p_colours)), sum), .groups = "drop_last") %>% 
+    mutate(across(all_of(names(p_colours)), min_rank)) %>% 
+    ungroup() %>% 
+    pivot_longer(
+      cols = all_of(names(p_colours)),
+      names_to = "player",
+      values_to = "rank"
+    ) %>% 
+    count(player, round_id, rank, name = "rank_count") %>% 
+    filter(!is.na(rank)) %>% 
+    group_by(player, round_id) %>% 
+    mutate(
+      rank_prc = rank_count / sum(rank_count)
+    ) %>% 
+    ungroup()
+  
+  # Plotta: andel tourer där runda 1 är bäst
+  plot_bestroundpropotion <- function(dp, round, plotrank = 1) {
+    dp %>% 
+      filter(round_id == round, rank == plotrank) %>%
+      arrange(desc(rank_prc)) %>% 
+      mutate(player = as_factor(player)) %>% 
+      ggplot(aes(x = player, y = rank_prc)) +
+      geom_col(aes(fill = player)) + 
+      scale_fill_manual(
+        values = p_colours, 
+        drop = FALSE, 
+        guide = "none"
+      ) + 
+      scale_y_continuous(labels = scales::percent) + 
+      theme(
+        axis.text.y = element_text(size = rel(.8)),
+        axis.text.x = element_text(
+          angle = 45, 
+          vjust = 1, 
+          hjust = 1, 
+          size = rel(.6)
+        ),
+        axis.title.x = element_blank(),
+        panel.grid.major.x = element_blank()
+      ) + 
+      labs(
+        subtitle = glue::glue("Andel Tourer då runda {round} är spelarens bästa")
+      )
+  }
+  p1 <- plot_bestroundpropotion(dp = d_plot, round = 1)
+  p2 <- plot_bestroundpropotion(dp = d_plot, round = 2)
+  p3 <- plot_bestroundpropotion(dp = d_plot, round = 3)
+  
+  p_assembly <- p1 / p2 / p3 # assembel med Patchwork
+  p_assembly +
+    plot_annotation(
+      title = 'Andel Tourer då en given runda är spelarens bästa',
+      #subtitle = 'Hur ofta är t.ex. runda 1 spelarens bästa runda?',
+      caption = glue::glue(
+        "För varje Tour där spelaren deltagit rankas rundorna m.a.p. \\
+        brutto-score, därefter beräknas hur ofta en given runda är spelarens \\
+        bästa."
+      ) %>% str_wrap(width = 100)
+    )
+}
 plot_avgscores_round123 <- function(d, score_type = "rel_net") {
 
   # copy/paste från `plot_spring_vs_fall`
@@ -184,14 +260,14 @@ plot_avgscores_allrounds <- function(d, score_type = "rel_net") {
 }
 ```
 
-```{r plot-1, echo=FALSE, fig.height=8, out.width="100%"}
-plot_avgscores_round123(d, score_type = "rel_net")
+```{r plot-1, echo=FALSE, fig.height=9, out.width="100%"}
+plot_proportion_best_round(d)
 ```
 
-
-**********
-
-```{r plot-2, echo=FALSE, fig.height=8, out.width="100%"}
+```{r plot-x, echo=FALSE, fig.height=8, out.width="100%", eval=FALSE}
+plot_avgscores_round123(d, score_type = "rel_net")
+```
+```{r plot-xx, echo=FALSE, fig.height=8, out.width="100%", eval=FALSE}
 plot_avgscores_allrounds(d, score_type = "rel_net")
 ```
 

@@ -31,7 +31,7 @@ theme_set(get_my_ggtheme())
 Vilka kommuner har Touren besökt?
 
 
-```{r, echo=FALSE, message=FALSE, fig.height=8, out.width="100%", fig.align='left'}
+```{r, echo=FALSE, message=FALSE, fig.height=6, out.width="70%", fig.align='left'}
 # Referens-data ----
 # Relevanta kommunkoder
 # https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/lan-och-kommuner/lan-och-kommuner-i-kodnummerordning/#Vasterbottens_lan
@@ -77,7 +77,7 @@ sweshp_tourcount <-
   left_join(tours_kommun_count, by = c("KnNamn" = "kommun")) %>% 
   mutate(
     txt = case_when(
-      is.na(n) ~ NA_character_,
+      is.na(n) ~ glue::glue("{KnNamn}") %>% as.character(),
       TRUE ~ glue::glue("{KnNamn}: {n}") %>% as.character()
     )
   )
@@ -99,13 +99,13 @@ p <- ggplot(data = sweshp_tourcount) +
   theme(
     #plot.margin = grid::unit(c(.5, .5, .5, .5), "cm"),
     axis.text = element_text(size = rel(.6)),
-    plot.title = element_text(size = rel(.6)),
+    plot.title = element_text(size = rel(1)),
     legend.title = element_text(size = rel(.6)),
     legend.text = element_text(size = rel(.6)), 
-    legend.key.height = unit(rel(.6), "cm")
+    legend.key.height = unit(rel(.5), "cm")
   ) +
   labs(
-    title = "Kommuner Touren\nbesökt"
+    title = "Kommuner Touren besökt"
   )
-ggiraph::girafe(ggobj = p)
+ggiraph::girafe(ggobj = p, width_svg = 6, height_svg = 8, width = 10)
 ```
