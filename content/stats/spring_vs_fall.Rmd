@@ -25,8 +25,7 @@ theme_set(get_my_ggtheme())
 
 Jämför scorer (brutto) mellan höst och vår inom samma kalenderår.
 
-```{r, echo=FALSE, fig.height=8, out.width="100%"}
-# comparing spring and autum scores ----
+```{r, echo=FALSE, fig.height=6, out.width="100%"}
 ds <- d
 ds <- ds %>% filter(!map_lgl(abs_gross, is.null))
 d_plot <-
@@ -108,16 +107,16 @@ d_plot2 %>%
     y = -Inf,
     hjust = 1.05,
     vjust = -1,
-    size = 3
+    size = rel(1.8)
   ) +
   labs(
     title = "Bästa säsongen",
     subtitle = glue::glue(
       "Skillnaden mellan vår och höst (brutto) beräknas inom ett och samma
-      spelår, dvs spelaren måste ha deltagit bårde vår och höst samma år för
+      spelår, dvs spelaren måste ha deltagit både vår och höst samma år för
       att resultaten ska inkluderas här. Magkänslan säger att det ofta går
       bättre på hösten. Denna figur stödjer delvis den känslan."
-    ) %>% str_wrap(width = 120),
+    ) %>% str_wrap(width = 100),
     color = "Bästa säsong",
     x = NULL,
     caption = glue::glue(
@@ -125,11 +124,16 @@ d_plot2 %>%
       Positiva värden => bättre på hösten; \\
       Negativa värden => bättre på våren"
     )
+  ) + 
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1, size = rel(.7)), 
+    plot.subtitle = element_text(size = rel(.8)),
+    plot.caption = element_text(size = rel(.8))
   )
 ```
 
 
-```{r, echo=FALSE, fig.height=8, out.width="100%"}
+```{r, echo=FALSE, fig.height=5, out.width="100%"}
 # Andel spelår
 d_plot2 %>%
   group_by(player, best_season) %>%
@@ -157,12 +161,17 @@ d_plot2 %>%
     title = "Bästa säsongen",
     subtitle = glue::glue(
       "Bästa säsongen beräknas inom ett och samma spelår (brutto), dvs
-      spelaren måste ha deltagit bårde vår och höst samma år för att
+      spelaren måste ha deltagit både vår och höst samma år för att
       jämförelsen ska inkluderas här. Klar minoritet av spelare verkar
       skjuta bättre scorer på våren än på hösten."
-    ) %>% str_wrap(width = 120),
+    ) %>% str_wrap(width = 100),
     fill = "Bästa säsong",
     x = NULL
+  ) + 
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1, size = rel(.7)), 
+    plot.subtitle = element_text(size = rel(.8)),
+    plot.caption = element_text(size = rel(.8))
   )
 
 ```
