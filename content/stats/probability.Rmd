@@ -1,0 +1,374 @@
+---
+output: html_document  
+title: Sannolikhet  
+image: /img/misc/probability.jpg  
+showonlyimage: false  
+summary: Sannolikhet att vinna/förlora
+editor_options: 
+  chunk_output_type: console
+---
+```{r setup, include=FALSE}
+library(ggiraph)
+source(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "helpers.R"
+  ),
+  encoding = "UTF8"
+)
+d <- read_rds(
+  file.path(
+    "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
+    "data/complete_data.RDS"
+  )  
+)
+theme_set(get_my_ggtheme())
+```
+```{r, echo=FALSE}
+get_likelihood <- function(ref_hole, margin, ds, my_score_type, win_or_lose) {
+  # t.ex. sannolikhet att vinna givet 5 slags ledning efter hål 18
+  # ds = d
+  # ref_hole = 54 (efter vilket hål - kan översätta t.ex. runda1 till hål18)
+  # margin = 15
+  # my_score_type = "rel_net" { "abs_gross", "abs_net", "rel_gross", "rel_net" }
+
+  results_id <- if_else(
+    str_detect(my_score_type, "gross"),
+    "results_gross",
+    "results_net"
+  )
+  results <-
+    ds %>%
+    select(tour_id, !!rlang::sym(results_id)) %>%
+    unnest(!!rlang::sym(results_id))
+
+
+  players <- get_player_colour() %>% names()
+  scores <-
+    ds %>%
+    filter(!map_lgl(!!rlang::sym(my_score_type), is.null)) %>%
+    select(tour_id, !!rlang::sym(my_score_type)) %>%
+    unnest(!!rlang::sym(my_score_type)) %>%
+    mutate(hole_no = str_remove(hole_id, "hole_") %>% as.integer()) %>%
+    relocate(hole_no, .after = hole_id)
+
+  get_margin_to_leader <- function(x) {
+    x %>%
+      mutate(leader_margin = score_sum - score_sum[1]) %>%
+      select(leader_margin)
+  }
+  get_margin_to_loser <- function(x) {
+    x %>%
+      mutate(loser_margin = score_sum[nrow(x)] - score_sum) %>%
+      select(loser_margin)
+  }
+  # Not accounting for ties. Perhaps that should be fixed?
+  leaderboard_at_ref <-
+    scores %>%
+    filter(hole_no <= ref_hole) %>%
+    group_by(tour_id) %>%
+    summarise(across(all_of(players), sum), .groups = "drop") %>%
+    pivot_longer(
+      cols = -tour_id,
+      names_to = "player",
+      values_to = "score_sum"
+    ) %>%
+    filter(!is.na(score_sum)) %>%
+    arrange(tour_id, score_sum) %>%
+    nest(data = -tour_id) %>%
+    mutate(leader_margin = map(data, get_margin_to_leader)) %>%
+    mutate(loser_margin = map(data, get_margin_to_loser)) %>%
+    unnest(cols = c(data, leader_margin, loser_margin))
+
+  stats_by_tour <-
+    leaderboard_at_ref %>%
+    left_join(select(results, tour_id, champ, loser), by = "tour_id") %>%
+    group_by(tour_id) %>%
+    summarise(
+      leader = first(player),
+      leader_margin = nth(leader_margin, 2), # leader's margin to runnerup
+      champ = unique(champ),
+
+      last = last(player),
+      last_margin = nth(loser_margin, n() - 1), # last's margin to second last
+      loser = unique(loser)
+    ) %>%
+    mutate(
+      leader_won = leader == champ,
+      last_lost = last == loser
+    )
+
+  if (win_or_lose == "win") {
+    # likelihood to win
+    likelihood_tab <-
+      stats_by_tour %>%
+      filter(leader_margin >= margin) %>%
+      summarise(
+        tot_n = n(),
+        occurance_n = sum(leader_won) # no. times the leader won
+      ) %>%
+      mutate(
+        likelihood = round(occurance_n / tot_n * 100, 1)
+      )
+  } else if (win_or_lose == "lose") {
+    # likelihood to lose
+    likelihood_tab <-
+      stats_by_tour %>%
+      filter(last_margin >= margin) %>%
+      summarise(
+        tot_n = n(),
+        occurance_n = sum(last_lost) # no. times the last player lost
+      ) %>%
+      mutate(
+        likelihood = round(occurance_n / tot_n * 100, 1)
+      )
+  }
+
+  return (likelihood_tab)
+
+}
+get_likelihood_plotdata <- function(ds, my_score_type, win_or_lose, at = NA) {
+  # ds = d
+  # my_score_type = "rel_net" { "abs_gross", "abs_net", "rel_gross", "rel_net" }
+  d_plot_likelihood <-
+    expand_grid(
+      "at_hole" = if (is.na(at)) seq(1, 53, by = 1) else at,
+      "margin" = seq(1, 12, by = 1)
+    ) %>%
+    mutate(
+      likelihood = map2(
+        at_hole,
+        margin,
+        get_likelihood,
+        ds = ds,
+        my_score_type = my_score_type,
+        win_or_lose = win_or_lose
+      )
+    ) %>%
+    unnest(likelihood)
+
+  if (win_or_lose == "win") {
+    d_plot_likelihood <-
+      d_plot_likelihood %>%
+      mutate(
+        txt = if_else(
+          tot_n == 0,
+          glue::glue(
+            "Minst {margin} slags ledning efter hål {at_hole}
+             Har aldrig hänt"
+          ),
+          glue::glue(
+            "Minst {margin} slags ledning efter hål {at_hole}
+             Har hänt vid {tot_n} Tourer
+             Ledaren vann {occurance_n} gånger ({likelihood} %)"
+          )
+        )
+      )
+  } else if (win_or_lose == "lose") {
+    d_plot_likelihood <-
+      d_plot_likelihood %>%
+      mutate(
+        txt = if_else(
+          tot_n == 0,
+          glue::glue(
+            "Minst {margin} slag upp till näst-sist efter hål {at_hole}
+             Har aldrig hänt"
+          ),
+          glue::glue(
+            "Minst {margin} slag upp till näst-sist efter hål {at_hole}
+             Har hänt vid {tot_n} Tourer
+             Sisten blev loser {occurance_n} gånger ({likelihood} %)"
+          )
+        )
+      )
+  }
+  return (d_plot_likelihood)
+}
+get_likelihood_heatmap <- function(ds, my_score_type, win_or_lose) {
+  d_plot <- get_likelihood_plotdata(ds, my_score_type, win_or_lose)
+  p <-
+    ggplot(d_plot, aes(x = at_hole, y = margin)) +
+    scale_x_continuous(
+      breaks = c(seq(9, 45, 9), 53),
+      expand = c(0, 0)
+    ) +
+    scale_y_continuous(
+      breaks = seq(1, 13, 2),
+      expand = c(0, 0)
+    ) +
+    geom_tile_interactive(
+      aes(
+        fill = likelihood,
+        tooltip = txt
+      )
+    ) +
+    geom_vline(xintercept = c(18.5, 36.5)) +
+    scale_fill_viridis_c() +
+    guides(
+      fill = guide_colorbar(
+        title.position = "top",
+        barwidth = 10,
+        title.hjust = 0
+      )
+    ) +
+    theme(
+      axis.title = element_text(),
+      panel.grid = element_blank()
+    )
+
+  if (win_or_lose == "win") {
+    p <-
+      p +
+      labs(
+        title = "Sannolikhet att vinna",
+        subtitle = glue::glue(
+          "Sannolikheten att vinna givet en viss marginal mellan ledaren \\
+          och tvåan efter ett visst antal spelade hål, baserat på spelade \\
+          Tourer"
+        ) %>% str_wrap(width = 110),
+        caption = "Finns inga scorekort från Tour 1-4",
+        fill = "Sannolikhet att vinna (%)",
+        y = "Antal slag mellan ledaren och tvåan",
+        x = NULL
+      )
+  } else if (win_or_lose == "lose") {
+    p <-
+      p +
+      labs(
+        title = "Sannolikhet att förlora",
+        subtitle = glue::glue(
+          "Sannolikheten att förlora givet en viss marginal mellan sisten \\
+          och näst-sisten efter ett visst antal spelade hål, baserat på \\
+          spelade Tourer"
+        ) %>% str_wrap(width = 110),
+        caption = "Finns inga scorekort från Tour 1-4",
+        fill = "Sannolikhet att förlora (%)",
+        y = "Antal slag mellan sist och nästsist",
+        x = NULL
+      )
+  }
+
+  return (p)
+
+}
+get_likelihood_bargraf <- function(ds, my_score_type, win_or_lose, at) {
+  d_plot <- get_likelihood_plotdata(ds, my_score_type, win_or_lose, at)
+  p <- 
+    ggplot(d_plot, aes(x = margin, y = likelihood)) + 
+    geom_col_interactive(aes(fill = likelihood, tooltip = txt)) + 
+    scale_x_continuous(breaks = 1:100) +
+    scale_fill_viridis_c() +
+    theme(
+      axis.title = element_text(),
+      panel.grid = element_blank()
+    )
+  
+  if (win_or_lose == "win") {
+    p <-
+      p +
+      labs(
+        title = "Sannolikhet att vinna",
+        subtitle = glue::glue(
+          "Sannolikheten att vinna givet en viss marginal mellan ledaren \\
+          och tvåan efter {at} spelade hål, baserat på spelade \\
+          Tourer"
+        ) %>% str_wrap(width = 110),
+        caption = "Finns inga scorekort från Tour 1-4",
+        y = "Sannolikhet att vinna (%)",
+        x = NULL
+      )
+  } else if (win_or_lose == "lose") {
+    p <-
+      p +
+      labs(
+        title = "Sannolikhet att förlora",
+        subtitle = glue::glue(
+          "Sannolikheten att förlora givet en viss marginal mellan sisten \\
+          och näst-sisten efter {at} spelade hål, baserat på \\
+          spelade Tourer"
+        ) %>% str_wrap(width = 110),
+        caption = "Finns inga scorekort från Tour 1-4",
+        y = "Sannolikhet att förlora (%)",
+        x = NULL
+      )
+  }
+
+  return (p)
+}
+```
+
+## Sannolikhet att vinna
+
+```{r, echo=FALSE, fig.height=6, out.width="100%", message=FALSE}
+likelihood_to_win_heatmap <- get_likelihood_heatmap(
+  ds = d,
+  my_score_type = "rel_net",
+  win_or_lose = "win"
+)
+girafe(
+  ggobj = likelihood_to_win_heatmap, 
+  width_svg = 9, 
+  height_svg = 6,
+  width = 6
+)
+```
+```{r, echo=FALSE, fig.height=6, out.width="100%", message=FALSE}
+likelihood_to_win_after36_bar <- get_likelihood_bargraf(
+  ds = d,
+  my_score_type = "rel_net",
+  win_or_lose = "win", 
+  at = 36
+)
+girafe(
+  ggobj = 
+    likelihood_to_win_after36_bar + 
+    scale_fill_viridis_c(option = "plasma"), 
+  width_svg = 9,
+  height_svg = 6,
+  width = 6 
+)
+```
+
+* Nio slags ledning efter två rundor har alltid räckt för slutseger
+* En stor ledning efter runda ett leder sällan till slutseger
+
+<br>
+
+## Sannolikhet att förlora
+```{r, echo=FALSE, fig.height=6, out.width="100%", message=FALSE}
+likelihood_to_lose_heatmap <- get_likelihood_heatmap(
+  ds = d,
+  my_score_type = "rel_net",
+  win_or_lose = "lose"
+)
+girafe(
+  ggobj = likelihood_to_lose_heatmap + scale_fill_viridis_c(option = "plasma"), 
+  width_svg = 9,
+  height_svg = 6,
+  width = 6 
+)
+```
+```{r, echo=FALSE, fig.height=6, out.width="100%", message=FALSE}
+likelihood_to_lose_after36_bar <- get_likelihood_bargraf(
+  ds = d,
+  my_score_type = "rel_net",
+  win_or_lose = "lose", 
+  at = 36
+)
+girafe(
+  ggobj = 
+    likelihood_to_lose_after36_bar + 
+    scale_fill_viridis_c(option = "plasma"), 
+  width_svg = 9,
+  height_svg = 6,
+  width = 6 
+)
+```
+
+* Den som är sist efter 18 hål löper >50% risk att bli loser, även om 
+  marginalen till näst-sisten bara är är ett slag
+* Elva slags marginal mellan sisten och näst-sisten efter 36 hål har 
+  hämtats upp
+
+
+

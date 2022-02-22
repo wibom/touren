@@ -9,6 +9,8 @@ editor_options:
 ---
 ```{r setup, include=FALSE}
 library(patchwork)
+library(glue)
+library(ggiraph)
 source(
   file.path(
     "C:/Users/caewim02/Documents/_Personal_/golf/Touren_blogdown/my_code",
@@ -24,15 +26,13 @@ d <- read_rds(
 )
 theme_set(get_my_ggtheme())
 ```
-
-Noterbart hur sällan runda 3 är en spelares bästa runda.
-
 ```{r function, include=FALSE}
-plot_proportion_best_round <- function(d, score_type = "rel_gross") {
-  p_colours <- get_player_colour()
+rank_rounds <- function(d, score_type = "rel_gross") {
   
-  # Hur ofta (%) är runda 1 bäst , eller runda 2 eller runda 3?
-  d_plot <-
+  players <- get_player_colour() %>% names()
+
+  # Hur ofta (%) är runda 1 bäst, eller runda 2 eller runda 3?
+  d_rr <-
     d %>%
     filter(map_lgl(.[[score_type]], ~!is.null(.))) %>%
     unnest(!!rlang::sym(score_type)) %>%
@@ -42,36 +42,63 @@ plot_proportion_best_round <- function(d, score_type = "rel_gross") {
       #comb_id = str_c(tour_id, round_id, sep = "-")
     ) %>% 
     group_by(tour_id, round_id) %>%
-    summarise(across(all_of(names(p_colours)), sum), .groups = "drop_last") %>% 
-    mutate(across(all_of(names(p_colours)), min_rank)) %>% 
+    summarise(across(all_of(players), sum), .groups = "drop_last") %>% 
+    mutate(across(all_of(players), row_number)) %>% 
     ungroup() %>% 
     pivot_longer(
-      cols = all_of(names(p_colours)),
+      cols = all_of(players),
       names_to = "player",
       values_to = "rank"
     ) %>% 
     count(player, round_id, rank, name = "rank_count") %>% 
     filter(!is.na(rank)) %>% 
-    group_by(player, round_id) %>% 
+    group_by(player, rank) %>% 
     mutate(
-      rank_prc = rank_count / sum(rank_count)
+      rank_count_sum = sum(rank_count),
+      rank_prc = rank_count / rank_count_sum
     ) %>% 
     ungroup()
+}
+plot_proportion_best_round <- function(dp, score_type = "rel_gross", 
+                                       plotrank = 1) {
   
-  # Plotta: andel tourer där runda 1 är bäst
-  plot_bestroundpropotion <- function(dp, round, plotrank = 1) {
-    dp %>% 
+  plot_bestroundpropotion <- function(dp, round, plotrank) {
+    p_colours <- get_player_colour()
+    
+    subtitle <- case_when(
+      plotrank == 1 ~ glue("Andel Tourer då runda {round} är spelarens bästa"),
+      plotrank == 2 ~ glue("Andel Tourer då runda {round} är spelarens näst bästa"),
+      plotrank == 3 ~ glue("Andel Tourer då runda {round} är spelarens sämsta")
+    )
+    
+
+    
+    p <- 
+      dp %>% 
+      # add tooltip txt
+      mutate(
+        tooltip_txt = glue(
+          "Antal Tourer: {rank_count} ({round(rank_prc * 100, 0)}%)"
+        )
+      ) %>% 
       filter(round_id == round, rank == plotrank) %>%
       arrange(desc(rank_prc)) %>% 
       mutate(player = as_factor(player)) %>% 
       ggplot(aes(x = player, y = rank_prc)) +
-      geom_col(aes(fill = player)) + 
+      #geom_col(aes(fill = player)) + 
+      geom_col_interactive(
+        aes(fill = player, tooltip = tooltip_txt)
+      ) +
       scale_fill_manual(
         values = p_colours, 
         drop = FALSE, 
         guide = "none"
       ) + 
-      scale_y_continuous(labels = scales::percent) + 
+      scale_y_continuous(
+        labels = scales::percent_format(accuracy = 1L), 
+        limits = c(0, 1)
+        #expand = expansion(mult = c(0.6, 0))
+      ) + 
       theme(
         axis.text.y = element_text(size = rel(.8)),
         axis.text.x = element_text(
@@ -84,25 +111,129 @@ plot_proportion_best_round <- function(d, score_type = "rel_gross") {
         panel.grid.major.x = element_blank()
       ) + 
       labs(
-        subtitle = glue::glue("Andel Tourer då runda {round} är spelarens bästa")
+        subtitle = subtitle
       )
   }
-  p1 <- plot_bestroundpropotion(dp = d_plot, round = 1)
-  p2 <- plot_bestroundpropotion(dp = d_plot, round = 2)
-  p3 <- plot_bestroundpropotion(dp = d_plot, round = 3)
+  p1 <- plot_bestroundpropotion(dp, round = 1, plotrank)
+  p2 <- plot_bestroundpropotion(dp, round = 2, plotrank)
+  p3 <- plot_bestroundpropotion(dp, round = 3, plotrank)
   
-  p_assembly <- p1 / p2 / p3 # assembel med Patchwork
-  p_assembly +
-    plot_annotation(
-      title = 'Andel Tourer då en given runda är spelarens bästa',
-      #subtitle = 'Hur ofta är t.ex. runda 1 spelarens bästa runda?',
-      caption = glue::glue(
-        "För varje Tour där spelaren deltagit rankas rundorna m.a.p. \\
-        brutto-score, därefter beräknas hur ofta en given runda är spelarens \\
-        bästa."
-      ) %>% str_wrap(width = 100)
+  
+  title <- case_when(
+    plotrank == 1 ~ 'Andel Tourer då en given runda är spelarens bästa',
+    plotrank == 2 ~ 'Andel Tourer då en given runda är spelarens näst bästa',
+    plotrank == 3 ~ 'Andel Tourer då en given runda är spelarens sämsta'
+  )  
+  caption <- case_when(
+    plotrank == 1 ~ glue(
+      "För varje Tour där spelaren deltagit rankas rundorna m.a.p. \\
+      brutto-score, därefter beräknas hur ofta en given runda är spelarens \\
+      bästa."
+    ),
+    plotrank == 2 ~ glue(
+      "För varje Tour där spelaren deltagit rankas rundorna m.a.p. \\
+      brutto-score, därefter beräknas hur ofta en given runda är spelarens \\
+      näst bästa."
+    ),
+    plotrank == 3 ~ glue(
+      "För varje Tour där spelaren deltagit rankas rundorna m.a.p. \\
+      brutto-score, därefter beräknas hur ofta en given runda är spelarens \\
+      sämsta"
     )
+  )  
+  p_assembly <- p1 / p2 / p3 # assemble med Patchwork
+  p_assembly <- 
+    p_assembly +
+    plot_annotation(
+      title = title,
+      caption = caption %>% str_wrap(width = 100), 
+      theme = theme(
+        plot.title = element_text(size = 14), 
+        plot.caption = element_text(size = 9)
+      )
+    )
+  girafe(
+    ggobj = p_assembly, 
+    width_svg = 6,
+    height_svg = 6,
+    width = 6,
+  )
 }
+plot_round_proportion <- function(dp, plotrank) {
+  
+  title <- case_when(
+    plotrank == 1 ~ "Bästa rundan",
+    plotrank == 2 ~ "Näst bästa rundan",
+    plotrank == 3 ~ "Sämsta rundan"
+  )  
+  subtitle <- case_when(
+    plotrank == 1 ~ "Andel Tourer då en given runda är spelarens bästa",
+    plotrank == 2 ~ "Andel Tourer då en given runda är spelarens näst bästa",
+    plotrank == 3 ~ "Andel Tourer då en given runda är spelarens sämsta"
+  )
+  
+  # order x-axis (players)
+  player_order_x <- 
+    dp %>% 
+    filter(rank == plotrank) %>% 
+    pivot_wider(
+      id_cols = player, 
+      names_from = round_id, 
+      values_from = rank_prc,
+      names_prefix = "r"
+    ) %>% 
+    {
+      if(plotrank == 3)
+        arrange(., desc(r3), desc(r2), desc(r1))
+      else
+        arrange(., desc(r1), desc(r2), desc(r3))
+    } %>% 
+    pull(player)
+  
+  round_levs <- if (plotrank == 1) 3:1 else 1:3
+  round_colours <- setNames(pals::stepped()[1:3], c("1", "2", "3"))
+  p <- 
+    dp %>% 
+    filter(rank == plotrank) %>% 
+    # add tooltip txt
+    mutate(
+      tooltip_txt = glue(
+        "Antal Tourer: {rank_count} ({round(rank_prc * 100, 0)}%)"
+      )
+    ) %>% 
+    mutate(
+      player = factor(player, levels = player_order_x), 
+      round_id = factor(round_id, levels = round_levs)
+    ) %>% 
+    ggplot(aes(x = player, y = rank_prc)) + 
+    geom_col_interactive(aes(fill = round_id, tooltip = tooltip_txt)) +
+    scale_fill_manual(values = round_colours, name = "Runda") +
+    scale_y_continuous(labels = scales::percent) + 
+    theme(
+      axis.text.y = element_text(size = rel(.8)),
+      axis.text.x = element_text(
+        angle = 45, 
+        vjust = 1, 
+        hjust = 1, 
+        size = rel(.6)
+      ),
+      axis.title.x = element_blank(),
+      panel.grid.major.x = element_blank()
+    ) + 
+    labs(
+      title = title,
+      subtitle = subtitle
+    )
+
+  girafe(
+    ggobj = p, 
+    width_svg = 6,
+    height_svg = 4,
+    width = 6,
+  )
+}
+
+# Old versions.... (not used // 2021-11)
 plot_avgscores_round123 <- function(d, score_type = "rel_net") {
 
   # copy/paste från `plot_spring_vs_fall`
@@ -260,10 +391,35 @@ plot_avgscores_allrounds <- function(d, score_type = "rel_net") {
 }
 ```
 
-```{r plot-1, echo=FALSE, fig.height=9, out.width="100%"}
-plot_proportion_best_round(d)
+## Bästa rundan
+För många spelare är första rundan ofta den bästa.
+```{r plot-1a, echo=FALSE, fig.height=8, out.width="100%"}
+# ranked rounds (rr):
+d_rr <- rank_rounds(d)
+plot_proportion_best_round(d_rr, plotrank = 1)
 ```
 
+```{r plot-2, echo=FALSE, fig.height=5, out.width="100%"}
+plot_round_proportion(d_rr, plotrank = 1)
+```
+
+<br>
+
+## Sämsta rundan
+För många spelare är sista rundan ofta den sämsta.
+```{r plot-1b, echo=FALSE, fig.height=8, out.width="100%"}
+plot_proportion_best_round(d_rr, plotrank = 3)
+```
+
+```{r plot-4, echo=FALSE, fig.height=5, out.width="100%"}
+plot_round_proportion(d_rr, plotrank = 3)
+```
+
+
+
+```{r plot-3, echo=FALSE, fig.height=5, out.width="100%", eval=FALSE}
+plot_round_proportion(d_rr, plotrank = 2)
+```
 ```{r plot-x, echo=FALSE, fig.height=8, out.width="100%", eval=FALSE}
 plot_avgscores_round123(d, score_type = "rel_net")
 ```
