@@ -258,6 +258,13 @@ get_likelihood_bargraf <- function(ds, my_score_type, win_or_lose, at) {
     geom_col_interactive(aes(fill = likelihood, tooltip = txt)) + 
     scale_x_continuous(breaks = 1:100) +
     scale_fill_viridis_c() +
+    guides(
+      fill = guide_colorbar(
+        title.position = "top",
+        barwidth = 10,
+        title.hjust = 0
+      )
+    )
     theme(
       axis.title = element_text(),
       panel.grid = element_blank()
@@ -267,13 +274,14 @@ get_likelihood_bargraf <- function(ds, my_score_type, win_or_lose, at) {
     p <-
       p +
       labs(
-        title = "Sannolikhet att vinna",
+        title = glue::glue("Sannolikhet att vinna - efter {at} hål"),
         subtitle = glue::glue(
           "Sannolikheten att vinna givet en viss marginal mellan ledaren \\
           och tvåan efter {at} spelade hål, baserat på spelade \\
           Tourer"
         ) %>% str_wrap(width = 110),
         caption = "Finns inga scorekort från Tour 1-4",
+        fill = "Sannolikhet att vinna (%)",
         y = "Sannolikhet att vinna (%)",
         x = NULL
       )
@@ -281,13 +289,14 @@ get_likelihood_bargraf <- function(ds, my_score_type, win_or_lose, at) {
     p <-
       p +
       labs(
-        title = "Sannolikhet att förlora",
+        title = glue::glue("Sannolikhet att förlora - efter {at} hål"),
         subtitle = glue::glue(
           "Sannolikheten att förlora givet en viss marginal mellan sisten \\
           och näst-sisten efter {at} spelade hål, baserat på \\
           spelade Tourer"
         ) %>% str_wrap(width = 110),
         caption = "Finns inga scorekort från Tour 1-4",
+        fill = "Sannolikhet att förlora (%)",
         y = "Sannolikhet att förlora (%)",
         x = NULL
       )
