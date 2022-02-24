@@ -19,7 +19,8 @@ get_player_colour <- function(players = NULL) {
       #gplots::rich.colors(n = length(player_ids)),
 
       # https://www.r-bloggers.com/the-paul-tol-21-color-salute/:
-      #c("#332288", "#6699CC", "#88CCEE", "#44AA99", "#117733", "#999933", "#DDCC77", "#661100", "#CC6677", "#AA4466", "#882255", "#AA4499"),
+      #c("#332288", "#6699CC", "#88CCEE", "#44AA99", "#117733", "#999933",
+      #  "#DDCC77", "#661100", "#CC6677", "#AA4466", "#882255", "#AA4499"),
 
       # http://tools.medialab.sciences-po.fr/iwanthue/
       # c(
