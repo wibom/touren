@@ -151,5 +151,5 @@ plot_player_scores <- function(ds, results_type = "results_net") {
 
 # Scorer över tid
 ```{r, echo=FALSE, message=FALSE, warnings=FALSE, fig.height=8}
-plot_totscore_over_time(d, png = FALSE)
+plot_totscore_over_time(d)
 ```

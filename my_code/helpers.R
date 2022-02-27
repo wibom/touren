@@ -650,11 +650,11 @@ plot_totscore_over_time_old <- function(ds, lastname = NA_character_,
   }
 
 }
-plot_totscore_over_time <- function (ds, lastname = NA, png = TRUE) {
+plot_totscore_over_time <- function (ds, lastname = NA) {
   #' comparing gross and net scores over time
   #'
-  #' if `lastname` is supplied, a plot for an individual player is retruned,
-  #' else, the plot is facetted over all players
+  #' if `lastname` is supplied, a plot for an individual player is returned,
+  #' else, the plot is faceted over all players
   #'
 
   # Extract and format scores
@@ -735,21 +735,25 @@ plot_totscore_over_time <- function (ds, lastname = NA, png = TRUE) {
       axis.text.x = element_text(angle = 90, size = 6, vjust = .5, hjust = 1),
       axis.title.x = element_blank()
     ) +
-    facet_wrap(
-      facets = vars(player)
-    ) +
     labs(
-      title = "Medelresultat per Tour (54 hål)",
-      subtitle = "absolut score",
+      title = glue::glue("{lastname}s medelresultat per Tour (54 hål)"),
+      subtitle = "Brutto- och Netto-scorer",
       caption =
         "Tar ej hänsyn till att vissa scorer kommer från banor med par 71"
     )
 
-  if (png) {
+  if (!is.na(lastname)) {
+    # The plot for each player is saved (`ggsave`) in the `/static` directory
+    # (currently I don't know how/if that can be done with interactive graphics)
     return(p)
   } else {
+    p_faceted <-
+      p +
+      facet_wrap(
+        facets = vars(player)
+      )
     p_interactive <- ggiraph::girafe(
-      ggobj = p,
+      ggobj = p_faceted,
       height_svg = 6
       # width_svg = 5,
       # options = list(

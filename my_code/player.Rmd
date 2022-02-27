@@ -76,7 +76,7 @@ glue::glue('![{player}]({img_url})')
 
 
 __Status:__ `r status`  
-__Aktuell ranking::__ `r current_ranking`  
+__Aktuell ranking:__ `r current_ranking`  
 __Antal tourer:__ `r n_tours`  
 
 

@@ -16,8 +16,8 @@ tours <- d$tour_id
 
 # re-processing settings:
 force_plr_reprocessing <- TRUE
-force_img_reprocessing <- TRUE
-force_res_reprocessing <- TRUE
+force_img_reprocessing <- FALSE
+force_res_reprocessing <- FALSE
 
 # argument till pandoc ----
 # Jag önskar använda R-kod som genererar html-snuttar, vilka ska utvärderas av
