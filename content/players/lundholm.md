@@ -13,7 +13,7 @@ summary: '**Status:** avvaktande <br> **Aktuell ranking:** NA <br>
 ------------------------------------------------------------------------
 
 **Status:** avvaktande  
-**Aktuell ranking::** NA  
+**Aktuell ranking:** NA  
 **Antal tourer:** 1
 
 ------------------------------------------------------------------------

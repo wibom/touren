@@ -2,9 +2,11 @@
 always_allow_html: true
 output:
   md_document:
-    # pandoc_args: [
     #   "--from", "markdown-markdown_in_html_blocks+raw_html+line_blocks",
     # ]
+    # pandoc_args: [
+editor_options: 
+  chunk_output_type: console
 ---
 ```{r cw-comment, include=FALSE}
 # Denna sida genereras med anrop från rmarkdown::render (i scriptet
@@ -74,7 +76,7 @@ glue::glue('![{player}]({img_url})')
 
 
 __Status:__ `r status`  
-__Aktuell ranking::__ `r current_ranking`  
+__Aktuell ranking:__ `r current_ranking`  
 __Antal tourer:__ `r n_tours`  
 
 
@@ -144,7 +146,7 @@ glue::glue('![placeringshistorik]({relpath})')
 
 ### Samtliga scores per runda
 ```{r totscores, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
-totscores <- plot_totscore_over_time(d, sum_by_round = TRUE, lastname = player)
+totscores <- plot_totscore_over_time(d, lastname = player)
 
 # placera plot-filen under `./static/playerstats/`
 abspath <- file.path(
