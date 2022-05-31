@@ -3,9 +3,9 @@ draft: false
 image: /img/players/wiklund230x230.jpg  
 showonlyimage: true  
 title: Wiklund  
-weight: 8  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 8 <br> **Antal
-Tourer:** 17'  
+weight: 5  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 5 <br> **Antal
+Tourer:** 18'  
 ---
 
 ![Wiklund](/img/players/wiklund230x230.jpg)
@@ -13,8 +13,8 @@ Tourer:** 17'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking:** 8  
-**Antal tourer:** 17
+**Aktuell ranking:** 5  
+**Antal tourer:** 18
 
 ------------------------------------------------------------------------
 

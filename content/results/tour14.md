@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour14.jpg  
 showonlyimage: false  
 title: Touren XIV  
-weight: 16  
+weight: 17  
 ---
 
 Touren XIV spelades i Göteborg (VT-12)

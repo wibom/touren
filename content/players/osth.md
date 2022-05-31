@@ -3,8 +3,8 @@ draft: false
 image: /img/players/östh230x230.jpg  
 showonlyimage: true  
 title: Östh  
-weight: 11  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 11 <br> **Antal
+weight: 10  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 10 <br> **Antal
 Tourer:** 10'  
 ---
 
@@ -13,7 +13,7 @@ Tourer:** 10'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking:** 11  
+**Aktuell ranking:** 10  
 **Antal tourer:** 10
 
 ------------------------------------------------------------------------

@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour23.jpg  
 showonlyimage: false  
 title: Touren XXIII  
-weight: 7  
+weight: 8  
 ---
 
 Touren XXIII spelades i Umeå (HT-17)

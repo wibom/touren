@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour15.jpg  
 showonlyimage: false  
 title: Touren XV  
-weight: 15  
+weight: 16  
 ---
 
 Touren XV spelades i Sundsvall (HT-12)

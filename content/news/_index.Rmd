@@ -26,6 +26,24 @@ d <- read_rds(
 
 # Nyheter
 
+#### [2022-05-30] Touren XXX avgjord
+Den 30e upplagan av Touren avgjordes 28-29 maj på den (inte tillräckligt) breda
+Uppsalaslätten, på banorna Söderby och Edenhof. Under fredagen spelades 
+jättemycket golf under mörka moln, samtidigt som SMHI gått ut med varningar 
+för potentiella översvämningar. Lyckligtvis klarade vi oss med mindre skurar 
+under ett fåtal hål på eftermiddagen. Lördagens golf spelades däremot på en 
+jätteblöt bana i ihållande regn alla 18 hål. 
+
+Lundström, som råkat missa att hela handikapsystemet skrivits om sedan flera år tillbaka, rasade tidigt i resultatlistorna och blev snabbt ohotad på 
+sistaplatsen. I andra änden av resultattavlan ryckte Scherlund tidigt åt sig 
+ledningen. Trots att fler spelare var framme och nosade på ledarpositionen under
+andra rundan (däribland den eviga kämpen Nyberg) var Scherlunds ledining i 
+princp aldrig hotad. Han kunde spela avslappnat hela sista rundan och vann 
+tillslut en övertygande seger. **Grattis Scherlund!!!!**
+
+Leve Champ!
+
+
 #### [2021-09-26] Touren XXIX avgjord
 Touren XXIX gick av stapeln 24-25e september i Umeå. Regnet öste ner dagen innan 
 och det var ovisst in i det sista om det över huvud taget skulle gå att komma 

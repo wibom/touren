@@ -3,8 +3,8 @@ draft: false
 image: /img/players/forsell230x230.jpg  
 showonlyimage: true  
 title: Forsell  
-weight: 10  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 10 <br> **Antal
+weight: NA  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** NA <br> **Antal
 Tourer:** 13'  
 ---
 
@@ -13,7 +13,7 @@ Tourer:** 13'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking:** 10  
+**Aktuell ranking:** NA  
 **Antal tourer:** 13
 
 ------------------------------------------------------------------------

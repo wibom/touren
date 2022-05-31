@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour24.jpg  
 showonlyimage: false  
 title: Touren XXIV  
-weight: 6  
+weight: 7  
 ---
 
 Touren XXIV spelades i Sundsvall (VT-18)

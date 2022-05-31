@@ -3,8 +3,8 @@ draft: false
 image: /img/players/jonsson230x230.jpg  
 showonlyimage: true  
 title: Jonsson  
-weight: 9  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 9 <br> **Antal
+weight: 8  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 8 <br> **Antal
 Tourer:** 2'  
 ---
 
@@ -13,7 +13,7 @@ Tourer:** 2'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking:** 9  
+**Aktuell ranking:** 8  
 **Antal tourer:** 2
 
 ------------------------------------------------------------------------

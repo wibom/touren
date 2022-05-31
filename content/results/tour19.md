@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour19.jpg  
 showonlyimage: false  
 title: Touren XIX  
-weight: 11  
+weight: 12  
 ---
 
 Touren XIX spelades i Umeå (HT-14)

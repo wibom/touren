@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour26.jpg  
 showonlyimage: false  
 title: Touren XXVI  
-weight: 4  
+weight: 5  
 ---
 
 Touren XXVI spelades i Lindö (VT-19)

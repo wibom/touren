@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour17.jpg  
 showonlyimage: false  
 title: Touren XVII  
-weight: 13  
+weight: 14  
 ---
 
 Touren XVII spelades i Gävle (HT-13)

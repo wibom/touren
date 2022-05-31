@@ -3,9 +3,9 @@ draft: false
 image: /img/players/scherlund230x230.jpg  
 showonlyimage: true  
 title: Scherlund  
-weight: 3  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 3 <br> **Antal
-Tourer:** 23'  
+weight: 1  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 1 <br> **Antal
+Tourer:** 24'  
 ---
 
 ![Scherlund](/img/players/scherlund230x230.jpg)
@@ -13,8 +13,8 @@ Tourer:** 23'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking:** 3  
-**Antal tourer:** 23
+**Aktuell ranking:** 1  
+**Antal tourer:** 24
 
 ------------------------------------------------------------------------
 
