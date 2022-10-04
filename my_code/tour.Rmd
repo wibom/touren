@@ -94,7 +94,12 @@ plot_scores_lineplot <- function(ds, my_score_type, my_tour_id, my_round_id) {
     select(tour_id, !!rlang::sym(my_score_type)) %>%
     unnest(!!rlang::sym(my_score_type)) %>%
     filter(hole_id %in% holes_sel)
-
+  
+  # Returnera NULL ifall det inte finns scorer för aktuell runda
+  if (nrow(d_sel) == 0) {
+    return(NULL)
+  }
+  
   # Formatera och bräkna cumsum
   players <- read_players_list()
   player_ids <- names(d_sel)[names(d_sel) %in% players$id]
@@ -229,7 +234,12 @@ get_scorecard <- function (ds, my_score_type, my_tour_id, my_round_id) {
     select(!! rlang::sym(my_score_type)) %>%
     unnest(!! rlang::sym(my_score_type)) %>%
     filter(hole_id %in% holes_sel)
-
+  
+  # Returnera NULL ifall det inte finns scorer för aktuell runda
+  if (nrow(d_sel) == 0) {
+    return(NULL)
+  }
+  
   # delsummor
   sum_score <- function (d_sel, sel_part) {
     # select data
