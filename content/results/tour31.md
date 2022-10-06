@@ -2,7 +2,7 @@
 draft: false  
 image: /img/champs/thumbs/tour31.jpg  
 showonlyimage: false  
-title: Touren XXI  
+title: Touren XXXI  
 weight: 1  
 ---
 
@@ -31,44 +31,44 @@ Touren XXI spelades i Nice (HT-22)
 <tbody>
   <tr>
    <td style="text-align:center;font-weight: bold;background-color: gray50 !important;border-right:1px solid;"> Wibom </td>
-   <td style="text-align:center;font-style: italic;"> 69 </td>
+   <td style="text-align:center;font-style: italic;"> 22 </td>
    <td style="text-align:center;"> -1 </td>
    <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> -1 </td>
    <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 1 </td>
   </tr>
   <tr>
    <td style="text-align:center;font-weight: bold;background-color: gray50 !important;border-right:1px solid;"> Scherlund </td>
-   <td style="text-align:center;font-style: italic;"> 86 </td>
-   <td style="text-align:center;"> 4 </td>
-   <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 4 </td>
+   <td style="text-align:center;font-style: italic;"> 27 </td>
+   <td style="text-align:center;"> 2 </td>
+   <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 2 </td>
    <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 2 </td>
   </tr>
   <tr>
    <td style="text-align:center;font-weight: bold;background-color: gray50 !important;border-right:1px solid;"> Nyberg </td>
-   <td style="text-align:center;font-style: italic;"> 78 </td>
-   <td style="text-align:center;"> 7 </td>
-   <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 7 </td>
+   <td style="text-align:center;font-style: italic;"> 25 </td>
+   <td style="text-align:center;"> 6 </td>
+   <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 6 </td>
    <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 3 </td>
   </tr>
   <tr>
    <td style="text-align:center;font-weight: bold;background-color: gray50 !important;border-right:1px solid;"> Karlsson </td>
-   <td style="text-align:center;font-style: italic;"> 56 </td>
+   <td style="text-align:center;font-style: italic;"> 19 </td>
    <td style="text-align:center;"> 7 </td>
    <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 7 </td>
-   <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 3 </td>
+   <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 4 </td>
   </tr>
   <tr>
    <td style="text-align:center;font-weight: bold;background-color: gray50 !important;border-right:1px solid;"> Strömdahl </td>
-   <td style="text-align:center;font-style: italic;"> 75 </td>
-   <td style="text-align:center;"> 12 </td>
-   <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 12 </td>
+   <td style="text-align:center;font-style: italic;"> 29 </td>
+   <td style="text-align:center;"> 10 </td>
+   <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 10 </td>
    <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 5 </td>
   </tr>
   <tr>
    <td style="text-align:center;font-weight: bold;background-color: gray50 !important;border-right:1px solid;"> Wänman </td>
-   <td style="text-align:center;font-style: italic;"> 72 </td>
-   <td style="text-align:center;"> 14 </td>
-   <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 14 </td>
+   <td style="text-align:center;font-style: italic;"> 22 </td>
+   <td style="text-align:center;"> 13 </td>
+   <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 13 </td>
    <td style="text-align:center;font-weight: bold;color: white !important;background-color: #990000 !important;"> 6 </td>
   </tr>
 </tbody>
@@ -80,9 +80,6 @@ Touren XXI spelades i Nice (HT-22)
 
 <img src="/results/tour31/relnet.lineplot.all.png" alt="score - total">
 <br><br>
-
-    FALSE Warning: Removed 216 rows containing missing values (geom_text).
-
 <img src="/results/tour31/absgross.scorecard.all.png" alt="scorecard - total">
 
 ------------------------------------------------------------------------

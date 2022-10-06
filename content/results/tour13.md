@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour13.jpg  
 showonlyimage: false  
 title: Touren XIII  
-weight: 18  
+weight: 19  
 ---
 
 Touren XIII spelades i Skellefteå (HT-11)

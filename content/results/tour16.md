@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour16.jpg  
 showonlyimage: false  
 title: Touren XVI  
-weight: 15  
+weight: 16  
 ---
 
 Touren XVI spelades i Uppsala (VT-13)

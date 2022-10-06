@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour11.jpg  
 showonlyimage: false  
 title: Touren XI  
-weight: 20  
+weight: 21  
 ---
 
 Touren XI spelades i Västerås (HT-10)

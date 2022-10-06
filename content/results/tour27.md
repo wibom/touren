@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour27.jpg  
 showonlyimage: false  
 title: Touren XXVII  
-weight: 4  
+weight: 5  
 ---
 
 Touren XXVII spelades i Umeå (HT-19)

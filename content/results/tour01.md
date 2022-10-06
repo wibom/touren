@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour01.jpg  
 showonlyimage: false  
 title: Touren I  
-weight: 30  
+weight: 31  
 ---
 
 Touren I spelades i Gävle (HT-05)
