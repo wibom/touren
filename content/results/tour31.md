@@ -12,7 +12,7 @@ Touren XXXI spelades i Nice (HT-22)
 
 ## Titlar
 
--   champ = Nyberg  
+-   champ = TBD  
 -   longdrive = NA  
 -   närmast-pinnen = NA
 
