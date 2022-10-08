@@ -5,7 +5,7 @@ showonlyimage: true
 title: Nyberg  
 weight: 4  
 summary: '**Status:** aktiv <br> **Aktuell ranking:** 4 <br> **Antal
-Tourer:** 29'  
+Tourer:** 30'  
 ---
 
 ![Nyberg](/img/players/nyberg230x230.jpg)
@@ -14,7 +14,7 @@ Tourer:** 29'
 
 **Status:** aktiv  
 **Aktuell ranking:** 4  
-**Antal tourer:** 29
+**Antal tourer:** 30
 
 ------------------------------------------------------------------------
 

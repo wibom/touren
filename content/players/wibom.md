@@ -5,7 +5,7 @@ showonlyimage: true
 title: Wibom  
 weight: 3  
 summary: '**Status:** aktiv <br> **Aktuell ranking:** 3 <br> **Antal
-Tourer:** 29'  
+Tourer:** 30'  
 ---
 
 ![Wibom](/img/players/wibom230x230.jpg)
@@ -14,7 +14,7 @@ Tourer:** 29'
 
 **Status:** aktiv  
 **Aktuell ranking:** 3  
-**Antal tourer:** 29
+**Antal tourer:** 30
 
 ------------------------------------------------------------------------
 

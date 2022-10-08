@@ -5,7 +5,7 @@ showonlyimage: true
 title: Wänman  
 weight: 9  
 summary: '**Status:** aktiv <br> **Aktuell ranking:** 9 <br> **Antal
-Tourer:** 20'  
+Tourer:** 21'  
 ---
 
 ![Wänman](/img/players/wänman230x230.jpg)
@@ -14,7 +14,7 @@ Tourer:** 20'
 
 **Status:** aktiv  
 **Aktuell ranking:** 9  
-**Antal tourer:** 20
+**Antal tourer:** 21
 
 ------------------------------------------------------------------------
 

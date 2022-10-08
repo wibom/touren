@@ -3,9 +3,9 @@ draft: false
 image: /img/players/strömdahl230x230.jpg  
 showonlyimage: true  
 title: Strömdahl  
-weight: 6  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 6 <br> **Antal
-Tourer:** 24'  
+weight: 5  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 5 <br> **Antal
+Tourer:** 25'  
 ---
 
 ![Strömdahl](/img/players/strömdahl230x230.jpg)
@@ -13,8 +13,8 @@ Tourer:** 24'
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking:** 6  
-**Antal tourer:** 24
+**Aktuell ranking:** 5  
+**Antal tourer:** 25
 
 ------------------------------------------------------------------------
 
