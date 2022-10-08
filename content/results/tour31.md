@@ -14,7 +14,7 @@ Touren XXXI spelades i Nice (HT-22)
 
 -   champ = Karlsson  
 -   longdrive = NA  
--   närmast-pinnen = NA
+-   närmast-pinnen = Karlsson
 
 ## Leader board
 
