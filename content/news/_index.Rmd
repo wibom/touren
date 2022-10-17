@@ -26,6 +26,77 @@ d <- read_rds(
 
 # Nyheter
 
+#### [2022-10-09] Touren XXXI avgjord
+Litet försenat är äntligen jubileumstouren XXX (+ I) avgjord. Sex tappra
+Tourbröder reste till franska riviäran för solskensgolf. Där spelade vi 18 hål
+om dagen torsdag - lördag. Torsdag och fredag spelade vi riktigt torra och hårda
+banor i strålande sol, där bollarna aldrig slutade rulla och det var relativt
+lätt att hitta bollen efter ett snett slag. Lördag spelade vi en bana som
+påminde om Bjurholm, med fina vyer, kraftig kupering, blinda hål och kämpiga
+backar. Ett snett slag resulterade ofta i att bollen studsade ned i en ravin 
+med tjock skog som avgränsades med elstängsel.
+
+Kampen att undvika loser blev en episk duell. En bit in på sista rundan stod det
+klart att det skulle stå mellan Andre "Houdini" Wänman och Jonas "Ironman"
+Strömdahl. Båda kämpade med sitt golfspel, där det periodvis verkade som fördömt
+för båda spelarna att ens träffa bollen hjälpligt. Där emellan turades
+kombatanterna om att i perioder både stoppa den värsta blödningen och stundtals
+blixtra till med riktigt fina slag. Trots den ofta väldigt, väldigt kämpiga
+golfen var det ingen som gav upp. In på 18:e behövde André ta in två slag
+på Jonas. André toppade sitt utslag långt ut till höger alldeles intill ett
+vattenhinder, och följde upp med en socket; 90 grader höger rakt ut i vattnet. Därmed var kampen avgjord. Inte ens Houdini kunde hålla sig undan loser
+denna gång.
+
+André hade inför Touren inte spelat golf sedan innan pandemin, 2019, och därmed
+heller inte registrerat några hcp-grundande rundor. Samtidigt har de flesta 
+andra spelare registrerat en del dålig golf, vilket avspeglas i antal slag
+på [slopen](/stats/shotsgiven/). 
+
+I andra änden av tävlingen fick vi första gången någonsin se Björn storspela två
+rundor och gå ut i en betryggande ledning inför sista rundan. Ledningen höll i
+sig 3 hål, sedan övertogs den av 9-faldiga champ Erik. Erik spelade magnifik
+golf, i vanlig ordning, och ingen mäktade med att göra motstånd. Snabbt rykte
+han till sig en ointaglig ledning, och kunde kosta på sig att maxa sista hålet
+och treputta sista green. **Därmed vann Erik sin 10:e champ-titel!!!**
+
+
+Leve champ!
+
+##### Övriga annekdoter
+
++ Karlsson, logistikansvarig, fick kämpa i hård fransk motvid då det visade sig
+att taxi inte kan bokas i förväg, samtidigt som det saknas möjlighet att 
+uppskatta hur lång tid det tar att få en taxi.
+  + Torsdagsmorgon började med att på alla sätt försöka boka taxi. Varje gång 
+  fick vi veta att en förfågan skickats och att det _vanligtvis_ tar ca 10-15 
+  minuter. Men det saknades återkoppling på förfrågan. Allt man kunde göra var 
+  att vänta. Dessvärre kom aldrig någon bil.
+  + Tillslut listade Karlsson ut att Uber skulle funka. Vi fick en bil som rymde
+  alla sex ganska snabbt. När vi närmades oss banan gjorde chauffören några 
+  märkliga vägval. Vi kom in på mindre och mindre vägar. Tillslut stod det klart
+  att vi kommit in på själva golfbanan från fel håll och att den stora bilen
+  inte kunde ta sig hela vägen till klubbhuset. Pga taxi-debaklet var det mycket
+  kort tid kvar till vi skulle tee:a ut. Vi fick snabbt hoppa ur bilen och
+  springa de sista 400 meterna till receptionen.
++ Middagarna vi åt höll fin klass. Att välja och boka restauranger ansvarade
+Wänman för, med den äran. Eftermiddagarna ägnade han åt att scouta alla lokala
+krögare (och samtidigt passa på att fånga exotiska pokémons förstås).
++ Björn hade jättemycket jätteaggressiva mygg i rummet där han sov. Det hade 
+ingen annan. Det resulterade i att stackars Björn hade fler infekterade myggbett
+på varje finger, än resten av gruppen tillsammans. 
++ Vi hamnade på en slags sportpub första kvällen. Där arbetade en bartender från
+Örnsköldsvik. Hennes mamma var på besök och satt på andra sidan baren. Från henne
+fick Richard många lämpliga tips på barer i närheten. Bland annat en litet 
+undangömt cocktailställe, som vi kom att besöka flera gånger. 
++ På fredagkväll bestämde Björn, Richard, Jonas och Erik att det var 
+  _"Black Friday"_, vilket innebar att de skulle till Casino i Cannes och 
+  spela roulette med en betydande instats på svart. Väl framme visade det sig 
+  att Erik inte hade någon id-handling med sig och därför inte blev insläppt.
+  Sällskapet fick ta en Uber tillbaka till Antibes med outrättat ärende.
+
+
+
+
 #### [2022-05-30] Touren XXX avgjord
 Den 30e upplagan av Touren avgjordes 28-29 maj på den (inte tillräckligt) breda
 Uppsalaslätten, på banorna Söderby och Edenhof. Under fredagen spelades 
