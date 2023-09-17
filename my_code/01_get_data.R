@@ -222,4 +222,4 @@ d <-
   )
 
 # Exportera data ----
-readr::write_rds(d, path = "./my_code/data/complete_data.RDS")
+readr::write_rds(d, file = "./my_code/data/complete_data.RDS")

@@ -30,3 +30,4 @@ tour28	XXVIII	28	Umeå	HT-20	Karlsson	Strömdahl
 tour29	XXIX	29	Umeå	HT-21	Nyberg	Wibom
 tour30	XXX	30	Uppsala	VT-22	Karlsson	Wiklund
 tour31	XXXI	31	Nice	HT-22	NA	Karlsson
+tour32	XXXII	32	Umeå	HT-23	Karlsson	Karlsson

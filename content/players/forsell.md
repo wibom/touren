@@ -8,7 +8,10 @@ summary: '**Status:** aktiv <br> **Aktuell ranking:** NA <br> **Antal
 Tourer:** 13'  
 ---
 
-![Forsell](/img/players/forsell230x230.jpg)
+<figure>
+<img src="/img/players/forsell230x230.jpg" alt="Forsell" />
+<figcaption aria-hidden="true">Forsell</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Forsell.totscores.png)
+<figure>
+<img src="/playerstats/Forsell.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

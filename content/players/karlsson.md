@@ -5,16 +5,19 @@ showonlyimage: true
 title: Karlsson  
 weight: 1  
 summary: '**Status:** aktiv <br> **Aktuell ranking:** 1 <br> **Antal
-Tourer:** 29'  
+Tourer:** 30'  
 ---
 
-![Karlsson](/img/players/karlsson230x230.jpg)
+<figure>
+<img src="/img/players/karlsson230x230.jpg" alt="Karlsson" />
+<figcaption aria-hidden="true">Karlsson</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
 **Aktuell ranking:** 1  
-**Antal tourer:** 29
+**Antal tourer:** 30
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Karlsson.totscores.png)
+<figure>
+<img src="/playerstats/Karlsson.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour07.jpg  
 showonlyimage: false  
 title: Touren VII  
-weight: 25  
+weight: 26  
 ---
 
 Touren VII spelades i Sundsvall (HT-08)

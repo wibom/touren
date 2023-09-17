@@ -8,7 +8,10 @@ summary: '**Status:** avvaktande <br> **Aktuell ranking:** NA <br>
 **Antal Tourer:** 1'  
 ---
 
-![Lundholm](/img/players/lundholm230x230.jpg)
+<figure>
+<img src="/img/players/lundholm230x230.jpg" alt="Lundholm" />
+<figcaption aria-hidden="true">Lundholm</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Lundholm.totscores.png)
+<figure>
+<img src="/playerstats/Lundholm.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

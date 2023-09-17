@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour28.jpg  
 showonlyimage: false  
 title: Touren XXVIII  
-weight: 4  
+weight: 5  
 ---
 
 Touren XXVIII spelades i Umeå (HT-20)

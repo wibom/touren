@@ -5,16 +5,19 @@ showonlyimage: true
 title: Strömdahl  
 weight: 5  
 summary: '**Status:** aktiv <br> **Aktuell ranking:** 5 <br> **Antal
-Tourer:** 25'  
+Tourer:** 26'  
 ---
 
-![Strömdahl](/img/players/strömdahl230x230.jpg)
+<figure>
+<img src="/img/players/strömdahl230x230.jpg" alt="Strömdahl" />
+<figcaption aria-hidden="true">Strömdahl</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
 **Aktuell ranking:** 5  
-**Antal tourer:** 25
+**Antal tourer:** 26
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Strömdahl.totscores.png)
+<figure>
+<img src="/playerstats/Strömdahl.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

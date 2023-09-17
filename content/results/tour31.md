@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour31.jpg  
 showonlyimage: false  
 title: Touren XXXI  
-weight: 1  
+weight: 2  
 ---
 
 Touren XXXI spelades i Nice (HT-22)

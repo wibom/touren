@@ -5,16 +5,19 @@ showonlyimage: true
 title: Wibom  
 weight: 3  
 summary: '**Status:** aktiv <br> **Aktuell ranking:** 3 <br> **Antal
-Tourer:** 30'  
+Tourer:** 31'  
 ---
 
-![Wibom](/img/players/wibom230x230.jpg)
+<figure>
+<img src="/img/players/wibom230x230.jpg" alt="Wibom" />
+<figcaption aria-hidden="true">Wibom</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
 **Aktuell ranking:** 3  
-**Antal tourer:** 30
+**Antal tourer:** 31
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Wibom.totscores.png)
+<figure>
+<img src="/playerstats/Wibom.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

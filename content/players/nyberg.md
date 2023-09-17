@@ -5,16 +5,19 @@ showonlyimage: true
 title: Nyberg  
 weight: 4  
 summary: '**Status:** aktiv <br> **Aktuell ranking:** 4 <br> **Antal
-Tourer:** 30'  
+Tourer:** 31'  
 ---
 
-![Nyberg](/img/players/nyberg230x230.jpg)
+<figure>
+<img src="/img/players/nyberg230x230.jpg" alt="Nyberg" />
+<figcaption aria-hidden="true">Nyberg</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
 **Aktuell ranking:** 4  
-**Antal tourer:** 30
+**Antal tourer:** 31
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Nyberg.totscores.png)
+<figure>
+<img src="/playerstats/Nyberg.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

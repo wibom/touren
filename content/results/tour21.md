@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour21.jpg  
 showonlyimage: false  
 title: Touren XXI  
-weight: 11  
+weight: 12  
 ---
 
 Touren XXI spelades i Uppsala (VT-16)

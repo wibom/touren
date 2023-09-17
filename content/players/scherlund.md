@@ -3,18 +3,21 @@ draft: false
 image: /img/players/scherlund230x230.jpg  
 showonlyimage: true  
 title: Scherlund  
-weight: 2  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 2 <br> **Antal
-Tourer:** 25'  
+weight: 1  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 1 <br> **Antal
+Tourer:** 26'  
 ---
 
-![Scherlund](/img/players/scherlund230x230.jpg)
+<figure>
+<img src="/img/players/scherlund230x230.jpg" alt="Scherlund" />
+<figcaption aria-hidden="true">Scherlund</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking:** 2  
-**Antal tourer:** 25
+**Aktuell ranking:** 1  
+**Antal tourer:** 26
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Scherlund.totscores.png)
+<figure>
+<img src="/playerstats/Scherlund.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

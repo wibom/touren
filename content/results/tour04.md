@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour04.jpg  
 showonlyimage: false  
 title: Touren IV  
-weight: 28  
+weight: 29  
 ---
 
 Touren IV spelades i Norrköping (VT-07)

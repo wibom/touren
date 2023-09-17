@@ -8,7 +8,10 @@ summary: '**Status:** aktiv <br> **Aktuell ranking:** 9 <br> **Antal
 Tourer:** 10'  
 ---
 
-![Östh](/img/players/östh230x230.jpg)
+<figure>
+<img src="/img/players/östh230x230.jpg" alt="Östh" />
+<figcaption aria-hidden="true">Östh</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Östh.totscores.png)
+<figure>
+<img src="/playerstats/Östh.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

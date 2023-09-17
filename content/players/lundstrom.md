@@ -3,18 +3,21 @@ draft: false
 image: /img/players/lundström230x230.jpg  
 showonlyimage: true  
 title: Lundström  
-weight: 7  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 7 <br> **Antal
-Tourer:** 21'  
+weight: 6  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 6 <br> **Antal
+Tourer:** 22'  
 ---
 
-![Lundström](/img/players/lundström230x230.jpg)
+<figure>
+<img src="/img/players/lundström230x230.jpg" alt="Lundström" />
+<figcaption aria-hidden="true">Lundström</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking:** 7  
-**Antal tourer:** 21
+**Aktuell ranking:** 6  
+**Antal tourer:** 22
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Lundström.totscores.png)
+<figure>
+<img src="/playerstats/Lundström.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

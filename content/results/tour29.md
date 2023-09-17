@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour29.jpg  
 showonlyimage: false  
 title: Touren XXIX  
-weight: 3  
+weight: 4  
 ---
 
 Touren XXIX spelades i Umeå (HT-21)

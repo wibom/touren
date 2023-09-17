@@ -8,7 +8,10 @@ summary: '**Status:** aktiv <br> **Aktuell ranking:** 9 <br> **Antal
 Tourer:** 21'  
 ---
 
-![Wänman](/img/players/wänman230x230.jpg)
+<figure>
+<img src="/img/players/wänman230x230.jpg" alt="Wänman" />
+<figcaption aria-hidden="true">Wänman</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Wänman.totscores.png)
+<figure>
+<img src="/playerstats/Wänman.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

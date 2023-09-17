@@ -8,7 +8,10 @@ summary: '**Status:** aktiv <br> **Aktuell ranking:** 8 <br> **Antal
 Tourer:** 2'  
 ---
 
-![Jonsson](/img/players/jonsson230x230.jpg)
+<figure>
+<img src="/img/players/jonsson230x230.jpg" alt="Jonsson" />
+<figcaption aria-hidden="true">Jonsson</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Jonsson.totscores.png)
+<figure>
+<img src="/playerstats/Jonsson.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

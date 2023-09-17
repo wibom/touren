@@ -3,7 +3,7 @@ draft: false
 image: /img/champs/thumbs/tour30.jpg  
 showonlyimage: false  
 title: Touren XXX  
-weight: 2  
+weight: 3  
 ---
 
 Touren XXX spelades i Uppsala (VT-22)

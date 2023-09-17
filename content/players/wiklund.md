@@ -3,17 +3,20 @@ draft: false
 image: /img/players/wiklund230x230.jpg  
 showonlyimage: true  
 title: Wiklund  
-weight: 6  
-summary: '**Status:** aktiv <br> **Aktuell ranking:** 6 <br> **Antal
+weight: 7  
+summary: '**Status:** aktiv <br> **Aktuell ranking:** 7 <br> **Antal
 Tourer:** 18'  
 ---
 
-![Wiklund](/img/players/wiklund230x230.jpg)
+<figure>
+<img src="/img/players/wiklund230x230.jpg" alt="Wiklund" />
+<figcaption aria-hidden="true">Wiklund</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
 **Status:** aktiv  
-**Aktuell ranking:** 6  
+**Aktuell ranking:** 7  
 **Antal tourer:** 18
 
 ------------------------------------------------------------------------
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Wiklund.totscores.png)
+<figure>
+<img src="/playerstats/Wiklund.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 

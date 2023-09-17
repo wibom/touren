@@ -8,7 +8,10 @@ summary: '**Status:** pensionerad <br> **Aktuell ranking:** NA <br>
 **Antal Tourer:** 15'  
 ---
 
-![Forsgren](/img/players/forsgren230x230.jpg)
+<figure>
+<img src="/img/players/forsgren230x230.jpg" alt="Forsgren" />
+<figcaption aria-hidden="true">Forsgren</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
@@ -31,7 +34,10 @@ brutto?</summary> <p>
 
 ### Samtliga scores per runda
 
-![totscores](/playerstats/Forsgren.totscores.png)
+<figure>
+<img src="/playerstats/Forsgren.totscores.png" alt="totscores" />
+<figcaption aria-hidden="true">totscores</figcaption>
+</figure>
 
 ------------------------------------------------------------------------
 
